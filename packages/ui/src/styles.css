@@ -1,1 +1,7 @@
 /* Component-level styles for the UI package */
+@import "tailwindcss";
+@import "@repo/tailwind-config";
+
+button:hover{
+    cursor: pointer;
+}

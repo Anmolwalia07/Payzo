@@ -2,7 +2,7 @@
 
 import axios from "axios";
 import { useState } from "react";
-import Loading from "./Loading";
+import Loading from "./LoadingforUi";
 
 declare global {
   interface Window {

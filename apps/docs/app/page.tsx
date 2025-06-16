@@ -1,7 +1,14 @@
+import Main from "@repo/ui/Main"
+import Header from "@repo/ui/Header"
+import dot from "dotenv"
+dot.config();
 
-function page() {
+async function page() {
   return (
-    <div>page</div>
+   <>
+    <header><Header loginUrl={process.env.LoginUrl || " "} MerchantUrl={process.env.MerchantUrl || " "}/></header>
+    <main><Main/></main>
+   </>
   )
 }
 

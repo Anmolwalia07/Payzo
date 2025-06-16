@@ -3,18 +3,27 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "build": "tsc -b",
-    "watch":"tsc -watch",
-    "dev":" tsc -watch  nodemon dist/index.js"
+    "build": "esbuild src/index.ts --bundle --platform=node --target=node20 --outdir=dist",
+    "dev": "esbuild src/index.ts --bundle --platform=node --target=node20 --outdir=dist --watch",
+    "start": "nodemon dist/index.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "@repo/database": "*",
+    "@types/cors": "^2.8.19",
     "@types/express": "^5.0.3",
+    "cors": "^2.8.5",
+    "crypto": "^1.0.1",
     "dotenv": "^16.5.0",
     "express": "^5.1.0",
-    "nodemon": "^3.1.10"
+    "nodemon": "^3.1.10",
+    "razorpay": "^2.9.6",
+    "tsup": "^8.5.0"
+  },
+  "devDependencies": {
+    "esbuild": "^0.25.5"
   }
 }

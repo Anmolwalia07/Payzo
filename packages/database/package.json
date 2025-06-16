@@ -1,19 +1,29 @@
 {
   "name": "@repo/database",
   "version": "0.0.1",
-    "scripts": {
+  "type": "module",
+  "scripts": {
     "db:generate": "prisma generate --no-engine",
     "db:migrate": "prisma migrate dev --skip-generate",
     "db:deploy": "prisma migrate deploy"
+  },
+  "prisma": {
+    "seed": "ts-node prisma/seed.ts"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "@prisma/client": "^6.9.0"
+    "@prisma/client": "^6.9.0",
+    "@types/bcrypt": "^5.0.2",
+    "bcrypt": "^6.0.0"
   },
-  "exports":{
-    ".":"./src/index.ts"
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "devDependencies": {
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.3"
   }
 }

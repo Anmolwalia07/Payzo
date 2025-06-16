@@ -1,15 +1,14 @@
-import { prisma } from "@repo/database";
 import Main from "@repo/ui/Main"
 import Header from "@repo/ui/Header"
-
+import dot from "dotenv"
+dot.config();
 
 async function page() {
-  const user=await prisma.user.findMany()
   return (
-   <div>
-    <Header/>
-    <Main/>
-   </div>
+   <>
+    <header><Header loginUrl={process.env.LoginUrl || " "} MerchantUrl={process.env.MerchantUrl || " "}/></header>
+    <main><Main/></main>
+   </>
   )
 }
 

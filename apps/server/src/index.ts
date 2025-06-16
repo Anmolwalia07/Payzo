@@ -1,14 +1,162 @@
-import  express  from "express";
-import dot from "dotenv"
+import express from "express";
+import dot from "dotenv";
+import {prisma } from "@repo/database"
+import razorpayRoutes from "./config/razorpay"
+import cors from "cors"
+
 dot.config();
+const app = express();
+app.use(express.json());
+app.use(cors({ credentials:true}))
+app.use(express.urlencoded({extended:true}))
 
 
-const app=express();
 
-app.get('/api/wallet',(req,res)=>{
-      res.json({message:"anol"});
+app.use('/api/razorpay',razorpayRoutes);
+
+
+app.get('/',(req,res)=>{
+  res.status(201).json({message:"Anmol"})
 })
 
-app.listen(process.env.PORT||3002,()=>{
-    console.log(`Server is running at ${process.env.PORT}`)
+
+app.post('/api/payments',async (req,res)=>{
+    const {userId,amount,razorpayPaymentId,status}=req.body();
 })
+
+app.post("/api/hdfc-webhook", async (req, res) => {
+  const paymentDetails = {
+    userId: Number(req.body.userId),
+    token: req.body.token,
+    amount: Number(req.body.amount),
+  };
+
+  try {
+    const previousBalanceEntry = await prisma.balanceHistory.findFirst({
+      where: { userId: paymentDetails.userId },
+      orderBy: { createdAt: "desc" }, // get the latest
+    });
+
+    const previousBalance = previousBalanceEntry?.balance || 0;
+    const newBalance = previousBalance + paymentDetails.amount;
+    await prisma.$transaction([
+      // Update main balance
+      prisma.balance.update({
+        where: { userId: paymentDetails.userId },
+        data: {
+          amount: {
+            increment: paymentDetails.amount,
+          },
+        },
+      }),
+
+      // Insert into balance history
+      prisma.balanceHistory.create({
+        data: {
+          balance: newBalance,
+          userId: paymentDetails.userId,
+        },
+      }),
+
+      // Update transaction status
+      prisma.onRampTransaction.updateMany({
+        where: {
+          userId: paymentDetails.userId,
+          token: paymentDetails.token,
+        },
+        data: {
+          status: "Success",
+        },
+      }),
+    ]);
+
+    res.status(201).json({ message: "Captured" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ err: "Internal Server Error" });
+  }
+});
+
+
+app.post("/api/razorpay-webhook", async (req, res) => {
+  const paymentDetails = {
+    userId: Number(req.body.userId),
+    token: req.body.token,
+    amount: Number(req.body.amount),
+  };
+
+  try {
+    const previousBalanceEntry = await prisma.balanceHistory.findFirst({
+      where: { userId: paymentDetails.userId },
+      orderBy: { createdAt: "desc" },
+    });
+
+    const previousBalance = previousBalanceEntry?.balance || 0;
+    const newBalance = previousBalance + paymentDetails.amount;
+    await prisma.$transaction([
+      prisma.balance.update({
+        where: { userId: paymentDetails.userId },
+        data: {
+          amount: {
+            increment: paymentDetails.amount,
+          },
+        },
+      }),
+
+      prisma.balanceHistory.create({
+        data: {
+          balance: newBalance,
+          userId: paymentDetails.userId,
+        },
+      }),
+
+      prisma.onRampTransaction.updateMany({
+        where: {
+          userId: paymentDetails.userId,
+          token: paymentDetails.token,
+        },
+        data: {
+          status: "Success",
+        },
+      }),
+    ]);
+
+    res.status(201).json({ message: "Captured" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ err: "Internal Server Error" });
+  }
+});
+
+
+
+
+app.put('/api/onRamping/razorpay',async(req,res)=>{
+  const paymentDetails = {
+    userId: Number(req.body.userId),
+    token: req.body.token,
+  };
+  try{
+    await prisma.onRampTransaction.update({
+        where: {
+          userId: paymentDetails.userId,
+          token: paymentDetails.token,
+        },
+        data: {
+          status: "Failure",
+        },
+      })
+    res.status(201).json({ message: "failed" });
+
+  }catch(err){
+      res.status(500).json({ err: "Internal Server Error" });
+  }
+  })
+
+
+// Initialize Razorpay instance
+
+
+app.listen(process.env.PORT, () => {
+  console.log(`Server is running at ${process.env.PORT}`);
+});

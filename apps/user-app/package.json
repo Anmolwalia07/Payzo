@@ -13,10 +13,16 @@
   "dependencies": {
     "@repo/database": "*",
     "@repo/ui": "*",
+    "@types/bcrypt": "^5.0.2",
+    "axios": "^1.9.0",
+    "bcrypt": "^6.0.0",
     "next": "^15.3.0",
+    "next-auth": "^4.24.11",
+    "razorpay": "^2.9.6",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
-    "react-icons": "^5.5.0"
+    "react-icons": "^5.5.0",
+    "zod": "^3.25.64"
   },
   "devDependencies": {
     "@next/eslint-plugin-next": "^15.3.0",

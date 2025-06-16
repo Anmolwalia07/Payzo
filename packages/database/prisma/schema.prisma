@@ -16,5 +16,45 @@ datasource db {
 
 model User{
   id  Int @id @default(autoincrement())
+  name String 
   email String @unique
+  password String 
+  balance balance?
+  balanceHistory balanceHistory[]
+  OnRampTransaction OnRampTransaction[]
+}
+
+
+model balance{
+  id  Int @id @default(autoincrement())
+  userId Int @unique
+  amount Int
+  locked Int
+  user  User @relation(fields: [userId] , references: [id])
+}
+
+model balanceHistory{
+  id Int  @id  @default(autoincrement())
+  userId Int 
+  balance Int
+  createdAt DateTime @default(now())
+  user  User @relation(fields: [userId] , references: [id])
+}
+
+ model OnRampTransaction {
+  id        Int          @id @default(autoincrement())
+  status    OnRampStatus
+  token     String       @unique
+  provider  String
+  amount    Int
+  startTime DateTime
+  userId    Int
+  user      User         @relation(fields: [userId], references: [id])
+
+}
+
+enum OnRampStatus{
+   Success
+  Failure
+  Processing
 }

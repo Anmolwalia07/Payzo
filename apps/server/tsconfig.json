@@ -1,8 +1,11 @@
 {
-  "extends": "@repo/typescript-config/react-library.json",
   "compilerOptions": {
-    "outDir": "dist"
+    "target": "ES2020",
+    "module": "nodenext",
+    "esModuleInterop": true,
+    "strict": true,
+    "moduleResolution": "nodenext",
+    "resolveJsonModule": true
   },
-  "include": ["src"],
-  "exclude": ["dist", "build", "node_modules"]
+  "include": ["src"]
 }

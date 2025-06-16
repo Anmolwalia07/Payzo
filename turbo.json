@@ -12,6 +12,10 @@
     "db:deploy":{
       "cache": false
     },
+    "start": {
+      "dependsOn": ["build"],
+      "cache": false
+    },
     "build": {
       "dependsOn": ["^build","^db:generate"],
       "inputs": ["$TURBO_DEFAULT$", ".env*"],

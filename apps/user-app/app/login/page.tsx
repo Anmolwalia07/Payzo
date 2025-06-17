@@ -15,7 +15,8 @@ export default function LoginForm() {
   const router = useRouter()
 
   return (
-    <div className="w-full h-screen flex justify-center items-center px-4 ">
+    <>
+    <div className="w-full h-screen flex justify-center items-center px-4 ">  
       <div className="absolute left-2 top-4 sm:left-5 sm:top-8 flex items-center gap-1 md:gap-2 font-semibold w-fit cursor-pointer" onClick={()=>{
        router.push('/');
        }}><SlArrowLeft />
@@ -39,5 +40,6 @@ export default function LoginForm() {
       }}>Sign up</button>
     </form>
     </div>
+    </>
   );
 }

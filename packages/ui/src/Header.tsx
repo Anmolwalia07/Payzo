@@ -9,7 +9,7 @@ function Header({loginUrl,MerchantUrl}:{loginUrl:string,MerchantUrl:string}) {
   const router=useRouter();
   return (
     <>
-    <div className="w-full flex sm:h-22 h-20 items-center">
+    <div className="w-full flex sm:h-22 h-20 items-center shadow ">
         <Logo/>
         <div className="sm:flex hidden gap-10 md:w-[80%]  h-fit  justify-end pr-18">
             <button className="border px-3 py-1 rounded-2xl hover:bg-blue-300 hover:text-white" onClick={()=>{

@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose,{Document,Schema,Model} from "mongoose";
 
 
 const db=()=>{
@@ -44,6 +44,42 @@ const BankAccountSchema=new mongoose.Schema({
         default:new Date(),
     }
 })
+
+
+export type TransactionType = 'DEBIT' | 'CREDIT';
+
+export interface TransactionDocument extends Document {
+  userId:number;
+  amount: number;
+  type: TransactionType;
+  createdAt: Date;
+}
+
+const TransactionSchema: Schema<TransactionDocument> = new Schema(
+  {
+    userId: {
+      type:Number,
+      ref: 'BankAccount', 
+      required: true,
+    },
+    amount: {
+      type: Number,
+      required: true,
+      min: 0,
+    },
+    type: {
+      type: String,
+      enum: ['DEBIT', 'CREDIT'],
+      required: true,
+    },
+  },
+  {
+    timestamps: { createdAt: true, updatedAt: false },
+  }
+);
+
+export const TransactionModel: Model<TransactionDocument> =
+  mongoose.models.Transaction || mongoose.model('Transaction', TransactionSchema);
 
 export const BankAccountModel= mongoose.model('bankAccount',BankAccountSchema);
 

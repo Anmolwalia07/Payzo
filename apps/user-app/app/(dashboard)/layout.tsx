@@ -21,7 +21,18 @@ import {  UserProvider } from "./UserProvider";
       name:true,
       email:true,
       balance:true,
-      OnRampTransaction:true,
+      OnRampTransaction:{
+        select:{
+          amount:true,
+          id:true,
+          provider:true,
+          status:true,
+          startTime:true
+        },
+      orderBy: {
+        startTime: 'desc',
+      },      
+    },
       balanceHistory:true,
     }
    })

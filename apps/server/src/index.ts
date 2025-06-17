@@ -7,6 +7,7 @@ import bankAccountRoutes from "./routes/bankAcount"
 import database from "./database/db"
 database();
 import cors from "cors"
+import { updateAccountBalance } from "./controller/bankAccountController";
 
 const app = express();
 app.use(express.json());
@@ -14,7 +15,7 @@ app.use(cors({ credentials:true}))
 app.use(express.urlencoded({extended:true}))
 app.use("/api/bankaccount",bankAccountRoutes)
 
-
+ 
 
 app.use('/api/razorpay',razorpayRoutes);
 
@@ -26,9 +27,10 @@ app.get('/',(req,res)=>{
 
 app.post('/api/payments',async (req,res)=>{
     const {userId,amount,razorpayPaymentId,status}=req.body();
+
 })
 
-app.post("/api/hdfc-webhook", async (req, res) => {
+app.post("/api/bank-webhook", async (req, res) => {
   const paymentDetails = {
     userId: Number(req.body.userId),
     token: req.body.token,
@@ -122,9 +124,8 @@ app.post("/api/razorpay-webhook", async (req, res) => {
         data: {
           status: "Success",
         },
-      }),
+      })
     ]);
-
     res.status(201).json({ message: "Captured" });
   } catch (err) {
     console.error(err);
@@ -134,8 +135,7 @@ app.post("/api/razorpay-webhook", async (req, res) => {
 
 
 
-
-app.put('/api/onRamping/razorpay',async(req,res)=>{
+app.put('/api/onRamping',async(req,res)=>{
   const paymentDetails = {
     userId: Number(req.body.userId),
     token: req.body.token,

@@ -1,5 +1,6 @@
-import { BankAccountModel } from "../database/db";
+import { BankAccountModel, TransactionModel } from "../database/db";
 import express, { Request, Response } from "express";
+import mongoose from "mongoose";
 import Z from "zod";
 
 const getAccountDetailSchema = Z.object({
@@ -157,5 +158,50 @@ export const deleteAccount = async (req: Request, res: Response) => {
     res.status(200).json({ message: "Account deleted", deleted });
   } catch (err) {
     return res.status(500).json({ message: "Internal error" });
+  }
+};
+
+export const updateAccountBalance = async (req: Request, res: Response) => {
+  const userId = parseInt(req.params.id);
+  const { amount } = req.body;
+  if (!amount || isNaN(amount)) {
+    return res.status(400).json({ error: "Invalid or missing amount" });
+  }
+
+  const session = await mongoose.startSession();
+
+  try {
+    session.startTransaction();
+
+    // Fetch account inside the session
+    const account = await BankAccountModel.findOne({userId}).session(session);
+    if (!account) {
+      throw new Error("Account not found");
+    }
+
+    // Check for sufficient balance
+    if (account.accountBalance < amount) {
+      throw new Error("Insufficient balance");
+    }
+
+    // Perform the deduction
+    await BankAccountModel.updateOne(
+      { userId },
+      { $inc: { accountBalance: -amount } },
+      { session }
+    );
+
+  
+     await TransactionModel.create([{ userId: userId, amount, type: 'DEBIT' }], { session });
+
+    await session.commitTransaction();
+    res.status(200).json({ message: "Amount deducted successfully" });
+
+  } catch (error: any) {
+    await session.abortTransaction();
+    res.status(500).json({ error: error.message || "Internal Server Error" });
+
+  } finally {
+    session.endSession();
   }
 };

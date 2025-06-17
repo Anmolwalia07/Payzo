@@ -1,51 +1,65 @@
 "use client";
-import { createContext, FC ,useContext} from "react";
 
-export type User={
-    id:number,
-    name:string,
-    email:string,
-    balance:Balance,
-    OnRampTransaction:OnRampTransaction[],
-    balanceHistory:balanceHistory[]
-}
+import React, { createContext, FC, useContext, useState, Dispatch, SetStateAction } from "react";
 
-type balanceHistory={
-    id:number,
-    balance:number,
-    userId:number
-}
-type Balance={
-    id:number,
-    amount :number,
-    locked:number,
-     userId: number
+// Type Definitions
+export type User = {
+  id: number;
+  name: string;
+  email: string;
+  balance: Balance;
+  OnRampTransaction: OnRampTransaction[];
+  balanceHistory: BalanceHistory[];
+};
 
-}
+type BalanceHistory = {
+  id: number;
+  balance: number;
+  userId: number;
+};
+
+type Balance = {
+  id: number;
+  amount: number;
+  locked: number;
+  userId: number;
+};
 
 export interface OnRampTransaction {
-  id: number,
-  status: OnRampStatus
-  token: string,
-  provider: string,
-  amount: number,
-  startTime: Date,
-  userId: number
-}
-enum OnRampStatus{
-   Success,
-   Failure,
-   Processing
+  id: number;
+  status: OnRampStatus;
+  token: string;
+  provider: string;
+  amount: number;
+  startTime: Date;
+  userId: number;
 }
 
+export enum OnRampStatus {
+  Success,
+  Failure,
+  Processing,
+}
 
-export const UserContext = createContext<User|null>(null);
+// Context type with state and setter
+type UserContextType = [User, Dispatch<SetStateAction<User>>];
 
-export const UserProvider: FC<{user: User; children: React.ReactNode}> = ({ user, children }) => (
-  <UserContext.Provider value={user}>{children}</UserContext.Provider>
-);
+// Create context
+export const UserContext = createContext<UserContextType | null>(null);
 
-export function useUser(): User {
+// Provider component
+export const UserProvider: FC<{ user: User; children: React.ReactNode }> = ({ user, children }) => {
+  const [userDetails, setUser] = useState<User>(user);
+
+  return (
+    <UserContext.Provider value={[userDetails, setUser]}>
+      {children}
+    </UserContext.Provider>
+  );
+};
+
+// Custom hook to use user context
+export function useUser(): UserContextType {
   const ctx = useContext(UserContext);
   if (!ctx) throw new Error("useUser must be used within UserProvider");
   return ctx;

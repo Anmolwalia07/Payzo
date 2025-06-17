@@ -18,7 +18,7 @@ interface User {
 
 interface InputComponentProps {
   user: User;
-  Razorpay: any;
+  setUser:any;
 }
 
 const loadRazorpayScript = (): Promise<boolean> => {
@@ -35,22 +35,44 @@ const loadRazorpayScript = (): Promise<boolean> => {
   });
 };
 
-export default function InputComponent({ user }: InputComponentProps) {
+export default function InputComponent({ user ,setUser}: InputComponentProps) {
   const [value, setValue] = useState<number>(0);
   const [paymentMethod, setPaymentMethod] = useState<"bank" | "razorpay">("bank");
   const [selectedBank, setSelectedBank] = useState<string>("");
   const [loading ,setLoading]=useState(false);
 
-const handleBankPayment=async(amount:number,id:number)=>{
+const handleBankPayment=async(amount:number,userId:number)=>{
+  let token=""
   try{
      setLoading(true)
       const onRampTransaction=await axios.post('/api/onRamping',{amount,provider:`${selectedBank}${paymentMethod}`,userId:user.id});
-      const token=onRampTransaction.data?.token;
-      
-      
+      token=onRampTransaction.data?.token;
+     axios.put(`${process.env.NEXT_PUBLIC_ServerUrl}/api/bankaccount/updateBalance/${userId}`,{amount}).catch(e=>{
+        alert("Don't have sufficient balance");
+         setLoading(false)
+
+     })
+
+      const transaction=await axios.post(`${process.env.NEXT_PUBLIC_ServerUrl}/api/bank-webhook`,{
+              token,
+              amount,
+              userId
+        })
+        if(transaction.data){
+                const newuser=await axios.get('/api/data');
+                setUser(newuser.data.user);
+                setLoading(false)
+        }
+        setLoading(false)
+        
 
   }catch(err){
-
+     const transaction=await axios.put(`${process.env.NEXT_PUBLIC_ServerUrl}/api/onRamping`,{
+        token,
+        userId
+      })
+      setLoading(false)
+      alert("Payment was failed");
   }
 }
 
@@ -60,7 +82,6 @@ const handleBankPayment=async(amount:number,id:number)=>{
       const onRampTransaction=await axios.post('/api/onRamping',{amount,provider:paymentMethod,userId:user.id});
 
       const token=onRampTransaction.data?.token;
-
       const res = await loadRazorpayScript();
       if (!res) {
         alert("Razorpay SDK failed to load. Are you online?");
@@ -97,8 +118,8 @@ const handleBankPayment=async(amount:number,id:number)=>{
               userId
               })
               if(transaction){
-                setLoading(false)
-                window.location.reload();
+                const newuser=await axios.get('/api/data');
+                setUser(newuser.data.user);
               }
           }
         },
@@ -109,7 +130,7 @@ const handleBankPayment=async(amount:number,id:number)=>{
         theme: { color: "#2B7FFF" },
         modal: {
           ondismiss: async() => {
-            const transaction=await axios.put(`${process.env.NEXT_PUBLIC_ServerUrl}/api/onRamping/razorpay`,{
+            const transaction=await axios.put(`${process.env.NEXT_PUBLIC_ServerUrl}/api/onRamping`,{
               token,
               userId
             })
@@ -117,9 +138,10 @@ const handleBankPayment=async(amount:number,id:number)=>{
           },
         },
       };
-      setLoading(false);
+     
       const rzp = new window.Razorpay(options);
       rzp.open();
+      setLoading(false);
     } catch (error) {
       console.error("Payment error:", error);
     }
@@ -214,12 +236,13 @@ const handleBankPayment=async(amount:number,id:number)=>{
 
       <button
         className="bg-blue-500 p-1.5 px-2 text-xl mt-4 rounded-lg text-white disabled:bg-blue-200"
-        disabled={value<=0}
+        disabled={value <100 }
         onClick={() => {
           if (paymentMethod === "razorpay") {
             handlePayment(value,user.id);
-          }else{
-
+          }
+          else if(selectedBank!==''){
+            handleBankPayment(value,user.id)
           }
         }}
       >

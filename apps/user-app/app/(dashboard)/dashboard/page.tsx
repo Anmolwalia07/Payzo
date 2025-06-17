@@ -3,8 +3,8 @@ import DashHome from "@repo/ui/DashHome"
 import { useUser } from "../UserProvider";
 
 export default  function Page() {
-  const user=useUser()
+  const ctx=useUser()
   return (
-    <DashHome user={user}/>
+    <DashHome user={ctx[0]}/>
   );
 }

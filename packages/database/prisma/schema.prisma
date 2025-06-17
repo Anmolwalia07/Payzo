@@ -22,6 +22,7 @@ model User{
   balance balance?
   balanceHistory balanceHistory[]
   OnRampTransaction OnRampTransaction[]
+  offRampTransaction offRampTransaction[]
 }
 
 
@@ -42,6 +43,18 @@ model balanceHistory{
 }
 
  model OnRampTransaction {
+  id        Int          @id @default(autoincrement())
+  status    OnRampStatus
+  token     String       @unique
+  provider  String
+  amount    Int
+  startTime DateTime
+  userId    Int
+  user      User         @relation(fields: [userId], references: [id])
+
+}
+
+model  offRampTransaction {
   id        Int          @id @default(autoincrement())
   status    OnRampStatus
   token     String       @unique

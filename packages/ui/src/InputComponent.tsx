@@ -14,11 +14,13 @@ interface User {
   id: number;
   name: string;
   email: string;
+  balance:any
 }
 
 interface InputComponentProps {
   user: User;
   setUser:any;
+  text:string
 }
 
 const loadRazorpayScript = (): Promise<boolean> => {
@@ -35,12 +37,52 @@ const loadRazorpayScript = (): Promise<boolean> => {
   });
 };
 
-export default function InputComponent({ user ,setUser}: InputComponentProps) {
+export default function InputComponent({ user ,setUser,text}: InputComponentProps) {
   const [value, setValue] = useState<number>(0);
   const [paymentMethod, setPaymentMethod] = useState<"bank" | "razorpay">("bank");
   const [selectedBank, setSelectedBank] = useState<string>("");
   const [loading ,setLoading]=useState(false);
 
+  
+const handleWidthdraw=async(amount:number,userId:number)=>{
+    let token=""
+try{
+     setLoading(true)
+      const offRampTransaction=await axios.post('/api/offRamping',{amount,provider:`${selectedBank}${paymentMethod}`,userId});
+      token=offRampTransaction.data?.token;
+
+       axios.put(`${process.env.NEXT_PUBLIC_ServerUrl}/api/bankaccount/increaseBalance/${userId}`,{amount}).catch(e=>{
+         setLoading(false)
+     })
+
+       const transaction=await axios.post(`${process.env.NEXT_PUBLIC_ServerUrl}/api/withdraw/bank-webhook`,{
+              token,
+              amount,
+              userId
+        })
+        if(transaction.data){
+                const newuser=await axios.get('/api/data');
+                setUser(newuser.data.user);
+                setLoading(false)
+        }
+        setValue(0)
+        setLoading(false)
+
+
+}catch(err){
+      const transaction=await axios.put(`${process.env.NEXT_PUBLIC_ServerUrl}/api/offRamping`,{
+        token,
+        userId
+      })
+      setValue(0)
+      setLoading(false)
+      const newuser=await axios.get('/api/data');
+      setUser(newuser.data.user);
+      alert("Payment was failed");
+}
+
+  
+}  
 const handleBankPayment=async(amount:number,userId:number)=>{
   let token=""
   try{
@@ -50,7 +92,6 @@ const handleBankPayment=async(amount:number,userId:number)=>{
      axios.put(`${process.env.NEXT_PUBLIC_ServerUrl}/api/bankaccount/updateBalance/${userId}`,{amount}).catch(e=>{
         alert("Don't have sufficient balance");
          setLoading(false)
-
      })
 
       const transaction=await axios.post(`${process.env.NEXT_PUBLIC_ServerUrl}/api/bank-webhook`,{
@@ -63,7 +104,9 @@ const handleBankPayment=async(amount:number,userId:number)=>{
                 setUser(newuser.data.user);
                 setLoading(false)
         }
+        setValue(0)
         setLoading(false)
+        
         
 
   }catch(err){
@@ -71,6 +114,7 @@ const handleBankPayment=async(amount:number,userId:number)=>{
         token,
         userId
       })
+      setValue(0)
       setLoading(false)
       alert("Payment was failed");
   }
@@ -161,6 +205,7 @@ const handleBankPayment=async(amount:number,userId:number)=>{
         required
         className="border mt-2 rounded outline-none border-gray-300 bg-white w-full px-2 py-1 font-medium"
       />
+      {(text==="Withdraw Money" && user.balance.amount<=value) && <div className="ml-2 text-red-600 font-semibold">Insufficient balance</div>}
 
       <div className="flex gap-4 ml-2 font-medium py-2">
         {presetValues.map((v) => (
@@ -191,7 +236,7 @@ const handleBankPayment=async(amount:number,userId:number)=>{
             Bank
           </label>
 
-          <input
+         {text!=="Withdraw Money" && <> <input
             type="radio"
             className="ml-5"
             id="payment-razorpay"
@@ -206,8 +251,8 @@ const handleBankPayment=async(amount:number,userId:number)=>{
           <label htmlFor="payment-razorpay" className="text-lg font-semibold">
             Razorpay
           </label>
+        </>}
         </div>
-
         {paymentMethod === "bank" && (
           <div>
             <select
@@ -236,17 +281,21 @@ const handleBankPayment=async(amount:number,userId:number)=>{
 
       <button
         className="bg-blue-500 p-1.5 px-2 text-xl mt-4 rounded-lg text-white disabled:bg-blue-200"
-        disabled={value <100 }
+        disabled={value <100 || (text==="Withdraw Money" && user.balance.amount<=value)}
         onClick={() => {
           if (paymentMethod === "razorpay") {
             handlePayment(value,user.id);
           }
           else if(selectedBank!==''){
-            handleBankPayment(value,user.id)
+            if(text==="Add Money"){
+              handleBankPayment(value,user.id)
+            }else{
+              handleWidthdraw(value,user.id)
+            }
           }
         }}
       >
-        Add Money
+        {text}
       </button>
     </>
   );

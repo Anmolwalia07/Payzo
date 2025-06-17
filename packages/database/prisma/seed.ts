@@ -34,6 +34,15 @@ async function main() {
           startTime: new Date(),
         },
       },
+      offRampTransaction: {
+        create: {
+          status: "Success",
+          token: "token123",
+          provider: "hdfc-bank",
+          amount: 0,
+          startTime: new Date(),
+        },
+      },
     },
   });
 

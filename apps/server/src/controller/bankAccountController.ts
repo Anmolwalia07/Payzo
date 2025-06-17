@@ -161,7 +161,7 @@ export const deleteAccount = async (req: Request, res: Response) => {
   }
 };
 
-export const updateAccountBalance = async (req: Request, res: Response) => {
+export const decreaseAccountBalance = async (req: Request, res: Response) => {
   const userId = parseInt(req.params.id);
   const { amount } = req.body;
   if (!amount || isNaN(amount)) {
@@ -196,6 +196,46 @@ export const updateAccountBalance = async (req: Request, res: Response) => {
 
     await session.commitTransaction();
     res.status(200).json({ message: "Amount deducted successfully" });
+
+  } catch (error: any) {
+    await session.abortTransaction();
+    res.status(500).json({ error: error.message || "Internal Server Error" });
+
+  } finally {
+    session.endSession();
+  }
+};
+
+export const increaseAccountBalance = async (req: Request, res: Response) => {
+  const userId = parseInt(req.params.id);
+  const { amount } = req.body;
+  if (!amount || isNaN(amount)) {
+    return res.status(400).json({ error: "Invalid or missing amount" });
+  }
+
+  const session = await mongoose.startSession();
+
+  try {
+    session.startTransaction();
+
+    // Fetch account inside the session
+    const account = await BankAccountModel.findOne({userId}).session(session);
+    if (!account) {
+      throw new Error("Account not found");
+    }
+
+    // Perform the deduction
+    await BankAccountModel.updateOne(
+      { userId },
+      { $inc: { accountBalance: amount } },
+      { session }
+    );
+
+  
+     await TransactionModel.create([{ userId: userId, amount, type: 'CREDIT' }], { session });
+
+    await session.commitTransaction();
+    res.status(200).json({ message: "Amount added successfully" });
 
   } catch (error: any) {
     await session.abortTransaction();

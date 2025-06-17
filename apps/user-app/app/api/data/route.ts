@@ -20,7 +20,30 @@ export const GET = async (req: Request) => {
         name: true,
         email: true,
         balance: true,
-        OnRampTransaction: true,
+        offRampTransaction:{
+        select:{
+          amount:true,
+          id:true,
+          provider:true,
+          status:true,
+          startTime:true
+        },
+      orderBy: {
+        startTime: 'desc',
+      },
+    },
+    OnRampTransaction:{
+        select:{
+          amount:true,
+          id:true,
+          provider:true,
+          status:true,
+          startTime:true
+        },
+      orderBy: {
+        startTime: 'desc',
+      },  
+    },    
         balanceHistory: true,
       },
     });

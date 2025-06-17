@@ -5,7 +5,8 @@ import {
   createAccountDetail,
   updateAccountDetail,
   deleteAccount,
-  updateAccountBalance
+  decreaseAccountBalance,
+  increaseAccountBalance
 } from "../controller/bankAccountController";
 
 const router = express.Router();
@@ -22,6 +23,9 @@ router.patch('/block/:id', blockAccount);
 router.delete('/:id', deleteAccount);
 
 //@ts-ignore
-router.put('/updateBalance/:id',updateAccountBalance);
+router.put('/updateBalance/:id',decreaseAccountBalance);
+
+//@ts-ignore
+router.put('/increaseBalance/:id',increaseAccountBalance);
 
 export default router;

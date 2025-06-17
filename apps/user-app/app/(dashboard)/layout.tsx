@@ -33,6 +33,18 @@ import {  UserProvider } from "./UserProvider";
         startTime: 'desc',
       },      
     },
+    offRampTransaction:{
+        select:{
+          amount:true,
+          id:true,
+          provider:true,
+          status:true,
+          startTime:true
+        },
+      orderBy: {
+        startTime: 'desc',
+      },      
+    },
       balanceHistory:true,
     }
    })

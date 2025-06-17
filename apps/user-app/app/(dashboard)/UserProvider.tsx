@@ -10,6 +10,7 @@ export type User = {
   balance: Balance;
   OnRampTransaction: OnRampTransaction[];
   balanceHistory: BalanceHistory[];
+  offRampTransaction:offRampTransaction[]
 };
 
 type BalanceHistory = {
@@ -26,6 +27,16 @@ type Balance = {
 };
 
 export interface OnRampTransaction {
+  id: number;
+  status: OnRampStatus;
+  token: string;
+  provider: string;
+  amount: number;
+  startTime: Date;
+  userId: number;
+}
+
+export interface offRampTransaction {
   id: number;
   status: OnRampStatus;
   token: string;

@@ -1,14 +1,18 @@
 import express from "express";
 import dot from "dotenv";
+dot.config();
 import {prisma } from "@repo/database"
 import razorpayRoutes from "./config/razorpay"
+import bankAccountRoutes from "./routes/bankAcount"
+import database from "./database/db"
+database();
 import cors from "cors"
 
-dot.config();
 const app = express();
 app.use(express.json());
 app.use(cors({ credentials:true}))
 app.use(express.urlencoded({extended:true}))
+app.use("/api/bankaccount",bankAccountRoutes)
 
 
 

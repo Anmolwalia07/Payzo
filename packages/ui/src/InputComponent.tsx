@@ -42,7 +42,16 @@ export default function InputComponent({ user }: InputComponentProps) {
   const [loading ,setLoading]=useState(false);
 
 const handleBankPayment=async(amount:number,id:number)=>{
+  try{
+     setLoading(true)
+      const onRampTransaction=await axios.post('/api/onRamping',{amount,provider:`${selectedBank}${paymentMethod}`,userId:user.id});
+      const token=onRampTransaction.data?.token;
+      
+      
 
+  }catch(err){
+
+  }
 }
 
   const handlePayment = async (amount: number,userId:number) => {

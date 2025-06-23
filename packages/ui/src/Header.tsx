@@ -5,7 +5,7 @@ import { FiAlignRight } from "react-icons/fi";
 import {useRouter} from "next/navigation"
 
 
-function Header({loginUrl,MerchantUrl}:{loginUrl:string,MerchantUrl:string}) {
+function Header() {
   const [isVisible, setIsVisible] = useState(false);
   const router=useRouter();
   return (
@@ -14,10 +14,10 @@ function Header({loginUrl,MerchantUrl}:{loginUrl:string,MerchantUrl:string}) {
         <Logo/>
         <div className="sm:flex hidden gap-10 md:w-[80%]  h-fit  justify-end pr-18">
             <button className="border px-3 py-1 rounded hover:bg-blue-300 hover:text-white" onClick={()=>{
-              router.push(`${loginUrl}/login`)
+              router.push(`/login`)
             }}>Login</button>
             <button className="border px-3 py-1 rounded hover:text-white hover:bg-gray-300" onClick={()=>{
-              router.push(`${loginUrl}/signup`)
+              router.push(`/signup`)
             }}>Sign Up</button>
 
             {/* <button
@@ -34,11 +34,11 @@ function Header({loginUrl,MerchantUrl}:{loginUrl:string,MerchantUrl:string}) {
     </div>
     {isVisible && <div className="sm:hidden flex flex-col items-center bg-[#c7def1] text-lg capitalize font-medium py-1.5">
       <h1 className="hover:bg-[#afcadf]" onClick={()=>{
-              router.push(`${loginUrl}/login`)
+              router.push(`/login`)
             }}>Login</h1>
       <h1 className="hover:bg-[#afcadf]" 
        onClick={()=>{
-              router.push(`${MerchantUrl}/signup`)
+              router.push(`/signup`)
             }}
       >Sign Up</h1>
     </div>}

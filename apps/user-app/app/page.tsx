@@ -6,7 +6,7 @@ dot.config();
 async function page() {
   return (
    <>
-    <header><Header loginUrl={process.env.LoginUrl || " "} MerchantUrl={process.env.MerchantUrl || " "}/></header>
+    <header><Header/></header>
     <main><Main/></main>
    </>
   )

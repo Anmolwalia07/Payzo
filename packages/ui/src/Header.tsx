@@ -4,6 +4,7 @@ import Logo from "./Logo"
 import { FiAlignRight } from "react-icons/fi";
 import {useRouter} from "next/navigation"
 
+
 function Header({loginUrl,MerchantUrl}:{loginUrl:string,MerchantUrl:string}) {
   const [isVisible, setIsVisible] = useState(false);
   const router=useRouter();
@@ -12,15 +13,18 @@ function Header({loginUrl,MerchantUrl}:{loginUrl:string,MerchantUrl:string}) {
     <div className="w-full flex sm:h-22 h-20 items-center shadow ">
         <Logo/>
         <div className="sm:flex hidden gap-10 md:w-[80%]  h-fit  justify-end pr-18">
-            <button className="border px-3 py-1 rounded-2xl hover:bg-blue-300 hover:text-white" onClick={()=>{
+            <button className="border px-3 py-1 rounded hover:bg-blue-300 hover:text-white" onClick={()=>{
               router.push(`${loginUrl}/login`)
             }}>Login</button>
-            
-            <button
+            <button className="border px-3 py-1 rounded hover:text-white hover:bg-gray-300" onClick={()=>{
+              router.push(`${loginUrl}/signup`)
+            }}>Sign Up</button>
+
+            {/* <button
             onClick={()=>{
               router.push(`${MerchantUrl}/merchantLogin`)
             }}
-            className="border-2 px-3 py-1 rounded-2xl font-mono hover:bg-blue-300 "><span className="font-black text-lg text-blue-400 ">P </span> Merchant Login</button>
+            className="border-2 px-3 py-1 rounded-2xl font-mono hover:bg-blue-300 "><span className="font-black text-lg text-blue-400 ">P </span> Merchant Login</button> */}
         </div>
         <div className="w-[60%]  sm:hidden flex justify-end pr-8 ">
           <FiAlignRight className="text-3xl" onClick={()=>{
@@ -34,9 +38,9 @@ function Header({loginUrl,MerchantUrl}:{loginUrl:string,MerchantUrl:string}) {
             }}>Login</h1>
       <h1 className="hover:bg-[#afcadf]" 
        onClick={()=>{
-              router.push(`${MerchantUrl}/merchantLogin`)
+              router.push(`${MerchantUrl}/signup`)
             }}
-      >Merchant Login</h1>
+      >Sign Up</h1>
     </div>}
     </>
   );

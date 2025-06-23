@@ -10,7 +10,7 @@ export const authOptions = {
             email: { label: "Email", type: "email", placeholder: "anmol@gmail.com" },
             password: { label: "Password", type: "password" }
           },
-          async authorize(credentials: any) {
+          async authorize(credentials: any,req) {
             const existingUser = await prisma.user.findFirst({
                 where: {
                     email:credentials.email
@@ -19,11 +19,12 @@ export const authOptions = {
             if (existingUser) {
                 const passwordValidation = await bcrypt.compare(credentials.password, existingUser.password);
                 if (passwordValidation) {
-                    return {
+                        return {
                         id: existingUser.id.toString(),
                         email: existingUser.email,
                         name:existingUser.name,
                     }
+                    
                 }
                 return null;
             }

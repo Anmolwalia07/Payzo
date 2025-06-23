@@ -1,8 +1,8 @@
-"use client";
+"use client"
 
 import React, { createContext, FC, useContext, useState, Dispatch, SetStateAction } from "react";
 
-// Type Definitions
+
 export type User = {
   id: number;
   name: string;

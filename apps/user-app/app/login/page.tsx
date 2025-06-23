@@ -1,4 +1,5 @@
 'use client';
+import Logo from "@repo/ui/Logo";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { SlArrowLeft } from "react-icons/sl";
@@ -16,8 +17,10 @@ export default function LoginForm() {
 
   return (
     <>
+    <div className="w-full h-20 sm:h-22 shadow items-center flex"><Logo/></div>
     <div className="w-full h-screen flex justify-center items-center px-4 ">  
-      <div className="absolute left-2 top-4 sm:left-5 sm:top-8 flex items-center gap-1 md:gap-2 font-semibold w-fit cursor-pointer" onClick={()=>{
+      
+      <div className="absolute left-2 top-[14%] sm:left-5 sm:top-[15%]  flex items-center gap-1 md:gap-2 font-bold w-fit cursor-pointer" onClick={()=>{
        router.push('/');
        }}><SlArrowLeft />
       Back

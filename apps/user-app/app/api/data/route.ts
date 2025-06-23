@@ -26,7 +26,8 @@ export const GET = async (req: Request) => {
           id:true,
           provider:true,
           status:true,
-          startTime:true
+          startTime:true,
+          offRamp:true
         },
       orderBy: {
         startTime: 'desc',
@@ -38,7 +39,8 @@ export const GET = async (req: Request) => {
           id:true,
           provider:true,
           status:true,
-          startTime:true
+          startTime:true,
+          onRamp:true,
         },
       orderBy: {
         startTime: 'desc',

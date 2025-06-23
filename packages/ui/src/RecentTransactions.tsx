@@ -35,7 +35,7 @@ export default function RecentTransactions({recentTransactions,text}:{recentTran
             <div className="md:w-10 md:h-10 bg-blue-400 text-white flex justify-center items-center rounded-full w-8 h-8 text-md md:text-2xl">$</div>
             <div className="w-fit flex flex-col items-center ">
               <h1 className="text-md md:text-xl font-mono font-semibold">{text}</h1>
-              <h1 className="text-xs md:text-md ">{new Date(trans.startTime).toUTCString().toString()}</h1>
+              <h1 className="text-xs md:text-md ">{`${new Date(trans.startTime).toLocaleDateString()} ${new Date(trans.startTime).toLocaleTimeString()}`}</h1>
             </div>
             <div className="flex flex-col items-center  w-fit">
               <h1 className="text-md md:text-lg font-mono font-extrabold">{trans.status}</h1>

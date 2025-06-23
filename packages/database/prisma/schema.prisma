@@ -14,16 +14,34 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User{
-  id  Int @id @default(autoincrement())
-  name String 
-  email String @unique
-  password String 
-  balance balance?
-  balanceHistory balanceHistory[]
-  OnRampTransaction OnRampTransaction[]
+model User {
+  id                 Int                  @id @default(autoincrement())
+  name               String
+  email              String               @unique
+  password           String
+  balance            balance?
+  balanceHistory     balanceHistory[]
+  OnRampTransaction  OnRampTransaction[]
   offRampTransaction offRampTransaction[]
+  devices            Device[]      
+  createdAt          DateTime         @default(now())
+  updatedAt          DateTime         @updatedAt @default(now())
 }
+
+model Device {
+  id          Int      @id @default(autoincrement())
+  user        User     @relation(fields: [userId], references: [id])
+  userId      Int
+  ipAddress   String
+  browser     String
+  os          String
+  isCurrent   Boolean   @default(false)
+  createdAt   DateTime  @default(now())
+  lastUsedAt  DateTime  @updatedAt
+  visitorId   String   @unique
+  session     String   @default(" A")
+}
+
 
 
 model balance{
@@ -49,10 +67,13 @@ model balanceHistory{
   provider  String
   amount    Int
   startTime DateTime
+  onRamp  Boolean  @default(true)
   userId    Int
   user      User         @relation(fields: [userId], references: [id])
 
 }
+
+
 
 model  offRampTransaction {
   id        Int          @id @default(autoincrement())
@@ -61,6 +82,7 @@ model  offRampTransaction {
   provider  String
   amount    Int
   startTime DateTime
+  offRamp  Boolean  @default(true)
   userId    Int
   user      User         @relation(fields: [userId], references: [id])
 

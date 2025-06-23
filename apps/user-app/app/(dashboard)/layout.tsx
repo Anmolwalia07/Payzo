@@ -4,7 +4,7 @@ import { redirect } from 'next/navigation';
 import { getServerSession } from 'next-auth';
 import { authOptions } from "../api/lib/auth";
 import { prisma } from "@repo/database";
-import {  UserProvider } from "./UserProvider";
+import { UserProvider } from "./UserProvider";
 
     export default async function DashboardLayout({ children }:{children:React.ReactNode}) {
        const session = await getServerSession(authOptions);
@@ -27,7 +27,8 @@ import {  UserProvider } from "./UserProvider";
           id:true,
           provider:true,
           status:true,
-          startTime:true
+          startTime:true,
+          onRamp:true,
         },
       orderBy: {
         startTime: 'desc',
@@ -39,7 +40,8 @@ import {  UserProvider } from "./UserProvider";
           id:true,
           provider:true,
           status:true,
-          startTime:true
+          startTime:true,
+          offRamp:true
         },
       orderBy: {
         startTime: 'desc',

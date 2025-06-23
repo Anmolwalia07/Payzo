@@ -11,6 +11,8 @@ import { AiOutlineHome, AiOutlineTransaction } from "react-icons/ai";
 import { FaSearch } from "react-icons/fa";
 import { BiTransfer } from "react-icons/bi";
 import { RxCross2 } from "react-icons/rx";
+import { IoSettingsSharp } from "react-icons/io5";
+
 
 
 
@@ -25,8 +27,15 @@ function DashHeader() {
            <Signout/>
            <CgProfile className="lg:text-3xl text-xl  font-light"/>
            <GoQuestion className="text-xl lg:text-3xl"/>
+           <IoSettingsSharp className="text-xl lg:text-3xl hover:cursor-pointer" onClick={()=>{
+            router.push('/setting')
+           }}/>
         </div>
-         <div className="w-[60%]  sm:hidden flex justify-end pr-8 ">
+         <div className="w-[60%]  sm:hidden flex justify-end pr-8 items-center gap-3 mt-2">
+          <CgProfile className="text-2xl  font-light"/>
+           <IoSettingsSharp className="text-2xl lg:text-3xl hover:cursor-pointer"onClick={()=>{
+            router.push('/setting')
+           }}/>
                   {!isVisible ? <FiAlignRight className="text-3xl" onClick={()=>{
                     setIsVisible(prev=>!prev)
                   }}/>:<RxCross2 className="text-3xl" onClick={()=>{

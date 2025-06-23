@@ -5,9 +5,13 @@ import Balance from "@repo/ui/Balance";
 import RecentTransactions from "@repo/ui/RecentTransactions";
 import {  useUser } from "../UserProvider"; 
 
+
+
+
 export default function Page() {
   const ctx = useUser(); 
   console.log(ctx[0])
+  
   return (
     <div className="w-full mb-5 lg:mb-0">
       <h1 className="text-5xl font-bold text-blue-600 mt-6 ml-6">Withdraw</h1>

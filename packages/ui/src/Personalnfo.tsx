@@ -4,7 +4,15 @@ export type UserInfo={
     id:Number;
     email:String;
     name:String;
+    balance:Balance
 }
+
+type Balance={
+  
+    amount:Number
+    
+}
+
 export default function Personalnfo({userInfo}:{userInfo:UserInfo}) {
   return (
     <div className="w-full bg-white border border-gray-200 shadow  rounded-2xl px-5 py-3 md:py-5">

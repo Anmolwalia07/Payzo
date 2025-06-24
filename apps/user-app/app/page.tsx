@@ -1,8 +1,5 @@
 import Main from "@repo/ui/Main"
 import Header from "@repo/ui/Header"
-import dot from "dotenv"
-dot.config();
-
 async function page() {
   return (
    <>

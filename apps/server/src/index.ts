@@ -14,8 +14,6 @@ app.use(cors({ credentials:true}))
 app.use(express.urlencoded({extended:true}))
 app.use("/api/bankaccount",bankAccountRoutes)
 
- 
-
 app.use('/api/razorpay',razorpayRoutes);
 
 

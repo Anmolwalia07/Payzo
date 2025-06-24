@@ -23,6 +23,7 @@ model User {
   balanceHistory     balanceHistory[]
   OnRampTransaction  OnRampTransaction[]
   offRampTransaction offRampTransaction[]
+  transactions PaymentTransaction[]
   devices            Device[]      
   createdAt          DateTime         @default(now())
   updatedAt          DateTime         @updatedAt @default(now())
@@ -38,11 +39,9 @@ model Device {
   isCurrent   Boolean   @default(false)
   createdAt   DateTime  @default(now())
   lastUsedAt  DateTime  @updatedAt
-  visitorId   String   @unique
+  visitorId   String    @default("")
   session     String   @default(" A")
 }
-
-
 
 model balance{
   id  Int @id @default(autoincrement())
@@ -84,12 +83,60 @@ model  offRampTransaction {
   startTime DateTime
   offRamp  Boolean  @default(true)
   userId    Int
-  user      User         @relation(fields: [userId], references: [id])
+  user      User        @relation(fields: [userId], references: [id])
 
 }
 
 enum OnRampStatus{
-   Success
+  Success
   Failure
   Processing
+}
+
+
+model Merchant {
+  id          Int               @id @default(autoincrement())
+  name        String
+  email              String               @unique
+  password           String
+  balance       balanceMerchant?
+  category    String
+  rating      Float
+  reviewCount Int
+  transactions PaymentTransaction[]
+  createdAt          DateTime         @default(now())
+  updatedAt          DateTime         @updatedAt @default(now())
+}
+
+model balanceMerchant{
+  id  Int @id @default(autoincrement())
+  merchantId Int @unique
+  amount Int
+  locked Int
+  merchant  Merchant @relation(fields: [merchantId] , references: [id])
+}
+
+
+model PaymentTransaction {
+  id           Int           @id @default(autoincrement())
+  merchant     Merchant       @relation(fields: [merchantId], references: [id])
+  merchantId   Int
+  merchantName String
+  amount       Int
+  date         DateTime
+  status       PaymentStatus
+  type         PaymentType
+  user         User           @relation(fields: [userId], references: [id])
+  userId       Int
+}
+
+enum PaymentStatus {
+  completed
+  pending
+  failed
+}
+
+enum PaymentType {
+  payment
+  refund
 }

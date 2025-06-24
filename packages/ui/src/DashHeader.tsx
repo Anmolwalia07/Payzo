@@ -25,14 +25,18 @@ function DashHeader() {
         <Logo/>
         <div className="sm:flex hidden gap-3 w-[80%] h-fit items-center justify-end pr-10 lg:pr-18 mt-2">
            <Signout/>
-           <CgProfile className="lg:text-3xl text-xl  font-light"/>
+           <CgProfile className="lg:text-3xl text-xl  font-light hover:cursor-pointer" onClick={()=>{
+            router.push('/profile')
+          }}/>
            <GoQuestion className="text-xl lg:text-3xl"/>
            <IoSettingsSharp className="text-xl lg:text-3xl hover:cursor-pointer" onClick={()=>{
             router.push('/setting')
            }}/>
         </div>
          <div className="w-[60%]  sm:hidden flex justify-end pr-8 items-center gap-3 mt-2">
-          <CgProfile className="text-2xl  font-light"/>
+          <CgProfile className="text-2xl  font-light hover:cursor-pointer" onClick={()=>{
+            router.push('/profile')
+          }}/>
            <IoSettingsSharp className="text-2xl lg:text-3xl hover:cursor-pointer"onClick={()=>{
             router.push('/setting')
            }}/>

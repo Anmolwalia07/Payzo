@@ -1,9 +1,6 @@
 import "./globals.css";
 import type { Metadata } from "next";
-import { Geist } from "next/font/google";
 import Providers from "./providers";
-
-const geist = Geist({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Wallet",
@@ -17,9 +14,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <Providers>
-      <body>{children}</body>
-      </Providers>
+      <body>
+        <Providers>
+          {children}
+        </Providers>
+      </body>
     </html>
   );
 }

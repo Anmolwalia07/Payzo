@@ -1,19 +1,68 @@
 import Transactions from "./Transactions"
-
-function Transaction({t}:Transactions|any) {
+function Transaction({ t }: { t: Transactions|any }) {
+  const isDeposit = t.onRamp;
+  const statusColors: Record<string, string> = {
+    Success: "bg-green-100 text-green-800",
+    Pending: "bg-yellow-100 text-yellow-800",
+    Failed: "bg-red-100 text-red-800",
+    Processing: "bg-blue-100 text-blue-800",
+  };
+  
+  const statusColor = statusColors[t.status] || "bg-gray-100 text-gray-800";
+  
   return (
-    <div className="w-full flex justify-between items-center rounded-lg md:px-3 px-1 py-1.5 mt-3">
-            <div className="flex items-center gap-4 md:w-[50%] w-[50%]">
-            <div className="md:w-13 md:h-13 bg-blue-400  text-white flex justify-center items-center rounded-full w-10 h-8 text-md md:text-2xl">$</div>
-              <div className="w-[80%]"><h1 className="text-md md:text-2xl font-mono font-semibold">{t.onRamp ? "Deposist":"Withdraw"} INR</h1>
-              <h1 className="text-xs md:text-md ">{`${new Date(t.startTime).toLocaleDateString()} ${new Date(t.startTime).toLocaleTimeString()}`}</h1></div>
-            </div>
-            <div className="flex flex-col items-end w-[50%] px-1 md:px-4">
-              <h1 className="text-md md:text-lg font-mono font-extrabold">{t.status}</h1>
-              <h1 className="text-sm font-bold">{}{t.amount}</h1>
-            </div>
+    <div className="w-full flex items-center rounded-xl bg-white shadow-sm p-4 mb-3 border border-gray-100 hover:shadow-md transition-shadow">
+      <div className={`flex-shrink-0 w-12 h-12 rounded-xl flex items-center justify-center mr-4 ${
+        isDeposit ? "bg-green-500/20 text-green-700" : "bg-red-500/20 text-red-700"
+      }`}>
+        {isDeposit ? (
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 11l3-3m0 0l3 3m-3-3v8m0-13a9 9 0 110 18 9 9 0 010-18z" />
+          </svg>
+        ) : (
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 13l-3 3m0 0l-3-3m3 3V8m0 13a9 9 0 110-18 9 9 0 010 18z" />
+          </svg>
+        )}
+      </div>
+
+      {/* Transaction Details */}
+      <div className="flex-grow">
+        <div className="flex justify-between items-start">
+          <div>
+            <h2 className="font-semibold text-gray-800">
+              {isDeposit ? "Deposit INR" : "Withdraw INR"}
+            </h2>
+            <p className="text-xs text-gray-500 mt-1">
+              {new Date(t.startTime).toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+              })}
+            </p>
+          </div>
+          
+          <div className="text-right">
+            <p className={`font-bold ${isDeposit ? 'text-green-600' : 'text-red-600'}`}>
+              {isDeposit ? '+' : '-'}₹{t.amount.toLocaleString('en-IN')}
+            </p>
+          </div>
+        </div>
+        
+        {/* Transaction ID and Status */}
+        <div className="flex justify-between items-center mt-2">
+          <p className="text-xs font-mono text-gray-500 truncate max-w-[120px] md:max-w-xs">
+            ID: {t.id}
+          </p>
+          <span className={`text-xs font-medium px-2.5 py-0.5 rounded-full ${statusColor}`}>
+            {t.status}
+          </span>
+        </div>
+      </div>
     </div>
-  )
+  );
 }
 
-export default Transaction
+export default Transaction;

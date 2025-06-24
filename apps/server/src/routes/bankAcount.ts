@@ -12,7 +12,7 @@ import {
 const router = express.Router();
 
 //@ts-ignore
-router.get('/', getAccountDetail);
+router.get('/:id', getAccountDetail);
 //@ts-ignore
 router.post('/', createAccountDetail);
 //@ts-ignore

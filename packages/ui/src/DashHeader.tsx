@@ -9,9 +9,10 @@ import { useState } from "react";
 import SideBarItem from "./SideBarItem";
 import { AiOutlineHome, AiOutlineTransaction } from "react-icons/ai";
 import { FaSearch } from "react-icons/fa";
-import { BiTransfer } from "react-icons/bi";
+import { BiMoneyWithdraw, BiTransfer } from "react-icons/bi";
 import { RxCross2 } from "react-icons/rx";
 import { IoSettingsSharp } from "react-icons/io5";
+import { TfiMoney } from "react-icons/tfi";
 
 
 
@@ -52,6 +53,8 @@ function DashHeader() {
         <SideBarItem href="/dashboard" icon={<AiOutlineHome/>} text="Home"/>
         <SideBarItem href="/explore" icon={<FaSearch/>} text="Explore"/>
         <SideBarItem href="/transfer" icon={<BiTransfer />} text="Transfer"/>
+        <SideBarItem href="/addmoney" icon={<TfiMoney />} text="Add Money"/>
+        <SideBarItem href="/withdraw" icon={<BiMoneyWithdraw />} text="Withdraw"/>
         <SideBarItem href="/transaction" icon={<AiOutlineTransaction />} text="Transactions"/>
      </div>
     </div>}

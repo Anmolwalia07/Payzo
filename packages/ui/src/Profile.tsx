@@ -28,7 +28,7 @@ useEffect(() => {
 }, [userId]);
 
   return (
-    <div className="min-h-screen w-full bg-gray-50 px-4 py-8">
+    <div className="min-h-screen w-full px-4 py-8">
       <div className="max-w-6xl mx-auto">
         <div className="bg-gradient-to-r from-blue-600 to-indigo-700 rounded-3xl p-6 text-white shadow-xl mb-8 relative overflow-hidden">
           <div className="flex flex-col md:flex-row items-center">
@@ -59,7 +59,7 @@ useEffect(() => {
               <p className="text-3xl font-bold mt-2">₹{user.balance.amount.toLocaleString()}</p>
               <div className="flex mt-6 space-x-4">
                 <button className="flex-1 bg-white text-indigo-700 py-2 rounded-lg font-medium hover:bg-opacity-90 transition" onClick={()=>{
-                    router.push('/transfer')
+                    router.push('/addmoney')
                 }}>
                   Add Money
                 </button>
@@ -93,6 +93,7 @@ useEffect(() => {
                     <p className="text-2xl font-mono mt-3 tracking-wider">
                       **** **** **** {bankAccount?.accountNumber.toString().slice(10)}
                     </p>
+                    
                     <div className="flex justify-between mt-4 text-sm">
                       <div>
                         <p className="text-gray-500">Account Holder</p>

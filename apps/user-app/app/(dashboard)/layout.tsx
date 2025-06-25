@@ -6,7 +6,7 @@ import { authOptions } from "../api/lib/auth";
 import { prisma } from "@repo/database";
 import { UserProvider } from "./UserProvider";
 
-    export default async function DashboardLayout({ children }:{children:React.ReactNode}) {
+export default async function DashboardLayout({ children }:{children:React.ReactNode}) {
        const session = await getServerSession(authOptions);
    if (!session?.user) {
     redirect('/login?callbackUrl=/dashboard');

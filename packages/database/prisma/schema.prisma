@@ -100,7 +100,7 @@ model Merchant {
   email              String               @unique
   password           String
   balance       balanceMerchant?
-  category    String
+  category      String
   rating      Float
   reviewCount Int
   transactions PaymentTransaction[]

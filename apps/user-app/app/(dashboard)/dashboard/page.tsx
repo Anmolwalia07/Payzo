@@ -2,9 +2,10 @@
 import DashHome from "@repo/ui/DashHome"
 import { useUser } from "../UserProvider";
 
-export default  function Page() {
-  const ctx=useUser()
+export default function Page() {
+  const ctx=useUser();
   return (
-    <DashHome user={ctx[0]}/>
+    //@ts-ignore
+    <DashHome user={ctx[0]} />
   );
 }

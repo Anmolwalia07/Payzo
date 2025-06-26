@@ -86,7 +86,6 @@ app.post("/api/withdraw/bank-webhook", async (req, res) => {
 
     const previousBalance = previousBalanceEntry?.balance || 0;
     const newBalance = previousBalance - paymentDetails.amount;
-    console.log(newBalance)
     if(newBalance !<0){
         res.status(401).json({ message: "Not have balance" });
         return;

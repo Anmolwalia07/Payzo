@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import Link from 'next/link';
 
 enum OnRampStatus {
@@ -66,7 +65,6 @@ export default function RecentTransactions({
         {recentTransactions.length > 0 ? (
           recentTransactions.map((trans) => {
             const statusInfo = getStatusInfo(trans.status);
-
             return (
               <div
                 key={trans.id}

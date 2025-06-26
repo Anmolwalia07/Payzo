@@ -1,6 +1,12 @@
 import Transactions from "./Transactions"
 function Transaction({ t }: { t: Transactions|any }) {
   const isDeposit = t.onRamp;
+const isMerchant = (
+  t.provider !== "hdfcbank" &&
+  t.provider !== "hdfc-bank" &&
+  t.provider !== "axisbank" &&
+  t.provider !== "razorpay"
+);
   const statusColors: Record<string, string> = {
     Success: "bg-green-100 text-green-800",
     Pending: "bg-yellow-100 text-yellow-800",
@@ -31,7 +37,7 @@ function Transaction({ t }: { t: Transactions|any }) {
         <div className="flex justify-between items-start">
           <div>
             <h2 className="font-semibold text-gray-800">
-              {isDeposit ? "Deposit INR" : "Withdraw INR"}
+            {isMerchant && `${t.provider} Merchant`}  {isDeposit && "Deposit"} {(!isMerchant && !isDeposit ) && "Withdraw"}
             </h2>
             <p className="text-xs text-gray-500 mt-1">
               {new Date(t.startTime).toLocaleDateString('en-US', {

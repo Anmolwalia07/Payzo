@@ -1,5 +1,5 @@
+import axios from 'axios';
 import { useState, useEffect } from 'react';
-
 interface Merchant {
   id: string;
   name: string;
@@ -9,7 +9,7 @@ interface Merchant {
   logo: string;
 }
 
-export default function Transfer() {
+export default function Transfer({userId,setUser,balance}:{userId:Number,setUser:any,balance:Number}) {
   const [merchants, setMerchants] = useState<Merchant[]>([]);
   const [selectedMerchant, setSelectedMerchant] = useState<Merchant | null>(null);
   const [amount, setAmount] = useState<string>('');
@@ -71,23 +71,38 @@ export default function Transfer() {
     
     setIsSubmitting(true);
     setError('');
+
+    let token="";
     
     try {
-      // In a real app, this would be an actual API call to your backend
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      
-      // Simulated successful transfer
-      setTransferSuccess(true);
-      
-      // Reset form after 3 seconds
-      setTimeout(() => {
-        setSelectedMerchant(null);
-        setAmount('');
-        setNote('');
-        setTransferSuccess(false);
+
+      const offRampingTransaction=await axios.post('/api/offRamping',{provider:selectedMerchant.name,userId:userId,amount:Number(amount)});
+      if(offRampingTransaction.data){
+        token=offRampingTransaction.data?.token
+      }
+
+      const transaction=await axios.post('api/merchantTransfer',{amount:Number(amount),merchantId:Number(selectedMerchant.id),userId:userId,merchantName:selectedMerchant.name})
+      if(transaction.status===201){
+        const transferTheMoney=await axios.post('/api/transferTheMoney',{id:Number(transaction.data.id),token:token,userId:userId})
+        if(transferTheMoney.status===201){
+          const newuser=await axios.get('/api/data');
+          setUser(newuser.data.user);
+           setTransferSuccess(true);
+         setTimeout(() => {
+         setSelectedMerchant(null);
+         setAmount('');
+         setNote('');
+         setTransferSuccess(false);
       }, 3000);
+
+      }
+      }     
     } catch (err) {
+            const newuser=await axios.get('/api/data');
+            setUser(newuser.data.user);
       setError('Transfer failed. Please try again.');
+
+      console.log(err)
     } finally {
       setIsSubmitting(false);
     }
@@ -102,8 +117,12 @@ export default function Transfer() {
     <div className="min-h-screen p-4 sm:px-6">
       <div className="w-full mx-auto bg-white rounded-2xl shadow-xl overflow-hidden">
         <div className="bg-gradient-to-r from-blue-600 to-indigo-700 p-6 text-white">
+          <div className='flex justify-between items-end'>
           <h1 className="text-2xl font-bold">Transfer Funds</h1>
-          <p className="opacity-90 mt-1">Send money to merchants securely</p>
+          <h1 className="text-2xl font-bold">Balance</h1>
+          </div>
+          <div className='flex justify-between items-end'><p className="opacity-90 mt-1">Send money to merchants securely</p>
+          <h1 className="text-xl font-bold">{balance.toLocaleString()} INR</h1></div>
         </div>
         
         {transferSuccess ? (

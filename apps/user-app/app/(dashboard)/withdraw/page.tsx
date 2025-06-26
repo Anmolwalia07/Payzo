@@ -10,7 +10,7 @@ import {  useUser } from "../UserProvider";
 
 export default function Page() {
   const ctx = useUser(); 
-  console.log(ctx[0])
+  const withdrawTransactions=ctx[0].offRampTransaction.filter(x=>x.provider==='hdfc-bank'|| x.provider==="hdfcbank" || x.provider==="axisbank" || x.amount>0)
   
   return (
     <div className="w-full mb-5 lg:mb-0">
@@ -19,7 +19,7 @@ export default function Page() {
         <Moneycomponent user={ctx[0]}  setUser={ctx[1]} text="Withdraw Money"/>
         <div className="w-full lg:w-[50%] px-2 ml-2 mt-2 lg:mt-0 lg:ml-0 lg:px-0">
           <Balance balance={ctx[0].balance} />
-          <RecentTransactions recentTransactions={ctx[0].offRampTransaction.slice(0,2)} text="Withdraw"/>
+          <RecentTransactions recentTransactions={withdrawTransactions.slice(0,2)} text="Withdraw"/>
         </div>
       </div>
     </div>

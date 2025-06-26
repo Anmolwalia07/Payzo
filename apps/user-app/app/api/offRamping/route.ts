@@ -15,6 +15,8 @@ export const POST=async(req:NextRequest)=>{
     const result= paymentDetails.safeParse(body);
     if (!result.success) {
           return NextResponse.json({ message: "Invalid input", errors: result.error.errors }, { status: 400 });
+              console.log("hello")
+
     }
     const {amount,provider,userId}=result.data;
     const token=`token_${Math.floor(Math.random()*1000000000)}`

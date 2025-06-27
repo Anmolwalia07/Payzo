@@ -20,7 +20,6 @@ export default function Transfer({userId,setUser,balance}:{userId:Number,setUser
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [searchQuery, setSearchQuery] = useState<string>('');
 
-  // Fetch merchants from API
   useEffect(() => {
     const fetchMerchants = async () => {
       try {
@@ -49,7 +48,6 @@ export default function Transfer({userId,setUser,balance}:{userId:Number,setUser
 
   const handleAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
-    // Allow only numbers and one decimal point
     if (value === '' || /^\d*\.?\d*$/.test(value)) {
       setAmount(value);
       setError('');
@@ -73,15 +71,18 @@ export default function Transfer({userId,setUser,balance}:{userId:Number,setUser
     setError('');
 
     let token="";
+
+    let offRampingTransaction;
+    let transaction;
     
     try {
 
-      const offRampingTransaction=await axios.post('/api/offRamping',{provider:selectedMerchant.name,userId:userId,amount:Number(amount)});
+       offRampingTransaction=await axios.post('/api/offRamping',{provider:selectedMerchant.name,userId:userId,amount:Number(amount)});
       if(offRampingTransaction.data){
         token=offRampingTransaction.data?.token
       }
 
-      const transaction=await axios.post('api/merchantTransfer',{amount:Number(amount),merchantId:Number(selectedMerchant.id),userId:userId,merchantName:selectedMerchant.name})
+       transaction=await axios.post('api/merchantTransfer',{amount:Number(amount),merchantId:Number(selectedMerchant.id),userId:userId,merchantName:selectedMerchant.name})
       if(transaction.status===201){
         const transferTheMoney=await axios.post('/api/transferTheMoney',{id:Number(transaction.data.id),token:token,userId:userId})
         if(transferTheMoney.status===201){
@@ -98,9 +99,15 @@ export default function Transfer({userId,setUser,balance}:{userId:Number,setUser
       }
       }     
     } catch (err) {
+      if(offRampingTransaction){
+        await axios.put(`${process.env.NEXT_PUBLIC_ServerUrl}/api/offRamping`,{
+        token,
+        userId
+      })
+      }
             const newuser=await axios.get('/api/data');
             setUser(newuser.data.user);
-      setError('Transfer failed. Please try again.');
+           setError('Transfer failed. Please try again.');
 
       console.log(err)
     } finally {
@@ -108,7 +115,6 @@ export default function Transfer({userId,setUser,balance}:{userId:Number,setUser
     }
   };
 
-  // Filter merchants based on search query
   const filteredMerchants = merchants.filter(merchant => 
     merchant.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
@@ -190,7 +196,7 @@ export default function Transfer({userId,setUser,balance}:{userId:Number,setUser
                       onClick={() => handleMerchantSelect(merchant)}
                       className={`p-3 border rounded-lg cursor-pointer flex flex-col items-center transition-all ${
                         selectedMerchant?.id === merchant.id
-                          ? 'border-blue-500 bg-blue-50 shadow-sm transform scale-105'
+                          ? 'border-blue-500 bg-blue-50 shadow-sm transform'
                           : 'border-gray-200 hover:border-blue-300 hover:bg-gray-50'
                       }`}
                     >

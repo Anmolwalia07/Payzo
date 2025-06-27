@@ -3,6 +3,8 @@
 import axios from "axios";
 import { useState } from "react";
 import Loading from "./LoadingforUi";
+import MoneyPopup from "./PopMessage";
+import TransactionPopup from "./PopMessage";
 
 declare global {
   interface Window {
@@ -42,7 +44,12 @@ export default function InputComponent({ user ,setUser,text}: InputComponentProp
   const [paymentMethod, setPaymentMethod] = useState<"bank" | "razorpay">("bank");
   const [selectedBank, setSelectedBank] = useState<string>("");
   const [loading ,setLoading]=useState(false);
-
+  const [popupState, setPopupState] = useState<{
+    show: boolean;
+    type: 'add' | 'withdraw';
+    success: boolean;
+    amount: number;
+  }>({ show: false, type: 'add', success: true, amount: 0 });
   
 const handleWidthdraw=async(amount:number,userId:number)=>{
     let token=""
@@ -64,6 +71,12 @@ try{
                 const newuser=await axios.get('/api/data');
                 setUser(newuser.data.user);
                 setLoading(false)
+                 setPopupState({
+                show: true,
+                type:'withdraw',
+                success:true,
+                amount:value
+              });
         }
         setValue(0)
         setLoading(false)
@@ -77,6 +90,12 @@ try{
 
       setValue(0)
       setLoading(false)
+       setPopupState({
+                show: true,
+                type:'withdraw',
+                success:false,
+                amount:value
+              });
       const newuser=await axios.get('/api/data');
       setUser(newuser.data.user);
       alert("Payment was failed");
@@ -104,11 +123,15 @@ const handleBankPayment=async(amount:number,userId:number)=>{
                 const newuser=await axios.get('/api/data');
                 setUser(newuser.data.user);
                 setLoading(false)
+                 setPopupState({
+                show: true,
+                type:'add',
+                success:true,
+                amount:value
+              });
         }
         setValue(0)
         setLoading(false)
-        
-        
 
   }catch(err){
      const transaction=await axios.put(`${process.env.NEXT_PUBLIC_ServerUrl}/api/onRamping`,{
@@ -119,6 +142,12 @@ const handleBankPayment=async(amount:number,userId:number)=>{
       setUser(newuser.data.user);
       setValue(0)
       setLoading(false)
+       setPopupState({
+                show: true,
+                type:'add',
+                success:false,
+                amount:value
+              });
       alert("Payment was failed");
   }
 }
@@ -170,6 +199,12 @@ const handleBankPayment=async(amount:number,userId:number)=>{
                 const newuser=await axios.get('/api/data');
                 setUser(newuser.data.user);
                 setLoading(false);
+                 setPopupState({
+                show: true,
+                type:'add',
+                success:true,
+                amount:value
+              });
               }
           }
         },
@@ -214,6 +249,14 @@ const handleBankPayment=async(amount:number,userId:number)=>{
   return (
     <>
     {loading && <Loading/>}
+    {popupState.show && (
+        <TransactionPopup 
+          type={popupState.type}
+          success={popupState.success}
+          amount={popupState.amount}
+          onClose={() => setPopupState({...popupState, show: false})}
+        />
+      )}
       <input
         type="number"
         min={100}

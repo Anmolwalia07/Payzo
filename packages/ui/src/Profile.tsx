@@ -28,7 +28,7 @@ useEffect(() => {
 }, [userId]);
 
   return (
-    <div className="min-h-screen w-full px-4 py-8">
+    <div className="w-full px-4 py-8">
       <div className="max-w-6xl mx-auto">
         <div className="bg-gradient-to-r from-blue-600 to-indigo-700 rounded-3xl p-6 text-white shadow-xl mb-8 relative overflow-hidden">
           <div className="flex flex-col md:flex-row items-center">

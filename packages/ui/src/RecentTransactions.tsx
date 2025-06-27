@@ -54,7 +54,7 @@ export default function RecentTransactions({
   };
 
   return (
-    <div className="bg-white rounded-2xl shadow-xl border border-gray-100 overflow-hidden">
+    <div className="bg-white mt-2 rounded-xl shadow-lg border border-gray-100 overflow-hidden">
       <div className="p-5 border-b border-gray-200">
         <div className="flex justify-between items-center">
           <h1 className="text-2xl font-bold text-gray-800">Transactions</h1>

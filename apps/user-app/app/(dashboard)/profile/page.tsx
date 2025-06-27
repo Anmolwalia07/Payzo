@@ -5,6 +5,8 @@ import Profile   from "@repo/ui/Profile"
 export default  function Page() {
   const ctx=useUser()
   return (
-    <Profile user={ctx[0]}/>
+    <div className="h-full w-full overflow-y-scroll">
+      <Profile user={ctx[0]}/>
+    </div>
   );
 }

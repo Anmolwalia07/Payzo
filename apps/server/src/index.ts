@@ -8,11 +8,16 @@ import database from "./database/db"
 database();
 import cors from "cors"
 
+
 const app = express();
 app.use(express.json());
 app.use(cors({ credentials:true}))
 app.use(express.urlencoded({extended:true}))
 app.use("/api/bankaccount",bankAccountRoutes)
+
+app.get('/',(req,res)=>{
+  res.json({message:"hello world"})
+})
 
  
 

@@ -1,4 +1,5 @@
 'use client';
+import Logo from "@repo/ui/Logo";
 import axios from "axios";
 import {  useRouter } from "next/navigation";
 import { SlArrowLeft } from "react-icons/sl";
@@ -11,7 +12,7 @@ export default function LoginForm() {
     const name=e.currentTarget.username.value
      const email = e.currentTarget.email.value;
     const password = e.currentTarget.password.value;
-    const response=await axios.post('http://localhost:3001/api/signup',{
+    const response=await axios.post('/api/signup',{
         name,email,password
     })
     if(response.data.message){
@@ -19,11 +20,12 @@ export default function LoginForm() {
     }
   };
 
-
   return (
-    <div className="w-full h-screen flex justify-center items-center px-4 ">
-      <div className="absolute left-2 top-4 sm:left-5 sm:top-8 flex items-center gap-1 md:gap-2 font-semibold w-fit cursor-pointer" onClick={()=>{
-       router.back();
+    <>
+        <div className="w-full h-20 sm:h-22 shadow items-center flex"><Logo/></div>
+    <div className="w-full mt-20 flex justify-center items-center px-4 ">
+        <div className="absolute left-2 top-[14%] sm:left-5 sm:top-[15%]  flex items-center gap-1 md:gap-2 font-bold w-fit cursor-pointer" onClick={()=>{
+       router.push('/');
        }}><SlArrowLeft />
       Back
      </div>
@@ -46,5 +48,6 @@ export default function LoginForm() {
       }}>Login</button>
     </form>
     </div>
+    </>
   );
 }

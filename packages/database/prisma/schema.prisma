@@ -82,7 +82,7 @@ model  offRampTransaction {
   amount    Int
   startTime DateTime
   offRamp  Boolean  @default(true)
-  userId    Int
+  userId    Int  
   user      User        @relation(fields: [userId], references: [id])
 
 }
@@ -95,17 +95,41 @@ enum OnRampStatus{
 
 
 model Merchant {
-  id          Int               @id @default(autoincrement())
-  name        String
-  email              String               @unique
-  password           String
+  id            Int               @id @default(autoincrement())
+  name          String
+  email         String               @unique
+  password      String?
   balance       balanceMerchant?
+  balancehistroy balanceHistoryMerchant[]
+  offRampTransaction offRampTransactionMerchant[]
   category      String
-  rating      Float
-  reviewCount Int
-  transactions PaymentTransaction[]
-  createdAt          DateTime         @default(now())
-  updatedAt          DateTime         @updatedAt @default(now())
+  rating        Float
+  reviewCount   Int
+  transactions  PaymentTransaction[]
+  createdAt     DateTime         @default(now())
+  updatedAt     DateTime         @updatedAt @default(now())
+}
+
+
+model balanceHistoryMerchant{
+  id Int  @id  @default(autoincrement())
+  merchantId Int 
+  balance Int
+  createdAt DateTime @default(now())
+  Merchant  Merchant @relation(fields: [merchantId] , references: [id])
+}
+
+
+model  offRampTransactionMerchant {
+  id        Int          @id @default(autoincrement())
+  status    OnRampStatus
+  token     String       @unique
+  provider  String
+  amount    Int
+  startTime DateTime
+  offRamp  Boolean  @default(true)
+  merchantId    Int  
+  Merchant      Merchant        @relation(fields: [merchantId], references: [id])
 }
 
 model balanceMerchant{

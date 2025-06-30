@@ -11,5 +11,6 @@ if (process.env.NODE_ENV !== "production") {
   globalForPrisma.prisma = prisma;
 }
 
+// If you need types, re-export like this
 export * from "../generated/prisma/client";
 export * from "../generated/prisma/edge";

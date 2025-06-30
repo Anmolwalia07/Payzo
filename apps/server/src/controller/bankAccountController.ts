@@ -1,24 +1,23 @@
 import { BankAccountModel, TransactionModel } from "../database/db";
-import { Request, Response } from "express";
+import express, { Request, Response } from "express";
 import mongoose from "mongoose";
 import Z from "zod";
 
 const getAccountDetailSchema = Z.object({
-  userId: Z.number()
+  userId: Z.number(),
+  accountNumber: Z.string().min(12),
 });
 
 export const getAccountDetail = async (req: Request, res: Response) => {
-  const body={userId:Number(req.params.id)}
-  const result = getAccountDetailSchema.safeParse(body);
-  
+  const result = getAccountDetailSchema.safeParse(req.body);
   if (!result.success) {
     return res.status(400).json({ message: "Invalid Details", error: result.error });
   }
 
-  const { userId } = result.data;
+  const { userId, accountNumber } = result.data;
 
   try {
-    const accountDetail = await BankAccountModel.findOne({ userId });
+    const accountDetail = await BankAccountModel.findOne({ userId, accountNumber });
     if (!accountDetail) {
       return res.status(404).json({ message: "Account not found" });
     }

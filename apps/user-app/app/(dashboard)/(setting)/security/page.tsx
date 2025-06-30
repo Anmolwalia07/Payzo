@@ -130,29 +130,6 @@ export default function SecurityPage() {
         </form>
       </section>
 
-             {/* Security Section */}
-            <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-              <div className="p-6 space-y-4">
-                <div className="flex justify-between items-center">
-                  <div>
-                    <h3 className="font-medium">Password</h3>
-                    <p className="text-sm text-gray-500">Last changed 3 months ago</p>
-                  </div>
-                  <button className="text-blue-600 hover:text-blue-800 font-medium">
-                    Change
-                  </button>
-                </div>
-                <div className="flex justify-between items-center">
-                  <div>
-                    <h3 className="font-medium">Two-factor Authentication</h3>
-                    <p className="text-sm text-gray-500">Add extra security to your account</p>
-                  </div>
-                  <button className="text-blue-600 hover:text-blue-800 font-medium">
-                    Enable
-                  </button>
-                </div>
-              </div>
-            </div>
       {/* Security Alerts
       <section className="bg-white p-5 rounded-xl shadow-md">
         <h2 className="text-xl font-bold mb-4">Security Alerts</h2>

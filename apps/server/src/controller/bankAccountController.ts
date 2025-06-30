@@ -5,19 +5,19 @@ import Z from "zod";
 
 const getAccountDetailSchema = Z.object({
   userId: Z.number(),
-  accountNumber: Z.string().min(12),
 });
 
 export const getAccountDetail = async (req: Request, res: Response) => {
-  const result = getAccountDetailSchema.safeParse(req.body);
+  const body={
+    userId:Number(req.params.id)
+  }
+  const result = getAccountDetailSchema.safeParse(body);
   if (!result.success) {
     return res.status(400).json({ message: "Invalid Details", error: result.error });
   }
-
-  const { userId, accountNumber } = result.data;
-
+  const {userId}=result.data
   try {
-    const accountDetail = await BankAccountModel.findOne({ userId, accountNumber });
+    const accountDetail = await BankAccountModel.findOne({ userId });
     if (!accountDetail) {
       return res.status(404).json({ message: "Account not found" });
     }

@@ -23,21 +23,17 @@ export const authOptions = {
         const merchants=await prisma.merchant.findMany({});
         const id=merchants.length+1;
         if (!merchant) {
-        await prisma.merchant.upsert({
-          where: { email },
-          update: {
-            name: user.name || profile?.name || "Merchant",
-          },
-          create: {
+        await prisma.merchant.create({
+          data: {
             id,
             email,
             name: user.name || profile?.name || "Merchant",
             rating: 5.0,
             reviewCount: 0,
-            category: "Technology",
+            category: " ",
             balance: {
              create: {
-            amount: 500000,
+            amount: 0,
             locked: 0     
           }  
         }

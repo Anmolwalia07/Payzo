@@ -1,20 +1,10 @@
 'use client';
 
 import { signIn } from 'next-auth/react';
-import { useRouter, useSearchParams } from 'next/navigation';
-import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 
 export default function MerchantLoginPage() {
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const error = searchParams.get('error');
-
-  useEffect(() => {
-    if (error) {
-      console.error('Authentication error:', error);
-    }
-  }, [error]);
-
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8 bg-white p-8 rounded-xl shadow-md">
@@ -27,14 +17,6 @@ export default function MerchantLoginPage() {
           </p>
         </div>
 
-        {error && (
-          <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded relative">
-            <strong className="font-bold">Authentication failed! </strong>
-            <span className="block sm:inline">
-              Please try again with your merchant account.
-            </span>
-          </div>
-        )}
 
         <div className="mt-8 space-y-6">
           <div className="mt-6 grid grid-cols-1 gap-3">

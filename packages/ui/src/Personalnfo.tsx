@@ -4,6 +4,9 @@ export type UserInfo={
     id:Number;
     email:String;
     name:String;
+    balance:{
+      amount:Number;
+    }
 }
 export default function Personalnfo({userInfo}:{userInfo:UserInfo}) {
   return (

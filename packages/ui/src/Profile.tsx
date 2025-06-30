@@ -56,7 +56,7 @@ useEffect(() => {
             {/* Wallet Balance */}
             <div className="bg-gradient-to-br from-indigo-600 to-purple-700 rounded-2xl shadow-lg p-6 text-white">
               <h2 className="text-xl font-semibold">Wallet Balance</h2>
-              <p className="text-3xl font-bold mt-2">₹{user.balance.amount.toLocaleString()}</p>
+              <p className="text-3xl font-bold mt-2">₹{user?.balance.amount.toLocaleString()}</p>
               <div className="flex mt-6 space-x-4">
                 <button className="flex-1 bg-white text-indigo-700 py-2 rounded-lg font-medium hover:bg-opacity-90 transition" onClick={()=>{
                     router.push('/addmoney')

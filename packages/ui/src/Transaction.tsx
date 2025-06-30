@@ -1,4 +1,4 @@
-import Transactions from "./Transactions"
+import { Transactions } from "./Transactions";
 function Transaction({ t }: { t: Transactions|any }) {
   const isDeposit = t.onRamp;
 const isMerchant = (

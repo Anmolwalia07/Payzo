@@ -20,7 +20,7 @@
       "dependsOn": ["^build","^db:generate"],
       "inputs": ["$TURBO_DEFAULT$", ".env*"],
       "env": [
-        "DATABASE_URL","NEXTAUTH_URL","LoginUrl","MerchantUrl","NEXT_PUBLIC_RAZORPAY_KEY","NEXT_PUBLIC_ServerUrl"
+        "DATABASE_URL","NEXTAUTH_URL","NEXT_PUBLIC_RAZORPAY_KEY","NEXT_PUBLIC_ServerUrl"
       ],
       "outputs": ["dist/**", ".next/**", "!.next/cache/**"]
     },

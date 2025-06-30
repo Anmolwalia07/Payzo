@@ -248,11 +248,11 @@ export default function Transfer({userId,setUser,balance}:{userId:Number,setUser
                   </div>
                   <div className="flex justify-between text-gray-600">
                     <span>Amount:</span>
-                    <span className="font-medium">${amount}</span>
+                    <span className="font-medium">INR {amount}</span>
                   </div>
                   <div className="flex justify-between text-gray-600">
                     <span>Fee:</span>
-                    <span className="font-medium">$0.00</span>
+                    <span className="font-medium">INR 0.00</span>
                   </div>
                   <div className="h-px bg-gray-200 my-2"></div>
                   <div className="flex justify-between text-gray-800 font-semibold">

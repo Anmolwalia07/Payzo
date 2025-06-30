@@ -1,18 +1,16 @@
-import SideBar from "@repo/ui/SideBarForMerchant";
-import DashHeader from '@repo/ui/DashHeader';
-import { redirect } from 'next/navigation';
 import { getServerSession } from 'next-auth';
-import { authOptions } from "../api/lib/auth";
+import { authOptions } from "../lib/auth";
 import { prisma } from "@repo/database";
-import { MerchantProvider } from "./MerchantProvider";
+import { NextResponse } from "next/server";
 
-export default async function DashboardLayout({ children }:{children:React.ReactNode}) {
-       const session = await getServerSession(authOptions);
-   if (!session?.user) {
-    redirect('/login?callbackUrl=/dashboard');
-   }
+export const GET = async (req: Request) => {
+  try {
+    const session = await getServerSession(authOptions);
 
-   console.log(session);
+    if (!session?.user) {
+      return NextResponse.redirect(new URL('/login?callbackUrl=/dashboard', req.url));
+    }
+
    const merchant:any=await prisma.merchant.findFirst({
     where:{
       email:(session.user.email)
@@ -56,15 +54,13 @@ export default async function DashboardLayout({ children }:{children:React.React
     }
    })
 
-      return (
-        <MerchantProvider merchant={merchant}>
-          <div className="w-full h-screen">
-         <header><DashHeader/></header>
-         <div className="w-full sm:h-[90%] flex">
-          <SideBar />
-          <main className="w-full">{children}</main>
-         </div>
-        </div>
-        </MerchantProvider>
-      );
+    if (merchant) {
+      return NextResponse.json({ merchant }, { status: 200 });
+    } else {
+      return NextResponse.json({ error: "User not found" }, { status: 404 });
     }
+  } catch (e) {
+    console.error("GET /api/user error:", e);
+    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+  }
+};

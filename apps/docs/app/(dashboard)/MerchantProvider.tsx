@@ -19,7 +19,7 @@ export type BalanceHistoryMerchant = {
 
 export type OffRampTransactionMerchant = {
   id: number;
-  status: OnRampStatus;
+  status: offRampStatus;
   token: string;
   provider: string;
   amount: number;
@@ -46,7 +46,7 @@ export type PaymentTransaction = {
   userId: number;
 };
 
-export enum OnRampStatus {
+export enum offRampStatus {
   Success = "Success",
   Failure = "Failure",
   Processing = "Processing",

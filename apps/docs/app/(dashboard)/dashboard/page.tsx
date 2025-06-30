@@ -1,10 +1,13 @@
 "use client"
+import MerchantHome from "@repo/ui/MerchantHome";
 import { useMerchant } from "../MerchantProvider";
 
 export default function Page() {
   const ctx=useMerchant();
-  console.log(ctx)
+  const setMerchant=ctx[1]
+  console.log(ctx[1]);
+
   return (
-    <div>page</div>
+    <MerchantHome merchant={ctx[0]} setMerchant={ctx[1]}/>
   );
 }

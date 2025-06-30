@@ -3,10 +3,7 @@ import { getServerSession } from 'next-auth';
 import { NextRequest, NextResponse } from 'next/server';
 import { authOptions } from '../lib/auth';
 
-export const POST= async (req:NextRequest, res: NextResponse) =>{
-    const body = await req.json();
-    const {userId}=body;
-
+export const GET= async (req:NextRequest, res: NextResponse) =>{
   try {
      const session = await getServerSession(authOptions);
     
@@ -15,27 +12,10 @@ export const POST= async (req:NextRequest, res: NextResponse) =>{
         }
     const transactions = await prisma.paymentTransaction.findMany({
         where:{
-            userId:Number(userId)
-        },
-      select: {
-        id: true,
-        merchantId: true,
-        merchantName: true,
-        amount: true,
-        date: true,
-        status: true,
-        type: true,
-      }
+            merchantId:Number(session.user.id)
+        }
     });
-
-    const formattedTransactions = transactions.map(t => ({
-      ...t,
-      id: t.id.toString(),
-      merchantId: t.merchantId.toString(),
-      date: t.date.toISOString().split('T')[0]
-    }));
-
-    return NextResponse.json(formattedTransactions,{status:201});
+    return NextResponse.json(transactions,{status:201});
   } catch (error) {
     console.error('Error fetching transactions:', error);
     return NextResponse.json({ error: 'Internal server error' },{status:401});

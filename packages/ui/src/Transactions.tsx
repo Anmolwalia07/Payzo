@@ -2,7 +2,7 @@
 import { useState } from "react";
 import Transaction from "./Transaction";
 
- interface Transactions {
+export interface Transactions {
   id: number;
   amount: number;
   provider: string;

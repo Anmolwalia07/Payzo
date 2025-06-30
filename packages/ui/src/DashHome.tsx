@@ -18,14 +18,6 @@ export interface User {
   balanceHistory: BalanceHistory[];
 }
 
-interface Transaction {
-  id: number;
-  amount: number;
-  merchant:Merchant;
-  date: string;
-  type: "debit" | "credit";
-}
-
 interface Merchant{
   category:String;
 }

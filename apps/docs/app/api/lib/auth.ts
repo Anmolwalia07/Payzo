@@ -20,9 +20,9 @@ export const authOptions = {
       if (account?.provider === "google" || account?.provider === "facebook") {
         const email = user.email;
         const merchant = await prisma.merchant.findUnique({ where: { email } });
+        if (!merchant) {
         const merchants=await prisma.merchant.findMany({});
         const id=merchants.length+1;
-        if (!merchant) {
         await prisma.merchant.create({
           data: {
             id,
@@ -41,7 +41,7 @@ export const authOptions = {
         });
 
         }
-        return true;
+       return true;
       }
       return false;
     },

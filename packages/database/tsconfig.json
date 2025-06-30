@@ -1,21 +1,11 @@
 {
   "compilerOptions": {
     "target": "ES2020",
-    "module": "Node16",
+    "module": "CommonJS",
     "esModuleInterop": true,
     "strict": true,
-    "outDir": "dist",
-    "moduleResolution": "node16",  // Required for Prisma client imports
-    "baseUrl": ".",                // Helps with path resolution
-    "paths": {
-      "../generated/prisma/client": ["./generated/prisma/client"],  // Map your Prisma client
-      "../generated/prisma/edge": ["./generated/prisma/edge"]      // Map edge client
-    }
+    "outDir": "dist"
   },
-  "include": [
-    "src", 
-    "prisma/seed.ts",
-    "generated/**/*.ts"  // Include generated Prisma types
-  ],
-  "exclude": ["node_modules"]
+  "include": ["src", "prisma/seed.ts"]
 }
+ 

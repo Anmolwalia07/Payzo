@@ -141,7 +141,7 @@ export default function MerchantHome({ merchant ,setMerchant}: { merchant: Merch
             {greeting}, <span className="capitalize text-blue-600">{merchant.name}</span>
           </h1>
         </div>
-        <div className="md:bg-blue-50 px-4 py-2 rounded-full flex items-center ">
+        <div className="bg-blue-50 px-4 py-2 rounded-full flex items-center ">
           <span className="text-blue-700 font-medium">Today: {date.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</span>
         </div>
       </div>
@@ -162,6 +162,25 @@ export default function MerchantHome({ merchant ,setMerchant}: { merchant: Merch
         </div>
 
         {/* Recent Balance History */}
+        <div className="bg-white rounded-xl shadow-sm p-6 col-span-1 md:col-span-2">
+          <div className="flex justify-between items-center mb-4">
+            <h2 className="text-lg font-semibold text-gray-700">Recent Balance History</h2>
+            <button className="text-sm text-blue-600 hover:text-blue-800">View All</button>
+          </div>
+          <div className="space-y-4">
+            {merchant.balancehistroy.slice(0, 3).map((history: BalanceHistoryMerchant) => (
+              <div key={history.id} className="flex justify-between border-b pb-3 last:border-0 last:pb-0">
+                <div>
+                  <p className="font-medium">Balance Update</p>
+                  <p className="text-sm text-gray-500">{formatDate(history.createdAt)}</p>
+                </div>
+                <p className={`text-lg font-semibold ${history.balance >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+                  {formatCurrency(history.balance)}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
       </section>
 
       {/* Transactions Section */}
@@ -263,26 +282,6 @@ export default function MerchantHome({ merchant ,setMerchant}: { merchant: Merch
           </div>
         </div>
       </section>
-
-      <div className="bg-white rounded-xl shadow-sm p-6 col-span-1 md:col-span-2 mb-6">
-          <div className="flex justify-between items-center mb-4">
-            <h2 className="text-lg font-semibold text-gray-700">Recent Balance History</h2>
-            <button className="text-sm text-blue-600 hover:text-blue-800">View All</button>
-          </div>
-          <div className="space-y-4">
-            {merchant.balancehistroy.slice(0, 3).map((history: BalanceHistoryMerchant) => (
-              <div key={history.id} className="flex justify-between border-b pb-3 last:border-0 last:pb-0">
-                <div>
-                  <p className="font-medium">Balance Update</p>
-                  <p className="text-sm text-gray-500">{formatDate(history.createdAt)}</p>
-                </div>
-                <p className={`text-lg font-semibold ${history.balance >= 0 ? 'text-green-600' : 'text-red-600'}`}>
-                  {formatCurrency(history.balance)}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
 
       {/* Stats Summary */}
       <section className="bg-white rounded-xl shadow-sm p-6 mb-6">

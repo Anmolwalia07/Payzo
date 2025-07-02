@@ -1,12 +1,12 @@
 "use client"
 import axios from "axios";
 import { useEffect, useState } from "react";
-import Personalnfo from "./Personalnfo";
-import { UserInfo } from "./Personalnfo";
 import {useRouter} from "next/navigation"
+import { Merchant } from "./MerchantHome";
+import Personalnfo from "./Personalnfo";
 
-export default  function Profile({ user }: { user: UserInfo }) {
-const userId = Number(user.id);
+export default  function Profile({ merchant }: { merchant: Merchant }) {
+const merchantId = Number(merchant.id);
 const [bankAccount, setBankAccount] = useState({
     name:"",
     accountNumber:0,
@@ -16,12 +16,31 @@ const [bankAccount, setBankAccount] = useState({
 
 const [message, setMessage] = useState('')
 
-
 const router=useRouter();
 
-async function createBankAccount(userId:Number,name:String) {
+useEffect(() => {
+  axios
+    .get(`${process.env.NEXT_PUBLIC_ServerUrl}/api/bankaccount/${(1000000+Number(merchantId))}`)
+    .then((res) => {
+     if(res.status===200){
+      setBankAccount(res.data.accountDetail);
+      } 
+    })
+}, [merchantId,message]);
+
+const merchantInfo={
+    id:merchant.id,
+    name:merchant.name,
+    email:merchant.email,
+    balance:{
+        amount:merchant.balance?.amount 
+    }
+}
+
+async function createBankAccount(merchantId:Number,merchantName:String) {
+    console.log("hello")
     try{
-            const res=await axios.post(`${process.env.NEXT_PUBLIC_ServerUrl}/api/bankaccount/`,{userId:userId,name:name})
+            const res=await axios.post(`${process.env.NEXT_PUBLIC_ServerUrl}/api/bankaccount/`,{userId:Number(1000000+Number(merchantId)),name:merchantName})
             if(res.data){
                 setMessage("created successfully")
             }
@@ -30,16 +49,6 @@ async function createBankAccount(userId:Number,name:String) {
     }
 }
 
-useEffect(() => {
-  axios
-    .get(`${process.env.NEXT_PUBLIC_ServerUrl}/api/bankaccount/${userId}`)
-    .then((res) => {
-      if(res.status===200){
-      setBankAccount(res.data.accountDetail);
-      }
-    })
-}, [userId,message]);
-
   return (
     <div className="w-full px-4 py-8">
       <div className="max-w-6xl mx-auto">
@@ -47,8 +56,8 @@ useEffect(() => {
           <div className="flex flex-col md:flex-row items-center">
             <div className="border-2 border-dashed rounded-xl w-24 h-24 md:mr-6 mb-4 md:mb-0" style={{backgroundImage:`url("https://img.freepik.com/premium-photo/3d-illustration-cartoon-character-avatar-profile_1183071-136.jpg")`,backgroundPosition:'center',backgroundSize:'100px'}} ></div>
             <div className="text-center md:text-left">
-              <h1 className="text-3xl font-bold capitalize">{user.name}</h1>
-              <p className="text-blue-100 mt-1">{user.email}</p>
+              <h1 className="text-3xl font-bold capitalize">{merchant.name}</h1>
+              <p className="text-blue-100 mt-1">{merchant.email}</p>
               <p className="text-blue-100 flex items-center justify-center md:justify-start mt-2">
                 <span className="w-3 h-3 bg-green-400 rounded-full mr-2"></span>
                 Active
@@ -61,7 +70,7 @@ useEffect(() => {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           <div className="lg:col-span-2 space-y-6">
             <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-              <Personalnfo userInfo={user} />
+              <Personalnfo userInfo={merchantInfo} />
             </div>
           </div>
 
@@ -69,13 +78,8 @@ useEffect(() => {
             {/* Wallet Balance */}
             <div className="bg-gradient-to-br from-indigo-600 to-purple-700 rounded-2xl shadow-lg p-6 text-white">
               <h2 className="text-xl font-semibold">Wallet Balance</h2>
-              <p className="text-3xl font-bold mt-2">₹{user?.balance?.amount && user.balance.amount.toLocaleString()}</p>
+              <p className="text-3xl font-bold mt-2">₹{merchant.balance && merchant?.balance.amount.toLocaleString()}</p>
               <div className="flex mt-6 space-x-4">
-                <button className="flex-1 bg-white text-indigo-700 py-2 rounded-lg font-medium hover:bg-opacity-90 transition" onClick={()=>{
-                    router.push('/addmoney')
-                }}>
-                  Add Money
-                </button>
                 <button  onClick={()=>{
                     router.push('/withdraw')
                 }} className="flex-1 bg-indigo-800 py-2 rounded-lg font-medium hover:bg-indigo-900 transition">
@@ -131,11 +135,9 @@ useEffect(() => {
                   </div>
                   <h3 className="mt-4 font-medium text-gray-900">No bank account added</h3>
                   <p className="text-gray-500 mt-1">Connect your bank account to withdraw funds</p>
-                  <button className="mt-4 w-full bg-blue-600 text-white py-2.5 rounded-lg font-medium hover:bg-blue-700 transition" 
-                  onClick={()=>{
-                    createBankAccount(user.id,user.name);
-                  }}
-                  >
+                  <button className="mt-4 w-full bg-blue-600 text-white py-2.5 rounded-lg font-medium hover:bg-blue-700 transition" onClick={()=>{
+                    createBankAccount(merchant.id,merchant.name);
+                  }}>
                     Add Bank Account
                   </button>
                 </div>

@@ -1,6 +1,6 @@
 "use client";
 
-import Moneycomponent from "../../../../../packages/ui/dist/MoneyComponent";
+import Moneycomponent from "@repo/ui/MoneyComponent";
 import Balance from "@repo/ui/Balance";
 import RecentTransactions from "@repo/ui/RecentTransactions";
 import {  useUser } from "../UserProvider"; 

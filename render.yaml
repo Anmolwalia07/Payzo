@@ -1,0 +1,22 @@
+services:
+  - type: web
+    name: server
+    env: node
+    region: oregon
+    plan: free
+    buildCommand: |
+      npm ci
+      npm run db:generate --workspace=packages/database
+      npm run build --workspace=packages/database
+      npm run build --workspace=apps/server
+    startCommand: cd apps/server && node dist/index.js
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        generateValue: true
+      - key: DATABASE_URL
+        sync: false
+    scaling:
+      minInstances: 1
+      maxInstances: 1

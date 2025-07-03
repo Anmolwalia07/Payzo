@@ -1,9 +1,7 @@
 import { AiOutlineHome } from "react-icons/ai";
-import { BiTransfer } from "react-icons/bi";
 import { AiOutlineTransaction } from "react-icons/ai";
 import SideBarItem from "./SideBarItem";
 import { BiMoneyWithdraw } from "react-icons/bi";
-import { TfiMoney } from "react-icons/tfi";
 
 
 
@@ -13,6 +11,7 @@ function SideBar() {
         <SideBarItem href="/dashboard" icon={<AiOutlineHome/>} text="Home"/>
         <SideBarItem href="/withdraw" icon={<BiMoneyWithdraw />} text="Withdraw"/>
         <SideBarItem href="/transaction" icon={<AiOutlineTransaction />} text="Transactions"/>
+        <SideBarItem href="/WithdrawTransaction" icon={<AiOutlineTransaction />} text="Withdraw His."/>
     </div>
   )
 }

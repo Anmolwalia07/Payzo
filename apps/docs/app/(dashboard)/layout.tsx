@@ -1,5 +1,5 @@
 import SideBar from "@repo/ui/SideBarForMerchant";
-import DashHeader from '@repo/ui/DashHeader';
+import MerchantHeader from '@repo/ui/MerchantHeader';
 import { redirect } from 'next/navigation';
 import { getServerSession } from 'next-auth';
 import { authOptions } from "../api/lib/auth";
@@ -59,7 +59,7 @@ export default async function DashboardLayout({ children }:{children:React.React
       return (
         <MerchantProvider merchant={merchant}>
           <div className="w-full h-screen">
-         <header><DashHeader/></header>
+         <header><MerchantHeader/></header>
          <div className="w-full sm:h-[90%] flex">
           <SideBar />
           <main className="w-full">{children}</main>

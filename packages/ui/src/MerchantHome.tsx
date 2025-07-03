@@ -165,11 +165,13 @@ export default function MerchantHome({ merchant ,setMerchant}: { merchant: Merch
         <div className="bg-white rounded-xl shadow-sm p-6 col-span-1 md:col-span-2">
           <div className="flex justify-between items-center mb-4">
             <h2 className="text-lg font-semibold text-gray-700">Recent Balance History</h2>
-            <button className="text-sm text-blue-600 hover:text-blue-800">View All</button>
+            <button className="text-sm text-blue-600 hover:text-blue-800" onClick={()=>{
+              router.push('/balanceHistroy')
+            }}>View All</button>
           </div>
           <div className="space-y-4">
-            {merchant.balancehistroy.slice(0, 3).map((history: BalanceHistoryMerchant) => (
-              <div key={history.id} className="flex justify-between border-b pb-3 last:border-0 last:pb-0">
+            {merchant.balancehistroy.slice(0, 2).map((history: BalanceHistoryMerchant) => (
+              <div key={history.id} className="flex justify-between border-b border-gray-100 pb-3 last:border-0 last:pb-0">
                 <div>
                   <p className="font-medium">Balance Update</p>
                   <p className="text-sm text-gray-500">{formatDate(history.createdAt)}</p>

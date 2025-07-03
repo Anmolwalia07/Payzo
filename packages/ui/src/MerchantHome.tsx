@@ -3,6 +3,7 @@
 import axios from "axios";
 import { useEffect } from "react";
 import {useRouter} from "next/navigation"
+import Chart from "./Chart";
 
 export type BalanceHistoryMerchant = {
   id: number;
@@ -74,7 +75,7 @@ export type Merchant = {
 };
 
 
-export default function MerchantHome({ merchant ,setMerchant}: { merchant: Merchant | any ,setMerchant:any}) {
+export default function MerchantHome({ merchant ,setMerchant}: { merchant: Merchant | any,setMerchant:any}) {
   // Helper function to format currency
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat('en-US', {
@@ -149,8 +150,8 @@ export default function MerchantHome({ merchant ,setMerchant}: { merchant: Merch
       {/* Balance Summary */}
       <section className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
         <div className="bg-white rounded-xl shadow-sm p-6">
-          <h2 className="text-lg font-semibold text-gray-700 mb-2">Available Balance</h2>
-          <p className="text-3xl font-bold text-gray-800">
+          <h2 className="text-lg font-semibold text-gray-700 mb-2 mt-2">Available Balance</h2>
+          <p className="text-3xl font-bold text-green-400">
             {merchant.balance ? formatCurrency(merchant.balance.amount) : formatCurrency(0)}
           </p>
           <div className="mt-4">
@@ -159,28 +160,21 @@ export default function MerchantHome({ merchant ,setMerchant}: { merchant: Merch
               {merchant.balance ? formatCurrency(merchant.balance.locked) : formatCurrency(0)}
             </p>
           </div>
+           <div className="mt-4">
+            <p className="text-gray-500 text-sm">Minimum balance</p>
+            <p className="text-lg text-gray-700">
+              {merchant.balance ? formatCurrency(2000) : formatCurrency(0)}
+            </p>
+          </div>
         </div>
 
         {/* Recent Balance History */}
         <div className="bg-white rounded-xl shadow-sm p-6 col-span-1 md:col-span-2">
           <div className="flex justify-between items-center mb-4">
-            <h2 className="text-lg font-semibold text-gray-700">Recent Balance History</h2>
-            <button className="text-sm text-blue-600 hover:text-blue-800" onClick={()=>{
-              router.push('/balanceHistroy')
-            }}>View All</button>
+            <h2 className="text-lg font-semibold text-gray-700">Recent Balance History</h2> 
           </div>
           <div className="space-y-4">
-            {merchant.balancehistroy.slice(0, 2).map((history: BalanceHistoryMerchant) => (
-              <div key={history.id} className="flex justify-between border-b border-gray-100 pb-3 last:border-0 last:pb-0">
-                <div>
-                  <p className="font-medium">Balance Update</p>
-                  <p className="text-sm text-gray-500">{formatDate(history.createdAt)}</p>
-                </div>
-                <p className={`text-lg font-semibold ${history.balance >= 0 ? 'text-green-600' : 'text-red-600'}`}>
-                  {formatCurrency(history.balance)}
-                </p>
-              </div>
-            ))}
+            <Chart data={merchant.balancehistroy}/>
           </div>
         </div>
       </section>
@@ -242,7 +236,9 @@ export default function MerchantHome({ merchant ,setMerchant}: { merchant: Merch
         <div className="bg-white rounded-xl shadow-sm p-6">
           <div className="flex justify-between items-center mb-4">
             <h2 className="text-lg font-semibold text-gray-700">Withdrawals</h2>
-            <button className="text-sm text-blue-600 hover:text-blue-800">View All</button>
+            <button className="text-sm text-blue-600 hover:text-blue-800" onClick={()=>{
+              router.push('/withdraw-hist')
+            }}>View All</button>
           </div>
           <div className="overflow-x-auto">
             <table className="min-w-full divide-y divide-gray-200">

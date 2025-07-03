@@ -11,8 +11,7 @@ export default async function DashboardLayout({ children }:{children:React.React
    if (!session?.user) {
     redirect('/login?callbackUrl=/dashboard');
    }
-
-   console.log(session);
+   
    const merchant:any=await prisma.merchant.findFirst({
     where:{
       email:(session.user.email)

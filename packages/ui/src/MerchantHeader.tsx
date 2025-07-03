@@ -51,7 +51,7 @@ function MerchantHeader() {
        <SideBarItem href="/dashboard" icon={<AiOutlineHome/>} text="Home"/>
         <SideBarItem href="/withdraw" icon={<BiMoneyWithdraw />} text="Withdraw"/>
         <SideBarItem href="/transaction" icon={<AiOutlineTransaction />} text="Transactions"/>
-        <SideBarItem href="/WithdrawTransaction" icon={<AiOutlineTransaction />} text="Withdraw His."/>
+        <SideBarItem href="/withdraw-hist" icon={<AiOutlineTransaction />} text="Withdraw His"/>
      </div>
     </div>}
     </>

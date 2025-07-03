@@ -13,8 +13,9 @@ import {
 interface BalanceHistory {
   id: number;
   balance: number;
-  userId: number;
+  userId?: number;
   createdAt: string;
+  merchantId?: number;
 }
 
 export default function Chart({ data }: { data: BalanceHistory[] }) {

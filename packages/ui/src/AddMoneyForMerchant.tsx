@@ -9,7 +9,7 @@ import { Merchant } from "./MerchantHome";
 
 export default function InputComponent({ merchant ,setMerchant}:{merchant:Merchant,setMerchant:any}) {
   const [value, setValue] = useState<number>(0);
-  const [paymentMethod, setPaymentMethod] = useState<"bank" | "razorpay">("bank");
+  const [paymentMethod, setPaymentMethod] = useState("bank");
   const [selectedBank, setSelectedBank] = useState<string>("");
   const [loading ,setLoading]=useState(false);
   const [popupState, setPopupState] = useState<{
@@ -22,6 +22,58 @@ export default function InputComponent({ merchant ,setMerchant}:{merchant:Mercha
   const presetValues = [1000, 2000, 5000];
 
   const isDisable=(Number(merchant.balance?.amount)<value)
+
+
+  const handleWidthdraw=async(amount:number,merchantId:number)=>{
+      let token=""
+  try{
+       setLoading(true)
+        const offRampTransaction=await axios.post('/api/offRamping',{amount,provider:`${selectedBank}${paymentMethod}`,merchantId:Number(merchantId)});
+        token=offRampTransaction.data?.token;
+  
+         axios.put(`${process.env.NEXT_PUBLIC_ServerUrl}/api/bankaccount/increaseBalance/${1000000+(merchantId)}`,{amount}).catch(e=>{
+           setLoading(false)
+       })
+  
+         const transaction=await axios.post(`${process.env.NEXT_PUBLIC_ServerUrl}/api/merchant/withdraw`,{
+                token,
+                amount,
+                merchantId
+          })
+          if(transaction.data){
+                  const newMerchant=await axios.get('/api/merchantData');
+                  setMerchant(newMerchant.data.merchant);
+                   setPopupState({
+                  show: true,
+                  type:'withdraw',
+                  success:true,
+                  amount:value
+                });
+          }
+          setValue(0)
+          setLoading(false)
+  
+  }catch(err){
+        const transaction=await axios.put(`${process.env.NEXT_PUBLIC_ServerUrl}/api/merchant/offRamping`,{
+          token,
+          merchantId
+        })
+  
+        setValue(0)
+         setPopupState({
+                  show: true,
+                  type:'withdraw',
+                  success:false,
+                  amount:value
+                });
+        setLoading(false)
+        const newMerchant=await axios.get('/api/merchantData');
+        setMerchant(newMerchant.data.merchant);
+        alert("Payment was failed");
+        console.log(err)
+  }
+     
+  }  
 
   return (
     <>
@@ -74,7 +126,6 @@ export default function InputComponent({ merchant ,setMerchant}:{merchant:Mercha
             Bank
           </label>
         </div>
-        {paymentMethod === "bank" && (
           <div>
             <select
               className="border border-gray-300 rounded w-full px-2 py-1 bg-white"
@@ -87,7 +138,6 @@ export default function InputComponent({ merchant ,setMerchant}:{merchant:Mercha
               <option value="axis">Axis Bank</option>
             </select>
           </div>
-        )}
       </form>
 
       <button
@@ -95,7 +145,7 @@ export default function InputComponent({ merchant ,setMerchant}:{merchant:Mercha
         disabled={value < 100 || isDisable}
         onClick={() => {
             if(selectedBank!=""){
-                
+                handleWidthdraw(value,merchant.id)
             }
         }
         }

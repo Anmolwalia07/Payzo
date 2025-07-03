@@ -1,6 +1,8 @@
 import Razorpay from "razorpay";
 import crypto from "crypto"
 import express from "express"
+import dot from "dotenv"
+dot.config()
 
 const router=express.Router();
 
@@ -10,7 +12,6 @@ const razorpay = new Razorpay({
   key_secret: process.env.RAZORPAY_KEY_SECRET,
 });
 
-// **1. Create Order API**
 router.post("/create-order", async (req, res) => {
   try {
     const { amount, currency } = req.body;

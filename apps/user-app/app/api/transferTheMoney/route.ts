@@ -28,8 +28,21 @@ export const POST=async(req:NextRequest,res:NextResponse)=>{
     if(newBalance !<0){
         return NextResponse.json({ message: "Not have balance" },{status:401});
     }
-    try{
 
+    const previousBalanceEntryMerchant = await prisma.balanceHistoryMerchant.findFirst({
+      where: { merchantId },
+      orderBy: { createdAt: "desc" }, 
+    });
+
+    let previousBalanceMerchant;
+
+    if(previousBalanceEntryMerchant){
+      previousBalanceMerchant = previousBalanceEntryMerchant?.balance || 0;
+    }else{
+        previousBalanceMerchant=0;
+    }
+    const newBalanceMerchant = previousBalanceMerchant +amount;
+    try{
         await prisma.$transaction([
             prisma.user.update({
                 where:{
@@ -81,6 +94,11 @@ export const POST=async(req:NextRequest,res:NextResponse)=>{
                             amount:{
                                 increment:amount
                             }
+                        }
+                    },
+                    balancehistroy:{
+                        create:{
+                            balance:newBalanceMerchant
                         }
                     }
                 }

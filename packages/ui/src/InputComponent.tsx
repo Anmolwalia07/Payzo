@@ -197,6 +197,7 @@ const handleBankPayment=async(amount:number,userId:number)=>{
               if(transaction){
                 const newuser=await axios.get('/api/data');
                 setUser(newuser.data.user);
+                setValue(0);
                 setLoading(false);
                  setPopupState({
                 show: true,
@@ -239,7 +240,6 @@ const handleBankPayment=async(amount:number,userId:number)=>{
        const newuser=await axios.get('/api/data');
       setUser(newuser.data.user);
       setLoading(false);
-      console.error("Payment error:", error);
     }
   };
 

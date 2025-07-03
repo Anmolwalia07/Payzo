@@ -105,11 +105,9 @@ export default function Transfer({userId,setUser,balance}:{userId:Number,setUser
         userId
       })
       }
-            const newuser=await axios.get('/api/data');
-            setUser(newuser.data.user);
-           setError('Transfer failed. Please try again.');
-
-      console.log(err)
+          const newuser=await axios.get('/api/data');
+          setUser(newuser.data.user);
+          setError('Transfer failed. Please try again.');
     } finally {
       setIsSubmitting(false);
     }
@@ -120,8 +118,8 @@ export default function Transfer({userId,setUser,balance}:{userId:Number,setUser
   );
 
   return (
-    <div className="min-h-screen p-4 sm:px-6">
-      <div className="w-full mx-auto bg-white rounded-2xl shadow-xl overflow-hidden">
+    <div className="p-4 sm:px-6 overflow-hidden h-full">
+      <div className="w-full mx-auto bg-white rounded-2xl shadow-xl overflow-y-scroll overflow-x-hidden h-full">
         <div className="bg-gradient-to-r from-blue-600 to-indigo-700 p-6 text-white">
           <div className='flex justify-between items-end'>
           <h1 className="text-2xl font-bold">Transfer Funds</h1>

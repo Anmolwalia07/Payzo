@@ -74,6 +74,11 @@ const merchants = [
             amount: 500000,  
             locked: 0     
           }
+        },
+        balancehistroy: {
+          create: {
+            balance:500000,  
+          }
         }
       },
     });
@@ -98,7 +103,7 @@ const merchants = [
         date: transaction.date,
         type: "payment",
         status:"completed",
-        user: { connect: { id: 1 } }
+        user: { connect: { id: admin.id } }
       }
     });
   }

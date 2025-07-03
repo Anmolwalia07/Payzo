@@ -1,9 +1,9 @@
 import Link from 'next/link';
 
 enum OnRampStatus {
-  Success,
-  Failure,
-  Processing,
+  Success = "Success",
+  Failure = "Failure",
+  Processing = "Processing"
 }
 
 type Transaction = {
@@ -23,18 +23,19 @@ export default function RecentTransactions({
   recentTransactions: Transaction[];
   text: string;
 }) {
-  const getStatusInfo = (status: OnRampStatus) => {
-    switch (status) {
-      case OnRampStatus.Success:
-        return { text: 'Success', color: 'bg-green-100 text-green-700', icon: '✓' };
-      case OnRampStatus.Failure:
-        return { text: 'Failed', color: 'bg-red-100 text-red-700', icon: '✕' };
-      case OnRampStatus.Processing:
-        return { text: 'Processing', color: 'bg-yellow-100 text-yellow-700', icon: '↻' };
-      default:
-        return { text: 'Unknown', color: 'bg-gray-100 text-gray-700', icon: '?' };
-    }
-  };
+
+  
+const getStatusInfo = (status: OnRampStatus) => {
+  if (status === OnRampStatus.Success) {
+    return { text: 'Success', color: 'bg-green-100 text-green-700', icon: '✓' };
+  } else if (status === OnRampStatus.Failure) {
+    return { text: 'Failed', color: 'bg-red-100 text-red-700', icon: '✕' };
+  } else if (status === OnRampStatus.Processing) {
+    return { text: 'Processing', color: 'bg-yellow-100 text-yellow-700', icon: '↻' };
+  } else {
+    return { text: 'Unknown', color: 'bg-gray-100 text-gray-700', icon: '?' };
+  }
+};
 
   const formatDate = (date: Date) => {
     return new Date(date).toLocaleDateString('en-US', {
@@ -65,6 +66,7 @@ export default function RecentTransactions({
         {recentTransactions.length > 0 ? (
           recentTransactions.map((trans) => {
             const statusInfo = getStatusInfo(trans.status);
+            console.log(statusInfo)
             return (
               <div
                 key={trans.id}
@@ -82,6 +84,8 @@ export default function RecentTransactions({
                       </p>
                     </div>
                   </div>
+
+                  <div className={`${statusInfo.color}`}>{statusInfo.icon} {statusInfo.text}</div>
 
                   <div className="text-right">
                     <div className="text-lg font-bold text-gray-800">

@@ -21,19 +21,21 @@ export const authOptions = {
         const email = user.email;
         const merchant = await prisma.merchant.findUnique({ where: { email } });
         if (!merchant) {
-        const merchants=await prisma.merchant.findMany({});
-        const id=merchants.length+1;
         await prisma.merchant.create({
           data: {
-            id,
             email,
             name: user.name || profile?.name || "Merchant",
             rating: 5.0,
             reviewCount: 0,
             category: " ",
+            balancehistroy:{
+              create:{
+                balance:150000,
+              }
+            },
             balance: {
              create: {
-            amount: 0,
+            amount: 150000,
             locked: 0     
           }  
         }

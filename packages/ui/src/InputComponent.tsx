@@ -108,10 +108,7 @@ const handleBankPayment=async(amount:number,userId:number)=>{
      setLoading(true)
       const onRampTransaction=await axios.post('/api/onRamping',{amount,provider:`${selectedBank}${paymentMethod}`,userId:user.id});
       token=onRampTransaction.data?.token;
-     axios.put(`${process.env.NEXT_PUBLIC_ServerUrl}/api/bankaccount/updateBalance/${userId}`,{amount}).catch(e=>{
-        alert("Don't have sufficient balance");
-         setLoading(false)
-     })
+      await axios.put(`${process.env.NEXT_PUBLIC_ServerUrl}/api/bankaccount/updateBalance/${userId}`,{amount})
 
       const transaction=await axios.post(`${process.env.NEXT_PUBLIC_ServerUrl}/api/bank-webhook`,{
               token,
@@ -147,7 +144,7 @@ const handleBankPayment=async(amount:number,userId:number)=>{
                 success:false,
                 amount:value
               });
-      alert("Payment was failed");
+      alert("Don't have sufficient balance");
   }
 }
 

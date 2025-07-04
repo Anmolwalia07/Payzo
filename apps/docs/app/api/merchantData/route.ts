@@ -44,7 +44,8 @@ export const GET = async (req: Request) => {
           provider:true,
           status:true,
           startTime:true,
-          offRamp:true
+          offRamp:true,
+          token:true
         },
       orderBy: {
         startTime: 'desc',

@@ -8,11 +8,9 @@ import { FiAlignRight } from "react-icons/fi";
 import { useState } from "react";
 import SideBarItem from "./SideBarItem";
 import { AiOutlineHome, AiOutlineTransaction } from "react-icons/ai";
-import { FaSearch } from "react-icons/fa";
 import { BiMoneyWithdraw, BiTransfer } from "react-icons/bi";
 import { RxCross2 } from "react-icons/rx";
 import { IoSettingsSharp } from "react-icons/io5";
-import { TfiMoney } from "react-icons/tfi";
 
 
 
@@ -51,7 +49,7 @@ function MerchantHeader() {
        <SideBarItem href="/dashboard" icon={<AiOutlineHome/>} text="Home"/>
         <SideBarItem href="/withdraw" icon={<BiMoneyWithdraw />} text="Withdraw"/>
         <SideBarItem href="/transaction" icon={<AiOutlineTransaction />} text="Transactions"/>
-        <SideBarItem href="/withdraw-hist" icon={<AiOutlineTransaction />} text="Withdraw His"/>
+        <SideBarItem href="/withdraw-hist" icon={<BiMoneyWithdraw />} text="Histroy"/>
      </div>
     </div>}
     </>

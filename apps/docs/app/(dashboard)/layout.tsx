@@ -45,7 +45,8 @@ export default async function DashboardLayout({ children }:{children:React.React
           provider:true,
           status:true,
           startTime:true,
-          offRamp:true
+          offRamp:true,
+          token:true
         },
       orderBy: {
         startTime: 'desc',

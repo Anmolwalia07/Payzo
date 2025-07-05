@@ -18,9 +18,11 @@
       "cache": false
     },
     "build:styles": {
+      "env": ["NODE_ENV"],
       "outputs": ["dist/**"]
     },
     "build:components": {
+      "env": ["NODE_ENV"],
       "outputs": ["dist/**"]
     },
     "build": {

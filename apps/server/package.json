@@ -4,7 +4,7 @@
   "main": "index.js",
   "scripts": {
     "build": "esbuild src/index.ts --bundle --platform=node --target=node20 --outdir=dist",
-    "dev": "esbuild src/index.ts --bundle --platform=node --target=node20 --outdir=dist --watch",
+    "dev": "esbuild src/index.ts --bundle --platform=node --target=node20 --outdir=dist --watch ",
     "start": "nodemon dist/index.js"
   },
   "keywords": [],

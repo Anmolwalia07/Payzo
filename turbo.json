@@ -18,8 +18,8 @@
       "cache": false
     },
     "build": {
-      "dependsOn": ["^build", "^db:generate","^build:components","^build:styles"],
-      // "inputs": ["$TURBO_DEFAULT$", ".env*"],
+      "dependsOn": ["^build", "^db:generate"],
+      "inputs": ["$TURBO_DEFAULT$", ".env*"],
       "env": [
         "DATABASE_URL",
         "NEXT_PUBLIC_RAZORPAY_KEY",
@@ -27,15 +27,6 @@
         "NODE_ENV"
       ],
       "outputs": ["dist/**", ".next/**", "!.next/cache/**"]
-    },
-    "build:styles": {
-      "outputs": ["dist/index.css"],
-      "env": ["NODE_ENV"]
-    },
-    "build:components": {
-      "dependsOn": ["^db:generate"],
-      "outputs": ["dist/**"],
-      "env": ["NODE_ENV"]
     },
     "lint": {
       "dependsOn": ["^lint"]

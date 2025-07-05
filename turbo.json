@@ -1,11 +1,18 @@
 {
-  "$schema": "https://turborepo.com/schema.json ",
+  "$schema": "https://turborepo.com/schema.json",
   "ui": "tui",
-  "globalEnv": ["NODE_ENV"],
   "tasks": {
     "db:generate": {
       "cache": false,
       "env": ["DATABASE_URL"]
+    },
+    "ui#build:styles": {
+      "env": ["NODE_ENV"],
+      "outputs": ["dist/**"]
+    },
+    "ui#build:components": {
+      "env": ["NODE_ENV"],
+      "outputs": ["dist/**"]
     },
     "db:migrate": {
       "cache": false,
@@ -15,12 +22,11 @@
       "cache": false
     },
     "start": {
-      "dependsOn": ["build"],
       "cache": false
     },
     "build": {
-      "inputs": ["$TURBO_DEFAULT$", ".env*", "next.config.js"],
       "dependsOn": ["^build", "^db:generate"],
+      "inputs": ["$TURBO_DEFAULT$", ".env*"],
       "env": [
         "DATABASE_URL",
         "NEXT_PUBLIC_RAZORPAY_KEY",

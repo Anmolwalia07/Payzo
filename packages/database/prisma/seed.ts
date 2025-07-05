@@ -107,6 +107,16 @@ const merchants = [
       }
     });
   }
+
+  const adminPass=await bcrypt.hash("123456",10);
+
+  const adminPannel=await prisma.admin.create({
+    data:{
+      email:"admin123@gmail.com",
+      password:adminPass
+    }
+  })
+
     console.log('Seed data created successfully!');
 }
 

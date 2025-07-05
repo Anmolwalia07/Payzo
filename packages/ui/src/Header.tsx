@@ -6,12 +6,12 @@ import { useRouter } from "next/navigation";
 
 function Header() {
   const [isVisible, setIsVisible] = useState(false);
-  const [isHome, setIsHome] = useState(true); // track if on homepage
+  const [isHome, setIsHome] = useState(false);
   const router = useRouter();
-
+ 
   useEffect(() => {
-    if (window.location.href !== "http://localhost:3000/") {
-      setIsHome(false);
+    if (window.location.href === "http://localhost:3001/" ) {
+      setIsHome(true);
     }
   }, []);
 
@@ -26,7 +26,7 @@ function Header() {
           >
             Login
           </button>
-          {!isHome && (
+          {isHome && (
             <button
               className="border px-3 py-1 rounded hover:text-white hover:bg-gray-300"
               onClick={() => router.push(`/signup`)}
@@ -51,7 +51,7 @@ function Header() {
           >
             Login
           </h1>
-          {!isHome && (
+          {isHome && (
             <h1
               className="hover:bg-[#afcadf]"
               onClick={() => router.push(`/signup`)}

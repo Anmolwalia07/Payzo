@@ -76,6 +76,7 @@ model balanceHistory{
 
 
 
+
 model  offRampTransaction {
   id        Int          @id @default(autoincrement())
   status    OnRampStatus
@@ -165,4 +166,11 @@ enum PaymentStatus {
 enum PaymentType {
   payment
   refund
+}
+
+model Admin{
+  id   Int  @id @default(autoincrement())
+  name String @default("Admin")
+  email String @unique
+  password String 
 }

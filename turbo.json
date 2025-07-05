@@ -17,9 +17,14 @@
       "dependsOn": ["build"],
       "cache": false
     },
+    "build:styles": {
+      "outputs": ["dist/**"]
+    },
+    "build:components": {
+      "outputs": ["dist/**"]
+    },
     "build": {
-      "dependsOn": ["^build", "^db:generate"],
-      "inputs": ["$TURBO_DEFAULT$", ".env*"],
+      "dependsOn": ["^build", "^db:generate","build:styles", "build:components"],
       "env": [
         "DATABASE_URL",
         "NEXT_PUBLIC_RAZORPAY_KEY",

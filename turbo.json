@@ -20,9 +20,17 @@
       "dependsOn": ["^build","^db:generate"],
       "inputs": ["$TURBO_DEFAULT$", ".env*"],
       "env": [
-        "DATABASE_URL","NEXTAUTH_URL","NEXT_PUBLIC_RAZORPAY_KEY","NEXT_PUBLIC_ServerUrl"
+        "DATABASE_URL","NEXT_PUBLIC_RAZORPAY_KEY","NEXT_PUBLIC_ServerUrl","NODE_ENV"
       ],
       "outputs": ["dist/**", ".next/**", "!.next/cache/**"]
+    },
+     "build:styles": {
+      "outputs": ["dist/index.css"],
+      "env": ["NODE_ENV"]
+    },
+    "build:components": {
+      "outputs": ["dist/**"],
+      "env": ["NODE_ENV", "DATABASE_URL","NEXT_PUBLIC_RAZORPAY_KEY","NEXT_PUBLIC_ServerUrl"]
     },
     "lint": {
       "dependsOn": ["^lint"]

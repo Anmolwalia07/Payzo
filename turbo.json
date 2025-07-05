@@ -2,14 +2,15 @@
   "$schema": "https://turborepo.com/schema.json",
   "ui": "tui",
   "tasks": {
-    "db:generate":{
-      "cache": false
+    "db:generate": {
+      "cache": false,
+      "env": ["DATABASE_URL"]
     },
-    "db:migrate":{
+    "db:migrate": {
       "cache": false,
       "persistent": true
     },
-    "db:deploy":{
+    "db:deploy": {
       "cache": false
     },
     "start": {
@@ -17,20 +18,24 @@
       "cache": false
     },
     "build": {
-      "dependsOn": ["^build","^db:generate"],
-      "inputs": ["$TURBO_DEFAULT$", ".env*"],
+      "dependsOn": ["^build", "^db:generate","^build:components","^build:styles"],
+      // "inputs": ["$TURBO_DEFAULT$", ".env*"],
       "env": [
-        "DATABASE_URL","NEXT_PUBLIC_RAZORPAY_KEY","NEXT_PUBLIC_ServerUrl","NODE_ENV"
+        "DATABASE_URL",
+        "NEXT_PUBLIC_RAZORPAY_KEY",
+        "NEXT_PUBLIC_ServerUrl",
+        "NODE_ENV"
       ],
       "outputs": ["dist/**", ".next/**", "!.next/cache/**"]
     },
-     "build:styles": {
+    "build:styles": {
       "outputs": ["dist/index.css"],
       "env": ["NODE_ENV"]
     },
     "build:components": {
+      "dependsOn": ["^db:generate"],
       "outputs": ["dist/**"],
-      "env": ["NODE_ENV", "DATABASE_URL","NEXT_PUBLIC_RAZORPAY_KEY","NEXT_PUBLIC_ServerUrl"]
+      "env": ["NODE_ENV"]
     },
     "lint": {
       "dependsOn": ["^lint"]

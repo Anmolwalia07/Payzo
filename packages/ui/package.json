@@ -13,7 +13,7 @@
   },
   "license": "MIT",
   "scripts": {
-    "build:styles": "npx tailwindcss -i ./src/styles.css -o ./dist/index.css",
+  "build:styles": "npx tailwindcss -i ./src/styles.css -o ./dist/index.css",
     "build:components": "tsc",
     "check-types": "npx tsc --noEmit",
     "dev:styles": "tailwindcss -i ./src/styles.css -o ./dist/index.css --watch",

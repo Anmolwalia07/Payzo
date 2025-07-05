@@ -16,9 +16,6 @@
       "dependsOn": ["build"],
       "cache": false
     },
-    "build:styles": {
-      "outputs": ["dist/index.css"]
-    },
     "build": {
       "dependsOn": ["^build","^db:generate"],
       "inputs": ["$TURBO_DEFAULT$", ".env*"],

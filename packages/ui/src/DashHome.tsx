@@ -4,6 +4,7 @@ import Chart from "./Chart";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import Loading from "./LoadingforUi";
 
 interface BalanceHistory {
   id: number;
@@ -75,6 +76,8 @@ export default function DashHome({ user }: { user: User }) {
 
 
   return (
+    <>
+    {loading && <Loading/>}
     <div className="w-full px-4 lg:px-6 lg:pl-8 pb-4 ">
       <div className="flex justify-between items-start ">
         <div>
@@ -184,7 +187,7 @@ export default function DashHome({ user }: { user: User }) {
             </div>
         </div>
       </div>
-
     </div>
+    </>
   );
 }

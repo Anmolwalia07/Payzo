@@ -35,17 +35,21 @@ const ExplorePage = ({userId}:{userId:Number}) => {
       try {
         setIsLoading(true);
         
-        const merchantsRes = await fetch('/api/merchants');
+        const merchantsRes = await fetch('/api/merchants',{
+          method:'GET',
+           headers: {
+            'Content-Type': 'application/json',
+          },
+        });
         if (!merchantsRes.ok) throw new Error('Failed to fetch merchants');
         const merchantsData = await merchantsRes.json();
         
         // Fetch transactions
         const transactionsRes = await fetch('/api/transactions', {
-          method: 'POST',
+          method: 'GET',
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ userId:userId }),
         });
         if (!transactionsRes.ok) throw new Error('Failed to fetch transactions');
         const transactionsData = await transactionsRes.json();

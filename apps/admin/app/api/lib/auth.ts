@@ -10,7 +10,7 @@ export const authOptions = {
             email: { label: "Email", type: "email", placeholder: "anmol@gmail.com" },
             password: { label: "Password", type: "password" }
           },
-          async authorize(credentials: any,req) {
+          async authorize(credentials: any) {
             const existingUser = await prisma.admin.findFirst({
                 where: {
                     email:credentials.email

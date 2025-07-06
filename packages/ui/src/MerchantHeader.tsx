@@ -11,6 +11,7 @@ import { AiOutlineHome, AiOutlineTransaction } from "react-icons/ai";
 import { BiMoneyWithdraw, BiTransfer } from "react-icons/bi";
 import { RxCross2 } from "react-icons/rx";
 import { IoSettingsSharp } from "react-icons/io5";
+import { CiBank } from "react-icons/ci";
 
 
 
@@ -33,7 +34,9 @@ function MerchantHeader() {
            }}/>
         </div>
          <div className="w-[60%]  sm:hidden flex justify-end pr-8 items-center gap-3 mt-2">
-          <CgProfile className="text-2xl  font-light"/>
+          <CgProfile className="text-2xl  font-light" onClick={()=>{
+            router.push('/profile')
+           }} />
            <IoSettingsSharp className="text-2xl lg:text-3xl hover:cursor-pointer"onClick={()=>{
             router.push('/setting')
            }}/>
@@ -49,7 +52,8 @@ function MerchantHeader() {
        <SideBarItem href="/dashboard" icon={<AiOutlineHome/>} text="Home"/>
         <SideBarItem href="/withdraw" icon={<BiMoneyWithdraw />} text="Withdraw"/>
         <SideBarItem href="/transaction" icon={<AiOutlineTransaction />} text="Transactions"/>
-        <SideBarItem href="/withdraw-hist" icon={<BiMoneyWithdraw />} text="Histroy"/>
+        <SideBarItem href="/withdraw-hist" icon={<BiMoneyWithdraw />} text="History"/>
+        <SideBarItem href="/manageBankAccount" icon={<CiBank />} text="BankAccount"/>
      </div>
     </div>}
     </>

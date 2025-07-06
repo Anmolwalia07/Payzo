@@ -1,12 +1,22 @@
 'use client';
 
+import Logo from '@repo/ui/Logo';
 import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
+import { SlArrowLeft } from "react-icons/sl";
+
 
 export default function MerchantLoginPage() {
   const router = useRouter();
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+    <>
+    <div className="w-full h-20 sm:h-22 shadow items-center flex"><Logo/></div>
+    <div className="mt-8 flex items-center justify-center  py-12 px-4 sm:px-6 lg:px-8">
+       <div className="absolute left-2 top-[14%] sm:left-5 sm:top-[15%]  flex items-center gap-1 md:gap-2 font-bold w-fit cursor-pointer" onClick={()=>{
+       router.push('/');
+       }}><SlArrowLeft />
+      Back
+     </div>
       <div className="max-w-md w-full space-y-8 bg-white p-8 rounded-xl shadow-md">
         <div>
           <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
@@ -71,5 +81,6 @@ export default function MerchantLoginPage() {
         </div>
       </div>
     </div>
+    </>
   );
 }

@@ -13,6 +13,7 @@ import { BiMoneyWithdraw, BiTransfer } from "react-icons/bi";
 import { RxCross2 } from "react-icons/rx";
 import { IoSettingsSharp } from "react-icons/io5";
 import { TfiMoney } from "react-icons/tfi";
+import { CiBank } from "react-icons/ci";
 
 
 
@@ -35,8 +36,10 @@ function DashHeader() {
            }}/>
         </div>
          <div className="w-[60%]  sm:hidden flex justify-end pr-8 items-center gap-3 mt-2">
-          <CgProfile className="text-2xl  font-light"/>
-           <IoSettingsSharp className="text-2xl lg:text-3xl hover:cursor-pointer"onClick={()=>{
+          <CgProfile className="text-2xl  font-light" onClick={()=>{
+            router.push('/profile')
+           }}/>
+           <IoSettingsSharp className="text-2xl lg:text-3xl hover:cursor-pointer" onClick={()=>{
             router.push('/setting')
            }}/>
                   {!isVisible ? <FiAlignRight className="text-3xl" onClick={()=>{
@@ -54,6 +57,7 @@ function DashHeader() {
         <SideBarItem href="/addmoney" icon={<TfiMoney />} text="Add Money"/>
         <SideBarItem href="/withdraw" icon={<BiMoneyWithdraw />} text="Withdraw"/>
         <SideBarItem href="/transaction" icon={<AiOutlineTransaction />} text="Transactions"/>
+        <SideBarItem href="/manageBankAccount" icon={<CiBank />} text="BankAccount"/>
      </div>
     </div>}
     </>

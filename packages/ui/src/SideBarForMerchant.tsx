@@ -2,6 +2,7 @@ import { AiOutlineHome } from "react-icons/ai";
 import { AiOutlineTransaction } from "react-icons/ai";
 import SideBarItem from "./SideBarItem";
 import { BiMoneyWithdraw } from "react-icons/bi";
+import { CiBank } from "react-icons/ci";
 
 
 
@@ -12,6 +13,8 @@ function SideBar() {
         <SideBarItem href="/withdraw" icon={<BiMoneyWithdraw />} text="Withdraw"/>
         <SideBarItem href="/transaction" icon={<AiOutlineTransaction />} text="Transactions"/>
         <SideBarItem href="/withdraw-hist" icon={<BiMoneyWithdraw />} text="Histroy"/>
+        <SideBarItem href="/manageBankAccount" icon={<CiBank />} text="BankAccount"/>
+
     </div>
   )
 }

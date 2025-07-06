@@ -15,7 +15,6 @@ const [bankAccount, setBankAccount] = useState({
     status:""
 })
 
-const [message, setMessage] = useState('')
 const [loading, setLoading] =useState(true)
 
 const router=useRouter();

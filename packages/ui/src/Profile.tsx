@@ -8,6 +8,7 @@ import Loading from "./LoadingforUi";
 
 export default  function Profile({ user }: { user: UserInfo }) {
 const userId = Number(user.id);
+console.log(userId)
 const [bankAccount, setBankAccount] = useState({
     name:"",
     accountNumber:0,
@@ -17,7 +18,6 @@ const [bankAccount, setBankAccount] = useState({
 
 const [loading,setLoading]=useState(true)
 
-const [message, setMessage] = useState('')
 
 
 const router=useRouter();
@@ -41,9 +41,9 @@ useEffect(() => {
   axios
     .get(`${process.env.NEXT_PUBLIC_ServerUrl}/api/bankaccount/${userId}`)
     .then((res) => {
-      setLoading(false)
       if(res.status===200){
       setBankAccount(res.data.accountDetail);
+            setLoading(false)
       }
     })
     setLoading(false)

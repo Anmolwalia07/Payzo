@@ -56,15 +56,14 @@ export default function DashHome({ user }: { user: User }) {
       status:""
   })
   
+  const userId=Number(user.id)
+
   const [loading, setLoading] =useState(true)
   
   const router=useRouter();
   
   useEffect(() => {
-    setLoading(true)
-    axios
-      .get(`${process.env.NEXT_PUBLIC_ServerUrl}/api/bankaccount/${user.id}`)
-      .then((res) => {
+    axios.get(`${process.env.NEXT_PUBLIC_ServerUrl}/api/bankaccount/${userId}`).then((res) => {
        if(res.status===200){
         setBankAccount(res.data.accountDetail);
         setLoading(false)
@@ -162,7 +161,10 @@ export default function DashHome({ user }: { user: User }) {
                       </div>
                     </div>
                   </div>
-                  <button className="w-full mt-4 text-center text-blue-600 hover:text-blue-800 font-medium py-2 border border-gray-200 rounded-lg">
+                  <button className="w-full mt-4 text-center text-blue-600 hover:text-blue-800 font-medium py-2 border border-gray-200 rounded-lg" 
+                  onClick={()=>{
+                    router.push('/manageBankAccount')
+                  }}>
                     Manage Accounts
                   </button>
                 </div>

@@ -6,7 +6,6 @@ import { getServerSession } from 'next-auth';
 import { authOptions } from "../api/lib/auth";
 import { prisma } from "@repo/database";
 import { UserProvider } from "./UserProvider";
-import { signOut } from "next-auth/react";
 
 export default async function DashboardLayout({ children }:{children:React.ReactNode}) {
        const session = await getServerSession(authOptions);

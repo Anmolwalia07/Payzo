@@ -1,58 +1,97 @@
-# Turborepo Tailwind CSS starter
+# 💸 Payzo – Full-Stack Payment Platform
 
-This Turborepo starter is maintained by the Turborepo core team.
+**Payzo** is a complete payment platform built with a modern monorepo architecture. It features role-based applications for **Admin**, **User**, and **Merchant**, each with tailored dashboards and workflows. Built using **Next.js**, **Turborepo**, **Prisma**, and **Tailwind CSS**.
 
-## Using this example
+---
 
-Run the following command:
+## 🚀 Live Apps
 
-```sh
-npx create-turbo@latest -e with-tailwind
-```
+| App      | Link                                          |
+|----------|-----------------------------------------------|
+| Admin    | https://payzo-admin.vercel.app                |
+| Merchant | https://payzo-marchants.vercel.app            |
+| User     | https://payzo-wallet.vercel.app                 |
 
-## What's inside?
+---
 
-This Turborepo includes the following packages/apps:
+## 🧱 Tech Stack
 
-### Apps and Packages
+- **Monorepo:** Turborepo
+- **Frontend:** Next.js 15 (App Router), Tailwind CSS
+- **Backend:** Node.js API Routes
+- **Database:** PostgreSQL (via Prisma ORM)
+- **Authentication:** OAuth (Facebook), JWT, NextAuth
+- **Hosting:** Vercel
 
-- `docs`: a [Next.js](https://nextjs.org/) app with [Tailwind CSS](https://tailwindcss.com/)
-- `web`: another [Next.js](https://nextjs.org/) app with [Tailwind CSS](https://tailwindcss.com/)
-- `ui`: a stub React component library with [Tailwind CSS](https://tailwindcss.com/) shared by both `web` and `docs` applications
-- `@repo/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
+---
 
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
+## 🧩 Structure
 
-### Building packages/ui
+/apps
+├── admin # Admin dashboard
+├── merchants # Merchant dashboard
+└── user-app # User interface
 
-This example is set up to produce compiled styles for `ui` components into the `dist` directory. The component `.tsx` files are consumed by the Next.js apps directly using `transpilePackages` in `next.config.ts`. This was chosen for several reasons:
+/packages
+├── ui # Shared components
+├── database # Prisma schema & client
+├── tailwind-config
+├── typescript-config
+└── eslint-config
 
-- Make sharing one `tailwind.config.ts` to apps and packages as easy as possible.
-- Make package compilation simple by only depending on the Next.js Compiler and `tailwindcss`.
-- Ensure Tailwind classes do not overwrite each other. The `ui` package uses a `ui-` prefix for it's classes.
-- Maintain clear package export boundaries.
 
-Another option is to consume `packages/ui` directly from source without building. If using this option, you will need to update the `tailwind.config.ts` in your apps to be aware of your package locations, so it can find all usages of the `tailwindcss` class names for CSS compilation.
+---
 
-For example, in [tailwind.config.ts](packages/tailwind-config/tailwind.config.ts):
+## ⚙️ Features
 
-```js
-  content: [
-    // app content
-    `src/**/*.{js,ts,jsx,tsx}`,
-    // include packages if not transpiling
-    "../../packages/ui/*.{js,ts,jsx,tsx}",
-  ],
-```
+- 🔐 OAuth login (e.g., Facebook)
+- 📄 Role-based dashboards (Admin, Merchant, User)
+- 💰 Add money, withdraw, and transaction history
+- 📊 Admin user control and analytics
+- 🔗 Shared UI components and config via packages
+- ⚡ Optimized builds using Turborepo caching
 
-If you choose this strategy, you can remove the `tailwindcss` and `autoprefixer` dependencies from the `ui` package.
+---
 
-### Utilities
+## 🛠️ Local Setup
 
-This Turborepo has some additional tools already setup for you:
+```bash
+# 1. Clone the repo
+git clone https://github.com/Anmolwalia07/Payzo.git && cd Payzo
 
-- [Tailwind CSS](https://tailwindcss.com/) for styles
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
+# 2. Install dependencies
+npm install
+
+# 3. Setup environment variables
+cp .env.example .env
+# Add your DATABASE_URL, NEXTAUTH_SECRET, etc.
+
+# 4. Push and seed database (if using Prisma)
+npx prisma db push
+npx prisma db seed
+
+# 5. Run all apps
+npx turbo run dev
+
+
+# .env file (root or per app)
+
+DATABASE_URL=postgresql://...
+NEXTAUTH_SECRET=your_secret
+FACEBOOK_CLIENT_ID=...
+FACEBOOK_CLIENT_SECRET=...
+NEXTAUTH_URL=http://localhost:3000
+
+
+
+# Build everything
+npm run build
+
+# Run local dev
+npm run dev
+
+# Format code
+npm run format
+
+# Generate Prisma client
+npm run db:generate

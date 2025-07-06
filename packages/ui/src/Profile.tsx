@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Personalnfo from "./Personalnfo";
 import { UserInfo } from "./Personalnfo";
 import {useRouter} from "next/navigation"
+import Loading from "./LoadingforUi";
 
 export default  function Profile({ user }: { user: UserInfo }) {
 const userId = Number(user.id);
@@ -14,6 +15,8 @@ const [bankAccount, setBankAccount] = useState({
     status:""
 })
 
+const [loading,setLoading]=useState(false)
+
 const [message, setMessage] = useState('')
 
 
@@ -21,26 +24,35 @@ const router=useRouter();
 
 async function createBankAccount(userId:Number,name:String) {
     try{
+            setLoading(true)
             const res=await axios.post(`${process.env.NEXT_PUBLIC_ServerUrl}/api/bankaccount/`,{userId:userId,name:name})
             if(res.data){
+                setLoading(false)
                 setMessage("created successfully")
             }
     }catch(err){
+         setLoading(false)
         console.log(err);
     }
 }
 
 useEffect(() => {
+    setLoading(true)
   axios
     .get(`${process.env.NEXT_PUBLIC_ServerUrl}/api/bankaccount/${userId}`)
     .then((res) => {
+      setLoading(false)
       if(res.status===200){
       setBankAccount(res.data.accountDetail);
       }
     })
+    setLoading(false)
+
 }, [userId,message]);
 
   return (
+    <>
+    {loading && <Loading/>}
     <div className="w-full px-4 py-8">
       <div className="max-w-6xl mx-auto">
         <div className="bg-gradient-to-r from-blue-600 to-indigo-700 rounded-3xl p-6 text-white shadow-xl mb-8 relative overflow-hidden">
@@ -145,5 +157,6 @@ useEffect(() => {
         </div>
       </div>
     </div>
+    </>
   );
 }

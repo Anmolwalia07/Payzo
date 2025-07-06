@@ -15,17 +15,22 @@ const [bankAccount, setBankAccount] = useState({
 })
 
 const [message, setMessage] = useState('')
+const [loading, setLoading] =useState(false)
 
 const router=useRouter();
 
 useEffect(() => {
+  setLoading(true)
   axios
     .get(`${process.env.NEXT_PUBLIC_ServerUrl}/api/bankaccount/${(1000000+Number(merchantId))}`)
     .then((res) => {
+      
      if(res.status===200){
       setBankAccount(res.data.accountDetail);
+      setLoading(false)
       } 
     })
+    setLoading(false)
 }, [merchantId,message]);
 
 const merchantInfo={
@@ -38,13 +43,15 @@ const merchantInfo={
 }
 
 async function createBankAccount(merchantId:Number,merchantName:String) {
-    console.log("hello")
+  setLoading(true)
     try{
             const res=await axios.post(`${process.env.NEXT_PUBLIC_ServerUrl}/api/bankaccount/`,{userId:Number(1000000+Number(merchantId)),name:merchantName})
             if(res.data){
                 setMessage("created successfully")
+                setLoading(false)
             }
     }catch(err){
+      setLoading(false)
         console.log(err);
     }
 }

@@ -1,6 +1,7 @@
 import { prisma } from "@repo/database";
 import GoogleProvider from "next-auth/providers/google";
 import FacebookProvider from "next-auth/providers/facebook";
+import axios from "axios";
 
 export const authOptions = {
   providers: [
@@ -21,7 +22,7 @@ export const authOptions = {
         const email = user.email;
         const merchant = await prisma.merchant.findUnique({ where: { email } });
         if (!merchant) {
-        await prisma.merchant.create({
+        const newMerchant= await prisma.merchant.create({
           data: {
             email,
             name: user.name || profile?.name || "Merchant",
@@ -41,7 +42,7 @@ export const authOptions = {
         }
           }
         });
-
+        await axios.post(`${process.env.NEXT_PUBLIC_ServerUrl}/api/bankaccount/`,{userId:Number(1000000+newMerchant.id),name:user.name || profile?.name})
         }
        return true;
       }

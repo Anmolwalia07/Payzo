@@ -56,7 +56,7 @@ export default function WithdrawTransaction({ offRamping }: { offRamping: OffRam
   };
 
   return (
-    <div className="max-w-7xl mx-auto p-4 bg-white rounded-lg shadow-sm mt-5">
+    <div className="max-w-7xl mx-auto p-8 mt-5">
       <div className="mb-6">
         <h1 className="text-4xl font-bold text-blue-500 pb-5">Withdrawal Transactions</h1>
         <p className="text-gray-600 mt-1 text-sm">

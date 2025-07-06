@@ -135,7 +135,7 @@ export default function MerchantTransaction({ merchant,setMerchant }: { merchant
         </div>
 
         {/* Transaction Table */}
-        <div className="bg-white rounded-xl shadow-sm overflow-hidden">
+        <div className="bg-white rounded-xl shadow-sm ">
           <div className="overflow-x-auto">
             <table className="min-w-full divide-y divide-gray-200">
               <thead className="bg-gray-50">

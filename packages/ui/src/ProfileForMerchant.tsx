@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import {useRouter} from "next/navigation"
 import { Merchant } from "./MerchantHome";
 import Personalnfo from "./Personalnfo";
+import Loading from "./LoadingforUi";
 
 export default  function Profile({ merchant }: { merchant: Merchant }) {
 const merchantId = Number(merchant.id);
@@ -15,7 +16,7 @@ const [bankAccount, setBankAccount] = useState({
 })
 
 const [message, setMessage] = useState('')
-const [loading, setLoading] =useState(false)
+const [loading, setLoading] =useState(true)
 
 const router=useRouter();
 
@@ -24,14 +25,13 @@ useEffect(() => {
   axios
     .get(`${process.env.NEXT_PUBLIC_ServerUrl}/api/bankaccount/${(1000000+Number(merchantId))}`)
     .then((res) => {
-      
      if(res.status===200){
       setBankAccount(res.data.accountDetail);
       setLoading(false)
       } 
     })
     setLoading(false)
-}, [merchantId,message]);
+}, []);
 
 const merchantInfo={
     id:merchant.id,
@@ -42,21 +42,23 @@ const merchantInfo={
     }
 }
 
-async function createBankAccount(merchantId:Number,merchantName:String) {
-  setLoading(true)
-    try{
-            const res=await axios.post(`${process.env.NEXT_PUBLIC_ServerUrl}/api/bankaccount/`,{userId:Number(1000000+Number(merchantId)),name:merchantName})
-            if(res.data){
-                setMessage("created successfully")
-                setLoading(false)
-            }
-    }catch(err){
-      setLoading(false)
-        console.log(err);
-    }
-}
+// async function createBankAccount(merchantId:Number,merchantName:String) {
+//   setLoading(true)
+//     try{
+//             const res=await axios.post(`${process.env.NEXT_PUBLIC_ServerUrl}/api/bankaccount/`,{userId:Number(1000000+Number(merchantId)),name:merchantName})
+//             if(res.data){
+//                 setMessage("created successfully")
+//                 setLoading(false)
+//             }
+//     }catch(err){
+//       setLoading(false)
+//         console.log(err);
+//     }
+// }
 
   return (
+    <>
+    {loading && <Loading/>}
     <div className="w-full px-4 py-8">
       <div className="max-w-6xl mx-auto">
         <div className="bg-gradient-to-r from-blue-600 to-indigo-700 rounded-3xl p-6 text-white shadow-xl mb-8 relative overflow-hidden">
@@ -143,7 +145,7 @@ async function createBankAccount(merchantId:Number,merchantName:String) {
                   <h3 className="mt-4 font-medium text-gray-900">No bank account added</h3>
                   <p className="text-gray-500 mt-1">Connect your bank account to withdraw funds</p>
                   <button className="mt-4 w-full bg-blue-600 text-white py-2.5 rounded-lg font-medium hover:bg-blue-700 transition" onClick={()=>{
-                    createBankAccount(merchant.id,merchant.name);
+                    // createBankAccount(merchant.id,merchant.name);
                   }}>
                     Add Bank Account
                   </button>
@@ -154,5 +156,6 @@ async function createBankAccount(merchantId:Number,merchantName:String) {
         </div>
       </div>
     </div>
+    </>
   );
 }

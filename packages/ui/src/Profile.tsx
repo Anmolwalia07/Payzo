@@ -15,26 +15,26 @@ const [bankAccount, setBankAccount] = useState({
     status:""
 })
 
-const [loading,setLoading]=useState(false)
+const [loading,setLoading]=useState(true)
 
 const [message, setMessage] = useState('')
 
 
 const router=useRouter();
 
-async function createBankAccount(userId:Number,name:String) {
-    try{
-            setLoading(true)
-            const res=await axios.post(`${process.env.NEXT_PUBLIC_ServerUrl}/api/bankaccount/`,{userId:userId,name:name})
-            if(res.data){
-                setLoading(false)
-                setMessage("created successfully")
-            }
-    }catch(err){
-         setLoading(false)
-        console.log(err);
-    }
-}
+// async function createBankAccount(userId:Number,name:String) {
+//     try{
+//             setLoading(true)
+//             const res=await axios.post(`${process.env.NEXT_PUBLIC_ServerUrl}/api/bankaccount/`,{userId:userId,name:name})
+//             if(res.data){
+//                 setLoading(false)
+//                 setMessage("created successfully")
+//             }
+//     }catch(err){
+//          setLoading(false)
+//         console.log(err);
+//     }
+// }
 
 useEffect(() => {
     setLoading(true)
@@ -48,7 +48,7 @@ useEffect(() => {
     })
     setLoading(false)
 
-}, [userId,message]);
+}, []);
 
   return (
     <>
@@ -145,7 +145,7 @@ useEffect(() => {
                   <p className="text-gray-500 mt-1">Connect your bank account to withdraw funds</p>
                   <button className="mt-4 w-full bg-blue-600 text-white py-2.5 rounded-lg font-medium hover:bg-blue-700 transition" 
                   onClick={()=>{
-                    createBankAccount(user.id,user.name);
+                    // createBankAccount(user.id,user.name);
                   }}
                   >
                     Add Bank Account

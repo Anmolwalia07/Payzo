@@ -82,7 +82,7 @@ try{
 
 
 }catch(err){
-      const transaction=await axios.put(`${process.env.NEXT_PUBLIC_ServerUrl}/api/offRamping`,{
+     await axios.put(`${process.env.NEXT_PUBLIC_ServerUrl}/api/offRamping`,{
         token,
         userId
       })
@@ -130,7 +130,7 @@ const handleBankPayment=async(amount:number,userId:number)=>{
         setLoading(false)
 
   }catch(err){
-     const transaction=await axios.put(`${process.env.NEXT_PUBLIC_ServerUrl}/api/onRamping`,{
+     await axios.put(`${process.env.NEXT_PUBLIC_ServerUrl}/api/onRamping`,{
         token,
         userId
       })

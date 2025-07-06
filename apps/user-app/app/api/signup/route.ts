@@ -2,6 +2,7 @@ import { prisma } from "@repo/database";
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import bcrypt from "bcrypt"
+import axios from "axios";
 
 
 const SignupInput = z.object({
@@ -43,7 +44,7 @@ export const POST = async (req: NextRequest) => {
         locked:1,
       }
     })
-
+    const res=await axios.post(`${process.env.NEXT_PUBLIC_ServerUrl}/api/bankaccount/`,{userId:user.id,name:name})
 
     return NextResponse.json({ message: "Success"}, { status: 201 });
   } catch (error) {

@@ -35,6 +35,7 @@
   },
   "dependencies": {
     "next-auth": "^4.24.11",
-    "react-icons": "^5.5.0"
+    "react-icons": "^5.5.0",
+    "recharts": "^2.8.0" 
   }
 }

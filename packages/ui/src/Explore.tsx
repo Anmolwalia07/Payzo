@@ -35,7 +35,6 @@ const ExplorePage = ({userId}:{userId:Number}) => {
       try {
         setIsLoading(true);
         
-        // Fetch merchants
         const merchantsRes = await fetch('/api/merchants');
         if (!merchantsRes.ok) throw new Error('Failed to fetch merchants');
         const merchantsData = await merchantsRes.json();

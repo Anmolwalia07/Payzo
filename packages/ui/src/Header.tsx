@@ -10,7 +10,7 @@ function Header() {
   const router = useRouter();
  
   useEffect(() => {
-    if (window.location.href === "http://localhost:3001/" ) {
+    if (window.location.href === "https://payzo-user-app-three.vercel.app/" ) {
       setIsHome(true);
     }
   }, []);

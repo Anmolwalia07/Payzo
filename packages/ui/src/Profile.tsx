@@ -130,7 +130,9 @@ useEffect(() => {
                       </div>
                     </div>
                   </div>
-                  <button className="w-full mt-4 text-center text-blue-600 hover:text-blue-800 font-medium py-2 border border-gray-200 rounded-lg">
+                  <button className="w-full mt-4 text-center text-blue-600 hover:text-blue-800 font-medium py-2 border border-gray-200 rounded-lg" onClick={()=>{
+                    router.push("/manageBankAccount")
+                  }}>
                     Manage Accounts
                   </button>
                 </div>

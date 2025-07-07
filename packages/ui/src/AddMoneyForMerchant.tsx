@@ -142,7 +142,7 @@ export default function InputComponent({ merchant ,setMerchant}:{merchant:Mercha
 
       <button
         className="bg-purple-500 p-1.5 px-2 text-xl mt-4 rounded-lg text-white disabled:bg-purple-300"
-        disabled={value < 100 || isDisable}
+        disabled={value < 100 || isDisable || value>99999}
         onClick={() => {
             if(selectedBank!=""){
                 handleWidthdraw(value,merchant.id)

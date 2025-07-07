@@ -130,7 +130,9 @@ const merchantInfo={
                       </div>
                     </div>
                   </div>
-                  <button className="w-full mt-4 text-center text-blue-600 hover:text-blue-800 font-medium py-2 border border-gray-200 rounded-lg">
+                  <button onClick={()=>{
+                    router.push("/manageBankAccount")
+                  }} className="w-full mt-4 text-center text-blue-600 hover:text-blue-800 font-medium py-2 border border-gray-200 rounded-lg">
                     Manage Accounts
                   </button>
                 </div>

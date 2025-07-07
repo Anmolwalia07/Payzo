@@ -338,7 +338,7 @@ const handleBankPayment=async(amount:number,userId:number)=>{
 
       <button
         className="bg-purple-500 p-1.5 px-2 text-xl mt-4 rounded-lg text-white disabled:bg-purple-300"
-        disabled={value <100 || (text==="Withdraw Money" && user.balance.amount<value)}
+        disabled={value <100 || (text==="Withdraw Money" && user.balance.amount<value) || value>99999}
         onClick={() => {
           if (paymentMethod === "razorpay") {
             handlePayment(value,user.id);

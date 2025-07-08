@@ -31,7 +31,9 @@ export default function MerchantLoginPage() {
         <div className="mt-8 space-y-6">
           <div className="mt-6 grid grid-cols-1 gap-3">
             <button
-              onClick={() => signIn('google', { callbackUrl: '/dashboard' })}
+              onClick={() => 
+                signIn('google', { callbackUrl: '/dashboard' })
+              }
               className="w-full bg-white border border-gray-300 rounded-md shadow-sm py-2 px-4 inline-flex justify-center text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
             >
               <svg

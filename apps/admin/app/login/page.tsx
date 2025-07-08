@@ -1,22 +1,32 @@
 'use client';
+import Loading from "@repo/ui/LoadingforUi";
 import Logo from "@repo/ui/Logo";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { SlArrowLeft } from "react-icons/sl";
 
 
 export default function LoginForm() {
+  const [loading, setLoading] = useState(false)
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const email = e.currentTarget.email.value;
     const password = e.currentTarget.password.value;
-    await signIn("credentials", { email, password, callbackUrl: "/dashboard" });
+    setLoading(true)
+    const res= await signIn("credentials", { email, password, callbackUrl: "/dashboard" });
+    if(res){
+    setLoading(false)
+    }
+
   };
 
   const router = useRouter()
 
   return (
     <>
+    {loading && <Loading/>}
+
     <div className="w-full h-20 sm:h-22 shadow items-center flex"><Logo/></div>
     <div className="w-full mt-20 flex justify-center items-center px-4 ">  
       <div className="absolute left-2 top-[14%] sm:left-5 sm:top-[15%]  flex items-center gap-1 md:gap-2 font-bold w-fit cursor-pointer" onClick={()=>{

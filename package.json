@@ -27,6 +27,6 @@
     "axios": "^1.10.0",
     "dotenv": "^16.5.0",
     "razorpay": "^2.9.6",
-    "recharts": "^2.15.3"
+    "recharts": "^2.15.4"
   }
 }

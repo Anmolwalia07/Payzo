@@ -1,5 +1,7 @@
+import AdminDashboard from "@repo/ui/AdminDashboard"
 export default function page() {
   return (
-    <div>page</div>
+   <AdminDashboard/>
   )
 }
+AdminDashboard

@@ -1,12 +1,13 @@
 import { prisma } from "@repo/database";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
-export const DELETE = async ({ params }: { params: { id: string } }
+export const DELETE = async (
+  req: NextRequest,
+  { params }: { params: { id: string } }
 ) => {
   const userId = Number(params.id);
 
   try {
-    // Run all deletions in a transaction to maintain consistency
     await prisma.$transaction([
       prisma.balance.deleteMany({
         where: { userId },

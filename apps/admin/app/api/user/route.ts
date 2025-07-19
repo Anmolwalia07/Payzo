@@ -1,7 +1,7 @@
 import { prisma } from "@repo/database";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
-export const GET = async () => {
+export const GET = async (req:NextRequest) => {
   try {
      const users:any[]=await prisma.user.findMany({
     select:{

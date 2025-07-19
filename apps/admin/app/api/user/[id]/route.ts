@@ -1,11 +1,11 @@
 import { prisma } from "@repo/database";
 import { NextRequest, NextResponse } from "next/server";
 
-export const DELETE = async (
+export async function DELETE(
   req: NextRequest,
-  { params }: { params: { id: string } }
-) => {
-  const userId = Number(params.id);
+  context: { params: { id: string } }
+) {
+  const userId = Number(context.params.id);
 
   try {
     await prisma.$transaction([
@@ -37,4 +37,4 @@ export const DELETE = async (
     console.error("Deletion error:", error);
     return NextResponse.json({ message: "Internal server error" }, { status: 500 });
   }
-};
+}

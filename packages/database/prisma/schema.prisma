@@ -107,6 +107,7 @@ model Merchant {
   balancehistroy balanceHistoryMerchant[]
   offRampTransaction offRampTransactionMerchant[]
   category      String
+  status         String               @default("Active")
   rating        Float
   reviewCount   Int
   transactions  PaymentTransaction[]

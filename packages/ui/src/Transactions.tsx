@@ -6,11 +6,14 @@ export interface Transactions {
   id: number;
   amount: number;
   provider: string;
+  user:any;
   status: string;
   startTime: string;
   onRamp?:boolean,
   offRamp?:boolean 
-  userId:number
+  userId:number;
+  date:any;
+  type:any;
 }
 
 function Transactions({transactions}:Transactions[]|any) {

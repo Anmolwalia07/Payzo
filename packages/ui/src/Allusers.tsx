@@ -1,103 +1,19 @@
 "use client"
 import  { useState } from 'react';
-import { FiSearch, FiFilter, FiUser, FiMail, FiCalendar, FiEdit, FiTrash2, FiPlus } from 'react-icons/fi';
-import { FaCrown, FaUserCheck, FaUserTimes } from 'react-icons/fa';
+import { FiSearch, FiFilter, FiUser, FiCalendar, FiEdit, FiTrash2, FiPlus } from 'react-icons/fi';
+import { FaUserCheck, FaUserTimes } from 'react-icons/fa';
+import axios from 'axios';
 
-// Mock data - replace with actual Prisma data fetching
-const mockUsers = [
-  {
-    id: '1',
-    name: 'John Smith',
-    email: 'john@example.com',
-    role: 'ADMIN',
-    status: 'ACTIVE',
-    createdAt: '2023-10-15T14:48:00.000Z',
-    lastLogin: '2023-11-05T09:12:00.000Z',
-    walletBalance: 2450.75
-  },
-  {
-    id: '2',
-    name: 'Sarah Johnson',
-    email: 'sarah@example.com',
-    role: 'USER',
-    status: 'ACTIVE',
-    createdAt: '2023-09-22T11:30:00.000Z',
-    lastLogin: '2023-11-04T16:45:00.000Z',
-    walletBalance: 1200.50
-  },
-  {
-    id: '3',
-    name: 'Michael Chen',
-    email: 'michael@example.com',
-    role: 'MERCHANT',
-    status: 'ACTIVE',
-    createdAt: '2023-10-05T08:15:00.000Z',
-    lastLogin: '2023-11-03T14:20:00.000Z',
-    walletBalance: 8700.25
-  },
-  {
-    id: '4',
-    name: 'Emma Wilson',
-    email: 'emma@example.com',
-    role: 'USER',
-    status: 'SUSPENDED',
-    createdAt: '2023-08-17T16:20:00.000Z',
-    lastLogin: '2023-10-28T11:05:00.000Z',
-    walletBalance: 560.00
-  },
-  {
-    id: '5',
-    name: 'David Brown',
-    email: 'david@example.com',
-    role: 'USER',
-    status: 'INACTIVE',
-    createdAt: '2023-11-01T09:45:00.000Z',
-    lastLogin: null,
-    walletBalance: 0.00
-  },
-  {
-    id: '6',
-    name: 'Sophia Garcia',
-    email: 'sophia@example.com',
-    role: 'MERCHANT',
-    status: 'ACTIVE',
-    createdAt: '2023-09-10T13:25:00.000Z',
-    lastLogin: '2023-11-05T08:30:00.000Z',
-    walletBalance: 3420.80
-  },
-  {
-    id: '7',
-    name: 'James Wilson',
-    email: 'james@example.com',
-    role: 'USER',
-    status: 'ACTIVE',
-    createdAt: '2023-10-28T17:40:00.000Z',
-    lastLogin: '2023-11-04T19:15:00.000Z',
-    walletBalance: 780.25
-  },
-  {
-    id: '8',
-    name: 'Olivia Davis',
-    email: 'olivia@example.com',
-    role: 'ADMIN',
-    status: 'ACTIVE',
-    createdAt: '2023-08-05T10:15:00.000Z',
-    lastLogin: '2023-11-05T07:50:00.000Z',
-    walletBalance: 5320.00
-  },
-];
-
-export default function AllUsers() {
+export default function AllUsers({users}:{users:any[]}) {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedStatus, setSelectedStatus] = useState('ALL');
   const [currentPage, setCurrentPage] = useState(1);
   const [usersPerPage] = useState(5);
-  
-  // Filter users based on search, role, and status
+  const [mockUsers,setMockUsers]=useState(users)
   const filteredUsers = mockUsers.filter(user => {
     const matchesSearch = user.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
-                          user.email.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesStatus = selectedStatus === 'ALL' || user.status === selectedStatus;
+                          user?.email.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesStatus = selectedStatus === 'ALL' || user?.status === selectedStatus;
     
     return matchesSearch && matchesStatus;
   });
@@ -111,7 +27,6 @@ export default function AllUsers() {
   // Format date
   const formatDate = (dateString:any) => {
     if (!dateString) return 'Never';
-    const options = { year: 'numeric', month: 'short', day: 'numeric' };
     return new Date(dateString).toLocaleDateString();
   };
   
@@ -120,19 +35,27 @@ export default function AllUsers() {
     return new Intl.NumberFormat('en-US', {
       style: 'currency',
       currency: 'INR',
-      minimumFractionDigits: 2
+      minimumFractionDigits: 0
     }).format(amount);
   };
 
 
+  const handleDelete=async(id:number)=>{
+    const response=await axios.delete(`/api/user/${id}`);
+    if(response.status===200){
+      const res=await axios.get(`/api/user`);
+      setMockUsers(res.data.users)
+    }
+  }
+
   return (
-      <div className="h-full p-4 sm:p-6 overflow-y-scroll">
+      <div className="h-full p-4 sm:p-6 overflow-y-scroll outline-none bg-white">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 ">
-          <h1 className="text-2xl font-bold text-gray-800 mb-4 md:mb-0">User Management</h1>
-          <button className="flex items-center bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition-colors">
+          <h1 className="text-3xl font-bold text-blue-600 mb-4 md:mb-0">User Management</h1>
+          {/* <button className="flex items-center bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition-colors">
             <FiPlus className="mr-2" />
             Add New User
-          </button>
+          </button> */}
         </div>
         
         {/* Stats Cards */}
@@ -141,52 +64,57 @@ export default function AllUsers() {
             <div className="flex justify-between">
               <div>
                 <p className="text-gray-500 text-sm">Total Users</p>
-                <h3 className="text-2xl font-bold mt-1">8,742</h3>
+                <h3 className="text-2xl font-bold mt-1">{mockUsers.length}</h3>
               </div>
-              <div className="bg-indigo-100 p-3 rounded-lg">
+              <div className="bg-indigo-100 p-3 rounded-lg  h-fit">
                 <FiUser className="text-indigo-600 text-xl" />
               </div>
             </div>
-            <p className="text-green-500 text-sm font-medium mt-2">+12.5% from last month</p>
           </div>
           
           <div className="bg-white rounded-xl shadow-sm p-4">
             <div className="flex justify-between">
               <div>
                 <p className="text-gray-500 text-sm">Active Users</p>
-                <h3 className="text-2xl font-bold mt-1">6,328</h3>
+                <h3 className="text-2xl font-bold mt-1">{mockUsers.filter(u=>u.status==="Active").length}</h3>
               </div>
-              <div className="bg-green-100 p-3 rounded-lg">
+              <div className="bg-green-100 p-3 rounded-lg  h-fit">
                 <FaUserCheck className="text-green-600 text-xl" />
               </div>
             </div>
-            <p className="text-green-500 text-sm font-medium mt-2">+8.3% from last month</p>
           </div>
           
           <div className="bg-white rounded-xl shadow-sm p-4">
             <div className="flex justify-between">
               <div>
-                <p className="text-gray-500 text-sm">Suspended Users</p>
-                <h3 className="text-2xl font-bold mt-1">142</h3>
+                <p className="text-gray-500 text-sm">Blocked Users</p>
+                <h3 className="text-2xl font-bold mt-1">{mockUsers.filter(u => u.status==="Blocked").length}</h3>
               </div>
-              <div className="bg-yellow-100 p-3 rounded-lg">
+              <div className="bg-yellow-100 p-3 rounded-lg  h-fit">
                 <FaUserTimes className="text-yellow-600 text-xl" />
               </div>
             </div>
-            <p className="text-red-500 text-sm font-medium mt-2">-2.1% from last month</p>
           </div>
           
           <div className="bg-white rounded-xl shadow-sm p-4">
             <div className="flex justify-between">
               <div>
                 <p className="text-gray-500 text-sm">New Users (30d)</p>
-                <h3 className="text-2xl font-bold mt-1">1,245</h3>
+                <h3 className="text-2xl font-bold mt-1">
+                  {
+                    mockUsers.filter(u => {
+                      const createdDate = new Date(u.createdAt);
+                      const thirtyDaysAgo = new Date();
+                      thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+                      return createdDate >= thirtyDaysAgo;
+                    }).length
+                  }
+                </h3>
               </div>
-              <div className="bg-blue-100 p-3 rounded-lg">
+              <div className="bg-blue-100 p-3 rounded-lg h-fit">
                 <FiCalendar className="text-blue-600 text-xl" />
               </div>
             </div>
-            <p className="text-green-500 text-sm font-medium mt-2">+5.7% from last month</p>
           </div>
         </div>
         
@@ -215,9 +143,8 @@ export default function AllUsers() {
                   onChange={(e) => setSelectedStatus(e.target.value)}
                 >
                   <option value="ALL">All Statuses</option>
-                  <option value="ACTIVE">Active</option>
-                  <option value="INACTIVE">Inactive</option>
-                  <option value="SUSPENDED">Suspended</option>
+                  <option value="Active">Active</option>
+                  <option value="Blocked">Blocked</option>
                 </select>
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                   <FiFilter className="text-gray-400" />
@@ -239,11 +166,9 @@ export default function AllUsers() {
               <thead className="bg-gray-50">
                 <tr>
                   <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">User</th>
-                  <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Role</th>
                   <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
                   <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Wallet Balance</th>
                   <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Joined</th>
-                  {/* <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Last Login</th> */}
                   <th scope="col" className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
                 </tr>
               </thead>
@@ -256,45 +181,35 @@ export default function AllUsers() {
                           <FiUser className="text-indigo-600" />
                         </div>
                         <div className="ml-4">
-                          <div className="text-sm font-medium text-gray-900">{user.name}</div>
+                          <div className="text-sm font-medium text-gray-900 capitalize">{user.name}</div>
                           <div className="text-sm text-gray-500">{user.email}</div>
                         </div>
                       </div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="flex items-center">
-                        {user.role === 'ADMIN' && <FaCrown className="text-yellow-500 mr-1" />}
-                        <span className={`px-2 py-1 text-xs rounded-full ${
-                          user.role === 'ADMIN' ? 'bg-yellow-100 text-yellow-800' : 
-                          user.role === 'MERCHANT' ? 'bg-purple-100 text-purple-800' : 
-                          'bg-blue-100 text-blue-800'
-                        }`}>
-                          {user.role}
-                        </span>
-                      </div>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
                       <span className={`px-2 py-1 text-xs rounded-full ${
-                        user.status === 'ACTIVE' ? 'bg-green-100 text-green-800' : 
-                        user.status === 'SUSPENDED' ? 'bg-red-100 text-red-800' : 
+                        user.status === 'Active' ? 'bg-green-100 text-green-800' : 
+                        user.status === 'Blocked' ? 'bg-red-100 text-red-800' : 
                         'bg-gray-100 text-gray-800'
                       }`}>
                         {user.status}
                       </span>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 font-medium">
-                      {formatCurrency(user.walletBalance)}
+                      {formatCurrency(user.balance.amount)}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                       {formatDate(user.createdAt.toString())}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                      <div className="flex justify-end space-x-2">
+                      <div className="flex space-x-2">
                         <button className="text-indigo-600 hover:text-indigo-900">
                           <FiEdit className="h-5 w-5" />
                         </button>
                         <button className="text-red-600 hover:text-red-900">
-                          <FiTrash2 className="h-5 w-5" />
+                          <FiTrash2 className="h-5 w-5"  onClick={()=>{
+                            handleDelete(user.id)
+                          }}/>
                         </button>
                       </div>
                     </td>

@@ -1,9 +1,7 @@
 import { prisma } from "@repo/database";
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 
-export const DELETE = async (
-  req: NextRequest,
-  { params }: { params: { id: string } }
+export const DELETE = async ({ params }: { params: { id: string } }
 ) => {
   const userId = Number(params.id);
 

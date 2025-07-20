@@ -1,5 +1,5 @@
 "use client";
-import Transaction from "../../../../../packages/ui/dist/Transactions";
+import Transaction from "@repo/ui/Transactions";
 import {  useUser } from "../UserProvider"; 
  interface Transactions {
   id: number;

@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { useState } from "react";
 import Transaction from "./Transaction";
 
@@ -6,77 +6,79 @@ export interface Transactions {
   id: number;
   amount: number;
   provider: string;
-  user:any;
+  user: any;
   status: string;
   startTime: string;
-  onRamp?:boolean,
-  offRamp?:boolean 
-  userId:number;
-  date:any;
-  type:any;
+  onRamp?: boolean;
+  offRamp?: boolean;
+  userId: number;
+  date: any;
+  type: any;
 }
 
-function Transactions({transactions}:Transactions[]|any) {
-  const [filter, setFilter] = useState<'all' | 'onRamp' | 'offRamp'>('all');
+function Transactions({ transactions }: Transactions[] | any) {
+  const [filter, setFilter] = useState<"all" | "onRamp" | "offRamp">("all");
 
-const filteredTransactions = transactions.filter((t:Transactions) => {
-  if (filter === 'onRamp') return t.onRamp;
-  if (filter === 'offRamp') return !t.onRamp;
-  return true; 
-});
+  const filteredTransactions = transactions.filter((t: Transactions) => {
+    if (filter === "onRamp") return t.onRamp;
+    if (filter === "offRamp") return !t.onRamp;
+    return true;
+  });
+
   return (
-    <div className="w-full mb-5 lg:mb-0 md:h-[90%] px-4">
-      <h1 className="text-5xl font-bold text-blue-600 mt-6 ml-2">Transactions</h1>
-      <h1 className="text-xl font-bold mt-6 ml-6 bg-white shadow border border-gray-300 w-fit px-3 rounded-2xl py-1">Histroy</h1>
-     <div className="w-full mt-5 px-4 flex flex-col h-[80%] overflow-x-hidden py-3 bg-white shadow border border-gray-200 rounded-4xl">
-      <div className="flex justify-between items-center">
-        <h1 className="text-4xl font-semibold mt-6 ml-2 mb-3">Transactions</h1>
-        {/* Filter Buttons */}
-        <div className="flex space-x-2 mt-4">
-          <button 
-            onClick={() => setFilter('all')}
-            className={`px-3 py-1 text-sm rounded-full ${filter === 'all' 
-              ? 'bg-blue-600 text-white' 
-              : 'bg-gray-200 hover:bg-gray-300'}`}
-          >
-            All
-          </button>
-          <button 
-            onClick={() => setFilter('onRamp')}
-            className={`px-3 py-1 text-sm rounded-full ${filter === 'onRamp' 
-              ? 'bg-blue-600 text-white' 
-              : 'bg-gray-200 hover:bg-gray-300'}`}
-          >
-            Deposit
-          </button>
-          <button 
-            onClick={() => setFilter('offRamp')}
-            className={`px-3 py-1 text-sm rounded-full ${filter === 'offRamp' 
-              ? 'bg-blue-600 text-white' 
-              : 'bg-gray-200 hover:bg-gray-300'}`}
-          >
-            Withdraw
-          </button>
+    <div className="w-full px-4 mb-8">
+      <div className="mb-6">
+        <h1 className="text-4xl sm:text-5xl font-extrabold text-transparent bg-clip-text bg-blue-600 mt-3">
+          Transactions
+        </h1>
+        <p className="text-gray-500 text-sm sm:text-base mt-1">
+          View all your deposit and withdrawal activity below
+        </p>
+      </div>
+
+      <div className="w-full bg-white shadow-lg border border-gray-200 rounded-3xl px-4 py-5">
+        <div className="flex flex-col sm:flex-row justify-between sm:items-center mb-4">
+          <h2 className="text-xl font-semibold text-gray-800 mb-3 sm:mb-0">
+            Filter by Type
+          </h2>
+          <div className="flex space-x-2">
+            {[
+              { label: "All", value: "all" },
+              { label: "Deposit", value: "onRamp" },
+              { label: "Withdraw", value: "offRamp" },
+            ].map((btn) => (
+              <button
+                key={btn.value}
+                onClick={() => setFilter(btn.value as typeof filter)}
+                className={`px-4 py-1.5 text-sm font-medium rounded-full transition-all duration-200 border ${
+                  filter === btn.value
+                    ? "bg-blue-600  text-white shadow-md"
+                    : "bg-gray-100 text-gray-700 hover:bg-gray-200 border-transparent"
+                }`}
+              >
+                {btn.label}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div className="overflow-y-auto max-h-[60vh] pr-1 custom-scroll">
+          {filteredTransactions.length >= 1 ? (
+            filteredTransactions.map((t: Transactions) => (
+              <Transaction
+                key={`${t.id}-${t.onRamp ? "onRamp" : "offRamp"}`}
+                t={t}
+              />
+            ))
+          ) : (
+            <div className="w-full flex justify-center mt-6 text-gray-500 text-lg font-medium">
+              No transactions found...
+            </div>
+          )}
         </div>
       </div>
-
-      <div className="overflow-y-scroll overflow-x-hidden mt-4">
-        {filteredTransactions.length >= 1 ? (
-          filteredTransactions.map((t: Transactions) => (
-            <Transaction 
-              key={`${t.id} ${t.onRamp ? "onRamp" : "offRamp"}`} 
-              t={t} 
-            />
-          ))
-        ) : (
-          <div className="w-full flex justify-center mt-4 font-bold text-xl">
-            No transactions found...
-          </div>
-        )}
-      </div>
     </div>
-    </div>
-  )
+  );
 }
 
-export default Transactions
+export default Transactions;

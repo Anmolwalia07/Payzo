@@ -3,11 +3,14 @@ import { FaChartLine, FaUsers, FaMoneyBillWave, FaExchangeAlt } from "react-icon
 import { BsCreditCard } from "react-icons/bs";
 import { FiActivity } from "react-icons/fi";
 import {useRouter} from "next/navigation"
-function AdminDashboard({users,transactions,recentTransactions}:{users:number,transactions:number,recentTransactions:any[]}) {
+function AdminDashboard({users,transactions,recentTransactions,volume}:{users:number,transactions:number,recentTransactions:any[],volume:number}) {
+  if(volume>1000000){
+    volume=volume/1000000;
+  }
   const stats = [
     { title: 'Total Users', value: users, icon: <FaUsers className="text-blue-500 text-2xl" /> },
     { title: 'Transactions', value: transactions,icon: <FaExchangeAlt className="text-green-500 text-2xl" /> },
-    { title: 'Total Volume', value: '$1.24M', icon: <FaMoneyBillWave className="text-purple-500 text-2xl" /> },
+    { title: 'Total Volume', value: `${volume.toString().slice(0,4)}M+`, icon: <FaMoneyBillWave className="text-purple-500 text-2xl" /> },
     { title: 'Active Accounts', value: '18,342', icon: <BsCreditCard className="text-amber-500 text-2xl" /> },
   ];
 

@@ -22,8 +22,24 @@ export default async function page() {
       id:'desc'
     }
   });
+
+  const totalvolume=await prisma.balance.findMany({
+    select:{
+      amount:true
+    }
+  })
+  const totalvolume1=await prisma.balanceMerchant.findMany({
+    select:{
+      amount:true
+    }
+  })
+  const total:number[]=[...totalvolume.map(i=>i.amount),...totalvolume1.map(i=>i.amount)]
+  let volume:number=0;
+  total.forEach(i=>{
+    volume+=i;
+  })
   return (
-   <AdminDashboard users={users} transactions={transactions} recentTransactions={recentTransactions.slice(0,5)}/>
+   <AdminDashboard users={users} transactions={transactions} recentTransactions={recentTransactions.slice(0,5)} volume={volume}/>
   )
 }
 AdminDashboard

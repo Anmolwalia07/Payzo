@@ -176,3 +176,12 @@ model Admin{
   email String @unique
   password String 
 }
+
+
+model Log {
+  id        Int      @id @default(autoincrement())
+  level     String
+  message   String
+  meta      Json?    
+  createdAt DateTime @default(now())
+}

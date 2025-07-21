@@ -74,8 +74,8 @@ function DashHeader() {
 
             <Section title="Financial">
               <SideBarItem href="/reconciliation" icon={<AiOutlineAudit className="text-xl" />} text="Reconciliation" />
-              <SideBarItem href="/chargebacks" icon={<AiOutlinePieChart className="text-xl" />} text="Chargebacks" />
-              <SideBarItem href="/fees" icon={<AiOutlineMoneyCollect className="text-xl" />} text="Fee Management" />
+              {/* <SideBarItem href="/chargebacks" icon={<AiOutlinePieChart className="text-xl" />} text="Chargebacks" />
+              <SideBarItem href="/fees" icon={<AiOutlineMoneyCollect className="text-xl" />} text="Fee Management" /> */}
             </Section>
 
             <Section title="System">
@@ -84,10 +84,10 @@ function DashHeader() {
               <SideBarItem href="/security" icon={<AiOutlineSecurityScan className="text-xl" />} text="Security" />
             </Section>
 
-            <Section title="Support">
+            {/* <Section title="Support">
               <SideBarItem href="/disputes" icon={<AiOutlineMessage className="text-xl" />} text="Disputes" />
               <SideBarItem href="/support-tickets" icon={<MdOutlineSupportAgent className="text-xl" />} text="Support Tickets" />
-            </Section>
+            </Section> */}
           </div>
         </div>
       )}

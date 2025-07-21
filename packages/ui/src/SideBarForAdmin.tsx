@@ -78,7 +78,7 @@ function AdminSideBar({name,email}:{name:String,email:string}) {
             icon={<AiOutlineAudit className="text-xl" />} 
             text="Reconciliation"
           />
-          <SideBarItem 
+          {/* <SideBarItem 
             href="/chargebacks" 
             icon={<AiOutlinePieChart className="text-xl" />} 
             text="Chargebacks"
@@ -87,7 +87,7 @@ function AdminSideBar({name,email}:{name:String,email:string}) {
             href="/fees" 
             icon={<AiOutlineMoneyCollect className="text-xl" />} 
             text="Fee Management"
-          />
+          /> */}
         </div>
 
         {/* System Management */}
@@ -109,9 +109,7 @@ function AdminSideBar({name,email}:{name:String,email:string}) {
             text="Security"
           />
         </div>
-
-        {/* Support */}
-        <div className="mb-2">
+        {/* <div className="mb-2">
           <p className="text-xs  text-gray-500 uppercase tracking-wider py-2 font-semibold">Support</p>
           <SideBarItem 
             href="/disputes" 
@@ -123,7 +121,7 @@ function AdminSideBar({name,email}:{name:String,email:string}) {
             icon={<MdOutlineSupportAgent className="text-xl" />} 
             text="Support Tickets"
           />
-        </div>
+        </div> */}
       </div>
 
       {/* User Profile */}

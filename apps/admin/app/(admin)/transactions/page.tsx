@@ -12,7 +12,6 @@ export type UnifiedTransaction = {
 }
 
 export default async function Page() {
-  // Fetch all transaction types with relations
   const paymentTransactions = await prisma.paymentTransaction.findMany({
     include: {
       user: { select: { id: true, name: true } },
@@ -42,7 +41,6 @@ export default async function Page() {
     orderBy: { startTime: 'desc' }
   })
 
-  // Map to unified format with proper typing
   const mapToUnified = (): UnifiedTransaction[] |any[]=> {
     return [
       ...paymentTransactions.map(tx => ({

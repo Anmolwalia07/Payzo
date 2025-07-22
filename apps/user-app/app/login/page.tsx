@@ -14,8 +14,10 @@ export default function LoginForm() {
     const email = e.currentTarget.email.value;
     const password = e.currentTarget.password.value;
     setLoading(true)
+   
    const res= await signIn("credentials", { email, password, callbackUrl: "/dashboard" }); 
     if(res){
+   
     setLoading(false)
     }
   };

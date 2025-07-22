@@ -16,9 +16,7 @@ import { TfiMoney } from "react-icons/tfi";
 import { CiBank } from "react-icons/ci";
 
 
-
-
-function DashHeader() {
+function DashHeader({loger}:{loger:any}) {
   const router=useRouter();
   const [isVisible, setIsVisible] = useState(false)
   return (
@@ -26,7 +24,7 @@ function DashHeader() {
     <div className="w-full flex sm:h-18 h-18 items-center border-b border-gray-300">
         <Logo/>
         <div className="sm:flex hidden gap-3 w-[80%] h-fit items-center justify-end pr-10 lg:pr-18 mt-2">
-           <Signout/>
+           <Signout loger={loger}/>
            <CgProfile onClick={()=>{
             router.push('/profile')
            }} className="lg:text-3xl text-xl hover:cursor-pointer font-light"/>

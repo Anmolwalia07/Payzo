@@ -5,6 +5,7 @@ import axios from "axios";
 import {  useRouter } from "next/navigation";
 import { useState } from "react";
 import { SlArrowLeft } from "react-icons/sl";
+import { loger } from "../api/loger/log";
 
 
 export default function LoginForm() {
@@ -17,11 +18,23 @@ export default function LoginForm() {
      const email = e.currentTarget.email.value;
     const password = e.currentTarget.password.value;
     setLoading(true)
+
+    await loger('info','User signup attempted',{
+      email,
+      name
+    })
+    
     const response=await axios.post('/api/signup',{
         name,email,password
     })
     if(response.data.message){
         setLoading(false);
+
+        await loger('info','User signup Successfully',{
+        email,
+        name
+        })
+
         router.push('/login')
     }
     setLoading(false)

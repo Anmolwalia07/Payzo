@@ -1,6 +1,7 @@
 import {prisma} from "@repo/database";
 import CredentialsProvider from "next-auth/providers/credentials"
 import bcrypt from "bcrypt";
+import { loger } from "../loger/log";
 
 export const authOptions = {
     providers: [
@@ -11,6 +12,9 @@ export const authOptions = {
             password: { label: "Password", type: "password" }
           },
           async authorize(credentials: any,req) {
+             await loger('info','User Login Attempted',{
+                email:credentials.email
+            })
             const existingUser = await prisma.user.findFirst({
                 where: {
                     email:credentials.email

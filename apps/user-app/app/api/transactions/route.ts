@@ -11,7 +11,7 @@ export const GET= async (req:NextRequest, res: NextResponse) =>{
         }
     const transactions = await prisma.paymentTransaction.findMany({
         where:{
-            merchantId:Number(session.user.id)
+          userId:Number(session.user.id)
         }
     });
 

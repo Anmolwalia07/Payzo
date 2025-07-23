@@ -6,7 +6,6 @@ import { authOptions } from '../lib/auth';
 export const GET= async (req:NextRequest, res: NextResponse) =>{
   try {
      const session = await getServerSession(authOptions);
-    
         if (!session?.user) {
           return NextResponse.redirect(new URL('/login?callbackUrl=/dashboard', req.url));
         }
@@ -15,6 +14,7 @@ export const GET= async (req:NextRequest, res: NextResponse) =>{
             merchantId:Number(session.user.id)
         }
     });
+
     return NextResponse.json(transactions,{status:201});
   } catch (error) {
     console.error('Error fetching transactions:', error);

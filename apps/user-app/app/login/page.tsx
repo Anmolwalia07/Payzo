@@ -17,7 +17,6 @@ export default function LoginForm() {
    
    const res= await signIn("credentials", { email, password, callbackUrl: "/dashboard" }); 
     if(res){
-   
     setLoading(false)
     }
   };

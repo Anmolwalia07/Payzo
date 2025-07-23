@@ -52,13 +52,11 @@ export enum OnRampStatus {
   Processing,
 }
 
-// Context type with state and setter
 type UserContextType = [User, Dispatch<SetStateAction<User>>];
 
 // Create context
 export const UserContext = createContext<UserContextType | null>(null);
 
-// Provider component
 export const UserProvider: FC<{ user: User; children: React.ReactNode }> = ({ user, children }) => {
   const [userDetails, setUser] = useState<User|any>(user);
 

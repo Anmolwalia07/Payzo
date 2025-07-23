@@ -3,6 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import bcrypt from "bcrypt"
 import axios from "axios";
+import { loger } from "../loger/log";
 
 
 const SignupInput = z.object({
@@ -12,6 +13,7 @@ const SignupInput = z.object({
 });
 
 export const POST = async (req: NextRequest) => {
+
   try {
     const body = await req.json();
 
@@ -32,6 +34,11 @@ export const POST = async (req: NextRequest) => {
     }
 
     const hashPass=await bcrypt.hash(password,10);
+     await loger('info',"SignUp Attempted",{
+        email,
+        name,
+        reqUrl:req.url
+    })
 
     const user = await prisma.user.create({
       data: { name, email, password:hashPass },
@@ -44,10 +51,21 @@ export const POST = async (req: NextRequest) => {
         locked:1,
       }
     })
+
+
     const res=await axios.post(`${process.env.NEXT_PUBLIC_ServerUrl}/api/bankaccount/`,{userId:user.id,name:name})
+    await loger('info',"SignUp Attempted",{
+        email,
+        name,
+        userId:user.id,
+        reqUrl:req.url
+    })
 
     return NextResponse.json({ message: "Success"}, { status: 201 });
   } catch (error) {
+     await loger('error',"SignUp Attempted Failed",{
+      reqUrl:req.url
+     })
     return NextResponse.json({ message: "Server error" }, { status: 500 });
   }
 };

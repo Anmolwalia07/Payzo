@@ -5,7 +5,6 @@ import axios from "axios";
 import {  useRouter } from "next/navigation";
 import { useState } from "react";
 import { SlArrowLeft } from "react-icons/sl";
-import { loger } from "../api/loger/log";
 
 
 export default function LoginForm() {
@@ -18,23 +17,11 @@ export default function LoginForm() {
      const email = e.currentTarget.email.value;
     const password = e.currentTarget.password.value;
     setLoading(true)
-
-    await loger('info','User signup attempted',{
-      email,
-      name
-    })
-    
     const response=await axios.post('/api/signup',{
         name,email,password
     })
     if(response.data.message){
         setLoading(false);
-
-        await loger('info','User signup Successfully',{
-        email,
-        name
-        })
-
         router.push('/login')
     }
     setLoading(false)
@@ -43,8 +30,8 @@ export default function LoginForm() {
   return (
     <>
     {loading && <Loading/>}
-  
-        <div className="w-full h-20 sm:h-22 shadow items-center flex"><Logo/></div>
+    
+    <div className="w-full h-20 sm:h-22 shadow items-center flex"><Logo/></div>
     <div className="w-full mt-20 flex justify-center items-center px-4 ">
         <div className="absolute left-2 top-[14%] sm:left-5 sm:top-[15%]  flex items-center gap-1 md:gap-2 font-bold w-fit cursor-pointer" onClick={()=>{
        router.push('/');

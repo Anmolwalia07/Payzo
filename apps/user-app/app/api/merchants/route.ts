@@ -4,12 +4,12 @@ import { NextRequest, NextResponse } from 'next/server';
 import { authOptions } from "../lib/auth";
 
 export const GET = async(req:NextRequest)=> {
+   const session = await getServerSession(authOptions);
+    if (!session?.user) {
+      return NextResponse.redirect(new URL('/login?callbackUrl=/dashboard', req.url));
+    }
+
   try {
-     const session = await getServerSession(authOptions);
-    
-        if (!session?.user) {
-          return NextResponse.redirect(new URL('/login?callbackUrl=/dashboard', req.url));
-        }
     const merchants = await prisma.merchant.findMany({
       select: {
         id: true,
@@ -24,10 +24,8 @@ export const GET = async(req:NextRequest)=> {
       id: merchant.id.toString(),
       logo: merchant.name.split(' ').map(w => w[0]).join('').substring(0, 2)
     }));
-
     return NextResponse.json(merchantsWithLogo,{status:201});
   } catch (error) {
-    console.error('Error fetching merchants:', error);
     return  NextResponse.json({ error: 'Internal server error' },{status:401});
   }
 }

@@ -1,8 +1,15 @@
 import { prisma } from "@repo/database";
+import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server"
+import { authOptions } from "../lib/auth";
+import { loger } from "../loger/log";
 
 
 export const POST=async(req:NextRequest,res:NextResponse)=>{
+     const session = await getServerSession(authOptions);
+    if (!session?.user) {
+        return NextResponse.redirect(new URL('/login?callbackUrl=/dashboard', req.url));
+    }
     const body=await req.json();
     const {id,token,userId}=body;
     
@@ -16,6 +23,8 @@ export const POST=async(req:NextRequest,res:NextResponse)=>{
         return NextResponse.json({message:"Not exists"},{status:401})
     }
     const {merchantId,merchantName,amount}=transaction
+
+ 
 
 
     const previousBalanceEntry = await prisma.balanceHistory.findFirst({
@@ -42,6 +51,13 @@ export const POST=async(req:NextRequest,res:NextResponse)=>{
         previousBalanceMerchant=0;
     }
     const newBalanceMerchant = previousBalanceMerchant +amount;
+       await loger('info',"Transfer the money to merchant Attempted",{
+        merchantId,
+        amount,
+        userId:session?.user.id,
+        reqUrl:req.url
+
+    })
     try{
         await prisma.$transaction([
             prisma.user.update({
@@ -104,6 +120,13 @@ export const POST=async(req:NextRequest,res:NextResponse)=>{
                 }
             }),
         ])
+
+        await loger('info',"Transfer the money to merchant Successed",{
+        merchantId,
+        amount,
+        userId:session?.user.id,
+        reqUrl:req.url
+    })
          
         return NextResponse.json({message:"Updated"},{status:201})
     }catch(err){
@@ -127,6 +150,14 @@ export const POST=async(req:NextRequest,res:NextResponse)=>{
                     status:'failed'
                 }
             })
+
+        await loger('error',"Transfer the money to merchant Failed",{
+        merchantId,
+        amount,
+        userId:session?.user.id,
+        reqUrl:req.url
+
+    })
         return NextResponse.json({message:err},{status:401})
     }
 }

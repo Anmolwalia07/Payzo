@@ -23,9 +23,6 @@ export interface User {
   balanceHistory: BalanceHistory[];
 }
 
-interface Merchant{
-  category:String;
-}
 
 export default function DashHome({ user }: { user: User }) {
   const date = new Date();
@@ -63,11 +60,11 @@ export default function DashHome({ user }: { user: User }) {
   const router=useRouter();
   
   useEffect(() => {
-    axios.get(`${process.env.NEXT_PUBLIC_ServerUrl}/api/bankaccount/${userId}`).then((res) => {
+     axios.get(`${process.env.NEXT_PUBLIC_ServerUrl}/api/bankaccount/${userId}`).then((res) => {
        if(res.status===200){
         setBankAccount(res.data.accountDetail);
         setLoading(false)
-        } 
+      } 
       })
       setLoading(false)
   }, []);
@@ -77,7 +74,7 @@ export default function DashHome({ user }: { user: User }) {
   return (
     <>
     {loading && <Loading/>}
-    <div className="w-full px-4 lg:px-6 lg:pl-8 pb-4 ">
+    <div className="w-full px-4 lg:px-6 lg:pl-8 pb-4">
       <div className="flex justify-between items-start ">
         <div>
           <h1 className="capitalize mt-6 text-3xl w-fit lg:text-5xl font-bold lg:ml-2 text-blue-600 tracking-wide">
@@ -137,7 +134,7 @@ export default function DashHome({ user }: { user: User }) {
                 </button>
               </div>
               
-              {bankAccount.name!="" ? (
+              {bankAccount.name!=="" ? (
                 <div className="p-6">
                   <div className="border border-gray-200 rounded-xl p-4 bg-gray-50">
                     <div className="flex justify-between">

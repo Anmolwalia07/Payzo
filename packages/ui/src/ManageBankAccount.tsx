@@ -1,5 +1,4 @@
 "use client";
-
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { RiBankLine, RiAddLine } from "react-icons/ri";
@@ -46,7 +45,7 @@ export default function ManageBankAccount({ userId }: { userId: number }) {
     return (
       <div className="w-full mb-5 lg:mb-0">
         <h1 className="text-3xl md:text-4xl font-bold text-blue-600 mt-6 mb-4 px-4">
-          Add Money
+          Bank Account
         </h1>
         <div className="p-6 rounded-xl bg-white">
           <div className="animate-pulse space-y-6">
@@ -84,7 +83,7 @@ export default function ManageBankAccount({ userId }: { userId: number }) {
     return (
       <div className="w-full mb-5 lg:mb-0">
         <h1 className="text-3xl md:text-4xl font-bold text-blue-600 mt-6 mb-4 px-4">
-          Add Money
+          Bank Account
         </h1>
         <div className="p-6 rounded-xl bg-red-50">
           <h3 className="text-red-800 font-medium text-lg">Connection Error</h3>
@@ -134,7 +133,7 @@ export default function ManageBankAccount({ userId }: { userId: number }) {
               <div className="flex items-center mt-1">
                 <span
                   className={`inline-block w-2 h-2 rounded-full mr-2 ${
-                    bankAccount.status === "active" ? "bg-green-500" : "bg-yellow-500"
+                    bankAccount.status === "opened" ? "bg-green-500" : "bg-yellow-500"
                   }`}
                 ></span>
                 <span className="capitalize text-sm">{bankAccount.status}</span>
@@ -167,7 +166,6 @@ export default function ManageBankAccount({ userId }: { userId: number }) {
   );
 }
 
-// Reusable Field component
 const Field = ({
   label,
   value,

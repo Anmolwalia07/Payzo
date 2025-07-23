@@ -56,7 +56,6 @@ export const GET = async (req: NextRequest) => {
       return NextResponse.json({ error: "User not found" }, { status: 404 });
     }
   } catch (e) {
-    console.error("GET /api/user error:", e);
     return NextResponse.json({ error: "Internal server error" }, { status: 500 });
   }
 };

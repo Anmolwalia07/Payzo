@@ -5,9 +5,7 @@ import { redirect } from "next/navigation";
 import { NextRequest, NextResponse } from "next/server";
 import  z  from "zod";
 import bcrypt from "bcrypt"
-
-
-
+import { loger } from "../loger/log";
 
 const PasswordCheck = z.object({
   id:z.number(),
@@ -48,6 +46,11 @@ export const POST=async(req:NextRequest)=>{
 
     const newHashPassword=await bcrypt.hash(newPassword,10);
 
+      await loger('info',"Update Password Attempted",{
+            userId:session?.user.id,
+            reqUrl:req.url
+        })
+
     await prisma.user.update({
         where:{
             id,
@@ -57,9 +60,18 @@ export const POST=async(req:NextRequest)=>{
         }
     })
 
+      await loger('info',"Update Password Successfully",{
+            userId:session?.user.id,
+            reqUrl:req.url
+        })
     return  NextResponse.json({message:"Updated Successfully"},{status:201});
 
    }catch(err){
+      await loger('error',"Update Password Failed",{
+            userId:session?.user.id,
+            reqUrl:req.url
+
+        })
       return  NextResponse.json({message:"Internal error"},{status:401});
    }
 

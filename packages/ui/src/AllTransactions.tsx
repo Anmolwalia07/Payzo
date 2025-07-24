@@ -84,7 +84,7 @@ export default function AllTransactions({mockTransactions,text}:{mockTransaction
   };
 
   return (
-      <div className="p-4 max-h-full sm:p-6 overflow-y-scroll bg-white ">
+      <div className="p-4 max-h-full sm:p-6 overflow-y-scroll bg-white outline-none">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
           <div>
             <h1 className="text-3xl font-bold text-blue-600">{text}</h1>

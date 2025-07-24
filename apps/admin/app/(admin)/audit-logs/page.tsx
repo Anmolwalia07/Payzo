@@ -1,5 +1,12 @@
-export default function page() {
+import { prisma } from "@repo/database";
+import AuditLogs, { Logs } from "@repo/ui/AuditLogs";
+
+
+
+export default  async function page() {
+
+  const logs:Logs[]=await prisma.log.findMany();
   return (
-    <div>page</div>
+    <AuditLogs logs={logs}/>
   )
 }

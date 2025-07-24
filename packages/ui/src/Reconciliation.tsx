@@ -98,7 +98,7 @@ export default function Reconciliation({
   };
 
   return (
-    <div className="p-4 sm:p-6 h-full overflow-y-scroll">
+    <div className="p-4 sm:p-6 h-full overflow-y-scroll outline-none">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
         <div>
           <h1 className="text-2xl font-bold text-gray-800">Reconciliation</h1>

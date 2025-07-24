@@ -67,7 +67,7 @@ export default function DashHome({ user }: { user: User }) {
       } 
       })
       setLoading(false)
-  }, []);
+  }, [userId]);
   
 
 

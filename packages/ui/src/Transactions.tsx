@@ -2,7 +2,7 @@
 import { useState } from "react";
 
 export interface Transaction {
-  id: number;
+  id: string;
   amount: number;
   provider: string;
   status: string;
@@ -11,7 +11,6 @@ export interface Transaction {
   offRamp?: boolean;
   userId: number;
   date: any;
-  type: any;
 }
 
 function Transactions({ transactions }: { transactions: Transaction[] }) {

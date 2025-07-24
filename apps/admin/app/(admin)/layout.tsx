@@ -15,7 +15,7 @@ export default async function DashboardLayout({ children }:{children:React.React
          <header><DashHeader/></header>
          <div className="w-full sm:h-[90%] flex">
           <SideBar name={session.user.name} email={session.user.email}/>
-          <main className="w-full">{children}</main>
+          <main className="w-full outline-0">{children}</main>
          </div>
         </div>
       );

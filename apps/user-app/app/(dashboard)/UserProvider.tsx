@@ -34,6 +34,7 @@ export interface OnRampTransaction {
   amount: number;
   startTime: Date;
   userId: number;
+  onRamp:boolean
 }
 
 export interface offRampTransaction {
@@ -44,6 +45,7 @@ export interface offRampTransaction {
   amount: number;
   startTime: Date;
   userId: number;
+  offRamp:boolean
 }
 
 export enum OnRampStatus {

@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import Logo from "./Logo";
 import Signout from "./Signout";
 import SideBarItem from "./SideBarItem";
+import { FiLogOut } from "react-icons/fi";
 
 import {
   AiOutlineDashboard,
@@ -13,17 +14,18 @@ import {
   AiOutlineTransaction,
   AiOutlineMoneyCollect,
   AiOutlineAudit,
-  AiOutlinePieChart,
+  // AiOutlinePieChart,
   AiOutlineHistory,
-  AiOutlineSetting,
-  AiOutlineSecurityScan,
-  AiOutlineMessage,
+  // AiOutlineSetting,
+  // AiOutlineSecurityScan,
+  // AiOutlineMessage,
 } from "react-icons/ai";
 import { BiMoneyWithdraw } from "react-icons/bi";
-import { MdOutlineSupportAgent } from "react-icons/md";
+// import { MdOutlineSupportAgent } from "react-icons/md";
 import { CgProfile } from "react-icons/cg";
 import { FiAlignRight } from "react-icons/fi";
 import { RxCross2 } from "react-icons/rx";
+import { signOut } from "next-auth/react";
 
 function DashHeader() {
   const router = useRouter();
@@ -80,8 +82,8 @@ function DashHeader() {
 
             <Section title="System">
               <SideBarItem href="/audit-logs" icon={<AiOutlineHistory className="text-xl" />} text="Audit Logs" />
-              <SideBarItem href="/settings" icon={<AiOutlineSetting className="text-xl" />} text="Platform Settings" />
-              <SideBarItem href="/security" icon={<AiOutlineSecurityScan className="text-xl" />} text="Security" />
+              {/* <SideBarItem href="/settings" icon={<AiOutlineSetting className="text-xl" />} text="Platform Settings" />
+              <SideBarItem href="/security" icon={<AiOutlineSecurityScan className="text-xl" />} text="Security" /> */}
             </Section>
 
             {/* <Section title="Support">
@@ -89,6 +91,9 @@ function DashHeader() {
               <SideBarItem href="/support-tickets" icon={<MdOutlineSupportAgent className="text-xl" />} text="Support Tickets" />
             </Section> */}
           </div>
+          <h1 className="flex text-gray-600 items-center gap-2 tracking-wide cursor-pointer w-fit pl-0.5" onClick={()=>{
+            signOut()
+          }}><FiLogOut className="text-lg" />Signout</h1>
         </div>
       )}
     </>

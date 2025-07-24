@@ -4,7 +4,7 @@ import {useRouter} from "next/navigation"
 import Signout from "./Signout";
 import { CgProfile } from "react-icons/cg";
 import { GoQuestion } from "react-icons/go";
-import { FiAlignRight } from "react-icons/fi";
+import { FiAlignRight, FiLogOut } from "react-icons/fi";
 import { useState } from "react";
 import SideBarItem from "./SideBarItem";
 import { AiOutlineHome, AiOutlineTransaction } from "react-icons/ai";
@@ -14,6 +14,7 @@ import { RxCross2 } from "react-icons/rx";
 import { IoSettingsSharp } from "react-icons/io5";
 import { TfiMoney } from "react-icons/tfi";
 import { CiBank } from "react-icons/ci";
+import { signOut } from "next-auth/react";
 
 
 function DashHeader() {
@@ -56,6 +57,9 @@ function DashHeader() {
         <SideBarItem href="/withdraw" icon={<BiMoneyWithdraw />} text="Withdraw"/>
         <SideBarItem href="/transaction" icon={<AiOutlineTransaction />} text="Transactions"/>
         <SideBarItem href="/manageBankAccount" icon={<CiBank />} text="BankAccount"/>
+         <h1 className="flex text-gray-600 items-center gap-2 tracking-wide cursor-pointer w-fit pl-0.5" onClick={()=>{
+                    signOut()
+          }}><FiLogOut className="text-lg" />Signout</h1>
      </div>
     </div>}
     </>

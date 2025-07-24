@@ -98,7 +98,7 @@ function AdminSideBar({name,email}:{name:String,email:string}) {
             icon={<AiOutlineHistory className="text-xl" />} 
             text="Audit Logs"
           />
-          <SideBarItem 
+          {/* <SideBarItem 
             href="/settings" 
             icon={<AiOutlineSetting className="text-xl" />} 
             text="Platform Settings"
@@ -107,7 +107,7 @@ function AdminSideBar({name,email}:{name:String,email:string}) {
             href="/security" 
             icon={<AiOutlineSecurityScan className="text-xl" />} 
             text="Security"
-          />
+          /> */}
         </div>
         {/* <div className="mb-2">
           <p className="text-xs  text-gray-500 uppercase tracking-wider py-2 font-semibold">Support</p>
@@ -122,6 +122,7 @@ function AdminSideBar({name,email}:{name:String,email:string}) {
             text="Support Tickets"
           />
         </div> */}
+        
       </div>
 
       {/* User Profile */}

@@ -14,7 +14,6 @@ function SideBar() {
         <SideBarItem href="/transaction" icon={<AiOutlineTransaction />} text="Transactions"/>
         <SideBarItem href="/withdraw-hist" icon={<BiMoneyWithdraw />} text="Histroy"/>
         <SideBarItem href="/manageBankAccount" icon={<CiBank />} text="BankAccount"/>
-
     </div>
   )
 }

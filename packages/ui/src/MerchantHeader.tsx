@@ -8,7 +8,9 @@ import { FiAlignRight, FiLogOut } from "react-icons/fi";
 import { useState } from "react";
 import SideBarItem from "./SideBarItem";
 import { AiOutlineHome, AiOutlineTransaction } from "react-icons/ai";
-import { BiMoneyWithdraw, BiTransfer } from "react-icons/bi";
+import { BiMoneyWithdraw,
+  //  BiTransfer 
+  } from "react-icons/bi";
 import { RxCross2 } from "react-icons/rx";
 import { IoSettingsSharp } from "react-icons/io5";
 import { CiBank } from "react-icons/ci";

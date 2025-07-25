@@ -27,7 +27,6 @@ function Transactions({ transactions }: { transactions: Transaction[] }) {
 
   const sortedTransactions = [...filteredTransactions].sort((a, b) => {
     if (!sortConfig) return 0;
-    
     if (a[sortConfig.key] < b[sortConfig.key]) {
       return sortConfig.direction === 'asc' ? -1 : 1;
     }
@@ -37,7 +36,6 @@ function Transactions({ transactions }: { transactions: Transaction[] }) {
     return 0;
   });
 
-  // Pagination calculations
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentTransactions = sortedTransactions.slice(indexOfFirstItem, indexOfLastItem);
@@ -53,7 +51,6 @@ function Transactions({ transactions }: { transactions: Transaction[] }) {
       direction = 'desc';
     }
     setSortConfig({ key, direction });
-    // Reset to first page when sorting changes
     setCurrentPage(1);
   };
 
@@ -69,30 +66,23 @@ function Transactions({ transactions }: { transactions: Transaction[] }) {
     Processing: "bg-blue-100 text-blue-800",
   };
 
-  const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric'
-    });
-  };
+  const formatDate = (dateString: string) =>
+    new Date(dateString).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
 
   return (
-    <div className="w-full px-4 mb-8">
+    <div className="w-full px-4 sm:px-6 lg:px-8 mb-8">
       <div className="mb-6">
-        <h1 className="text-4xl sm:text-5xl font-extrabold text-transparent bg-clip-text bg-blue-600 mt-3">
+        <h1 className="text-3xl sm:text-4xl font-extrabold text-transparent bg-clip-text bg-blue-600 mt-3">
           Transactions
         </h1>
-        <p className="text-gray-500 text-sm sm:text-base mt-1">
+        <p className="text-sm sm:text-base text-gray-500 mt-1">
           View all your deposit and withdrawal activity below
         </p>
       </div>
 
-      <div className="w-full bg-white shadow-lg border border-gray-200 rounded-3xl px-4 py-5">
-        <div className="flex flex-col sm:flex-row justify-between sm:items-center mb-4">
-          <h2 className="text-xl font-semibold text-gray-800 mb-3 sm:mb-0">
-            Filter by Type
-          </h2>
+      <div className="bg-white shadow-lg border border-gray-200 rounded-3xl p-4 sm:p-6">
+        <div className="flex flex-col sm:flex-row justify-between gap-4 mb-4">
+          <h2 className="text-lg font-semibold text-gray-800">Filter by Type</h2>
           <div className="flex flex-wrap gap-2">
             {[
               { label: "All", value: "all" },
@@ -103,12 +93,12 @@ function Transactions({ transactions }: { transactions: Transaction[] }) {
                 key={btn.value}
                 onClick={() => {
                   setFilter(btn.value as typeof filter);
-                  setCurrentPage(1); // Reset to first page when filter changes
+                  setCurrentPage(1);
                 }}
-                className={`px-4 py-1.5 text-sm font-medium rounded-full transition-all duration-200 border ${
+                className={`px-4 py-1.5 text-sm font-medium rounded-full border transition-all duration-200 ${
                   filter === btn.value
                     ? "bg-blue-600 text-white shadow-md"
-                    : "bg-gray-100 text-gray-700 hover:bg-gray-200 border-transparent"
+                    : "bg-gray-100 text-gray-700 hover:bg-gray-200"
                 }`}
               >
                 {btn.label}
@@ -117,101 +107,64 @@ function Transactions({ transactions }: { transactions: Transaction[] }) {
           </div>
         </div>
 
-        <div className="overflow-x-auto">
+        <div className="w-full overflow-x-auto rounded-lg">
           <table className="min-w-full divide-y divide-gray-200">
-            <thead className="bg-gray-50">
+            <thead className="bg-gray-50 text-xs text-gray-500 uppercase tracking-wider">
               <tr>
-                <th 
-                  scope="col" 
-                  className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer"
-                  onClick={() => requestSort('startTime')}
-                >
-                  <div className="flex items-center">
-                    Date & Time {getSortIcon('startTime')}
-                  </div>
+                <th className="px-4 py-3 text-left cursor-pointer" onClick={() => requestSort('startTime')}>
+                  <div className="flex items-center">Date & Time {getSortIcon('startTime')}</div>
                 </th>
-                <th 
-                  scope="col" 
-                  className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer"
-                  onClick={() => requestSort('onRamp')}
-                >
-                  <div className="flex items-center">
-                    Type {getSortIcon('onRamp')}
-                  </div>
+                <th className="px-4 py-3 text-left cursor-pointer" onClick={() => requestSort('onRamp')}>
+                  <div className="flex items-center">Type {getSortIcon('onRamp')}</div>
                 </th>
-                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Provider/Merchant
+                <th className="px-4 py-3 text-left">Provider/Merchant</th>
+                <th className="px-4 py-3 text-left cursor-pointer" onClick={() => requestSort('amount')}>
+                  <div className="flex items-center">Amount {getSortIcon('amount')}</div>
                 </th>
-                <th 
-                  scope="col" 
-                  className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer"
-                  onClick={() => requestSort('amount')}
-                >
-                  <div className="flex items-center">
-                    Amount {getSortIcon('amount')}
-                  </div>
-                </th>
-                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Status
-                </th>
-                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Transaction ID
-                </th>
+                <th className="px-4 py-3 text-left">Status</th>
+                <th className="px-4 py-3 text-left">Transaction ID</th>
               </tr>
             </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
+            <tbody className="bg-white divide-y divide-gray-200 text-sm sm:text-base">
               {currentTransactions.length > 0 ? (
                 currentTransactions.map((t) => {
                   const isDeposit = t.onRamp;
                   const isMerchant = !["hdfcbank", "hdfc-bank", "axisbank", "razorpay"].includes(t.provider);
-                  
                   return (
-                    <tr key={`${t.id}-${t.onRamp ? "onRamp" : "offRamp"}`} className="hover:bg-gray-50">
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                         {formatDate(t.startTime)}
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="flex items-center">
+                    <tr key={`${t.id}-${isDeposit ? "onRamp" : "offRamp"}`} className="hover:bg-gray-50">
+                      <td className="px-4 py-3 break-words whitespace-normal text-gray-600">{formatDate(t.startTime)}</td>
+                      <td className="px-4 py-3 whitespace-nowrap">
+                        <div className="flex items-center gap-2">
                           {isDeposit ? (
-                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 11l3-3m0 0l3 3m-3-3v8m0-13a9 9 0 110 18 9 9 0 010-18z" />
-                            </svg>
+                            <span className="text-green-600">⬆️</span>
                           ) : (
-                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 13l-3 3m0 0l-3-3m3 3V8m0 13a9 9 0 110-18 9 9 0 010 18z" />
-                            </svg>
+                            <span className="text-red-500">⬇️</span>
                           )}
-                          <span className="ml-2">
-                            {isMerchant && isDeposit 
-                              ? "Merchant Deposit" 
-                              : isDeposit 
-                                ? "Deposit" 
-                                : "Withdraw"}
+                          <span>
+                            {isMerchant && isDeposit
+                              ? "Merchant Deposit"
+                              : isDeposit
+                              ? "Deposit"
+                              : "Withdraw"}
                           </span>
                         </div>
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 capitalize">
-                        {t.provider}
-                      </td>
-                      <td className={`px-6 py-4 whitespace-nowrap text-sm font-medium ${
-                        isDeposit ? 'text-green-600' : 'text-red-600'
-                      }`}>
+                      <td className="px-4 py-3 text-gray-800 capitalize">{t.provider}</td>
+                      <td className={`px-4 py-3 font-semibold ${isDeposit ? 'text-green-600' : 'text-red-600'}`}>
                         {isDeposit ? '+' : '-'}₹{t.amount.toLocaleString('en-IN')}
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${statusColors[t.status] || "bg-gray-100 text-gray-800"}`}>
+                      <td className="px-4 py-3">
+                        <span className={`px-2 inline-flex text-xs font-semibold rounded-full ${statusColors[t.status] || "bg-gray-100 text-gray-800"}`}>
                           {t.status}
                         </span>
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 font-mono">
-                        {t.id}
-                      </td>
+                      <td className="px-4 py-3 font-mono break-words">{t.id}</td>
                     </tr>
                   );
                 })
               ) : (
                 <tr>
-                  <td colSpan={6} className="px-6 py-4 text-center text-gray-500">
+                  <td colSpan={6} className="px-4 py-4 text-center text-gray-500">
                     No transactions found...
                   </td>
                 </tr>
@@ -220,71 +173,53 @@ function Transactions({ transactions }: { transactions: Transaction[] }) {
           </table>
         </div>
 
-        {/* Pagination Controls */}
         {sortedTransactions.length > 0 && (
-          <div className="flex flex-col sm:flex-row items-center justify-between mt-6 border-t border-gray-200 pt-4">
-            <div className="text-sm text-gray-700 mb-4 sm:mb-0">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mt-6 border-t border-gray-200 pt-4 gap-4">
+            <div className="text-sm text-gray-700">
               Showing <span className="font-medium">{indexOfFirstItem + 1}</span> to{" "}
               <span className="font-medium">
                 {Math.min(indexOfLastItem, sortedTransactions.length)}
               </span>{" "}
               of <span className="font-medium">{sortedTransactions.length}</span> results
             </div>
-            
-            <div className="flex items-center space-x-2">
+            <div className="flex flex-wrap items-center space-x-2 overflow-x-auto">
+              <button
+                onClick={prevPage}
+                disabled={currentPage === 1}
+                className={`px-3 py-1 text-sm rounded-md ${
+                  currentPage === 1 ? "text-gray-400 cursor-not-allowed" : "text-gray-700 hover:bg-gray-100"
+                }`}
+              >
+                Previous
+              </button>
+              {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
+                let pageNum;
+                if (totalPages <= 5) pageNum = i + 1;
+                else if (currentPage <= 3) pageNum = i + 1;
+                else if (currentPage >= totalPages - 2) pageNum = totalPages - 4 + i;
+                else pageNum = currentPage - 2 + i;
 
-              <nav className="flex space-x-2">
-                <button
-                  onClick={prevPage}
-                  disabled={currentPage === 1}
-                  className={`px-3 py-1 rounded-md text-sm ${
-                    currentPage === 1
-                      ? "text-gray-400 cursor-not-allowed"
-                      : "text-gray-700 hover:bg-gray-100"
-                  }`}
-                >
-                  Previous
-                </button>
-                
-                {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
-                  let pageNum;
-                  if (totalPages <= 5) {
-                    pageNum = i + 1;
-                  } else if (currentPage <= 3) {
-                    pageNum = i + 1;
-                  } else if (currentPage >= totalPages - 2) {
-                    pageNum = totalPages - 4 + i;
-                  } else {
-                    pageNum = currentPage - 2 + i;
-                  }
-                  
-                  return (
-                    <button
-                      key={pageNum}
-                      onClick={() => paginate(pageNum)}
-                      className={`px-3 py-1 rounded-md text-sm ${
-                        currentPage === pageNum
-                          ? "bg-blue-600 text-white"
-                          : "text-gray-700 hover:bg-gray-100"
-                      }`}
-                    >
-                      {pageNum}
-                    </button>
-                  );
-                })}
-                
-                <button
-                  onClick={nextPage}
-                  disabled={currentPage === totalPages}
-                  className={`px-3 py-1 rounded-md text-sm ${
-                    currentPage === totalPages
-                      ? "text-gray-400 cursor-not-allowed"
-                      : "text-gray-700 hover:bg-gray-100"
-                  }`}
-                >
-                  Next
-                </button>
-              </nav>
+                return (
+                  <button
+                    key={pageNum}
+                    onClick={() => paginate(pageNum)}
+                    className={`px-3 py-1 text-sm rounded-md ${
+                      currentPage === pageNum ? "bg-blue-600 text-white" : "text-gray-700 hover:bg-gray-100"
+                    }`}
+                  >
+                    {pageNum}
+                  </button>
+                );
+              })}
+              <button
+                onClick={nextPage}
+                disabled={currentPage === totalPages}
+                className={`px-3 py-1 text-sm rounded-md ${
+                  currentPage === totalPages ? "text-gray-400 cursor-not-allowed" : "text-gray-700 hover:bg-gray-100"
+                }`}
+              >
+                Next
+              </button>
             </div>
           </div>
         )}

@@ -56,7 +56,7 @@ export default async function DashboardLayout({ children }:{children:React.React
          <header><DashHeader/></header>
          <div className="w-full sm:h-[90%] flex">
           <SideBar />
-          <main className="w-full">{children}</main>
+          <main className="w-full outline-none">{children}</main>
          </div>
         </div>
         </UserProvider>
